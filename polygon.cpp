@@ -1,8 +1,19 @@
 #include "polygon.h"
 
-Polygon::Polygon(unsigned int texture)
+Polygon::Polygon(unsigned int texture, int color)
 {
     this->texture = texture;
+    this->color = color;
+}
+
+Polygon::Polygon(int color)
+{
+    Polygon(TEXTURE_NULL, color);
+}
+
+Polygon::Polygon()
+{
+    Polygon(TEXTURE_NULL, 0xFFFFFF);   
 }
 
 void Polygon::add_vertex(Vector3 vertex)
@@ -28,6 +39,16 @@ unsigned int Polygon::get_texture()
 const std::vector<Vector3> Polygon::get_vertices()
 {
     return vertices;
+}
+
+void Polygon::set_color(int color)
+{
+    this->color = color;
+}
+
+int Polygon::get_color()
+{
+    return color;
 }
 
 Polygon::~Polygon(){}

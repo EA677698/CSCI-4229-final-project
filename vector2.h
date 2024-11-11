@@ -1,8 +1,8 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
 
-class Vector2
-{
+class Vector2 {
+    
 private:
     float x;
     float y;

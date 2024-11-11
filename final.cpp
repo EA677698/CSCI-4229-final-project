@@ -1,6 +1,7 @@
 #include "csci_lib/CSCIx229.h"
 #include "scene.h"
 #include "renderer.h"
+#include "objects/terrain.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +31,7 @@ Renderer renderer;
 int move=1;       //  Move light
 const char* text[] = {""};
 
-int light     =   1;  // Lighting
+int light     =   0;  // Lighting
 int one       =   1;  // Unit value
 int distance  =   5;  // Light distance
 int inc       =  10;  // Ball increment
@@ -203,6 +204,8 @@ void idle()
 int main(int argc,char* argv[])
 {
    scene = Scene();
+
+   scene.add_object(Terrain());
    Renderer renderer = Renderer();
    //  Initialize GLUT and process user parameters
    glutInit(&argc,argv);

@@ -1,6 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <vector>
+#include "objects/object.h"
 #include "camera.h"
 
 class Scene {
@@ -8,6 +10,7 @@ class Scene {
 private:
 
     Camera camera;
+    std::vector<Object> objects;
     
 public:
 
@@ -18,6 +21,8 @@ public:
     Scene(/* args */);
     ~Scene();
     Camera& getCamera();
+    void add_object(Object object);
+    std::vector<Object> get_objects();
 };
 
 

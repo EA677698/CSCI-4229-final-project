@@ -32,6 +32,10 @@ csci_lib/loadtexbmp.o: csci_lib/loadtexbmp.c csci_lib/CSCIx229.h
 csci_lib/loadobj.o: csci_lib/loadobj.c csci_lib/CSCIx229.h
 csci_lib/projection.o: csci_lib/projection.c csci_lib/CSCIx229.h
 
+# Objects
+objects/object.o: objects/object.h
+objects/terrain.o: objects/terrain.h
+
 vector2.o: vector2.cpp vector2.h
 vector3.o: vector3.cpp vector3.h
 polygon.o: polygon.cpp polygon.h
@@ -56,7 +60,7 @@ csci_lib/%.o: csci_lib/%.c csci_lib/CSCIx229.h
 	g++ -c $(CFLG) -Icsci_lib $<
 
 # Link
-final: final.o camera.o scene.o vector3.o vector2.o polygon.o renderer.o csci_lib/CSCIx229.a
+final: final.o camera.o scene.o vector3.o vector2.o polygon.o renderer.o objects/object.o objects/terrain.o csci_lib/CSCIx229.a
 	g++ $(CFLG) -o $@ $^ $(LIBS)
 
 # Clean

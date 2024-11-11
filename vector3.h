@@ -5,13 +5,13 @@
 
 class Vector3
 {
-private:
+    
+public:
 
     float x;
     float y;
     float z;
 
-public:
     Vector3(float x, float y, float z);
     ~Vector3();
     Vector3 normalize();

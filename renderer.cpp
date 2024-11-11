@@ -16,6 +16,33 @@ void Renderer::render(Scene scene){
     //  Undo previous transformations
     glLoadIdentity();
     scene.getCamera().view(scene.dir_x, scene.dir_y, scene.dir_z);
+
+    std::vector<Object> objects = scene.get_objects();
+
+    for(int i = 0; i < objects.size(); i++){
+        Object object = objects[i];
+        std::vector<Polygon> polygons = object.get_polygons();
+        for(int j = 0; j < polygons.size(); j++){
+            Polygon polygon = polygons[j];
+            std::vector<Vector3> vertices = polygon.get_vertices();
+            int color = polygon.get_color();
+            unsigned int texture = polygon.get_texture();
+            if (texture != TEXTURE_NULL){
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, texture);
+            }
+            else{
+                glDisable(GL_TEXTURE_2D);
+            }
+            glColor3ub((color>>16)&0xFF,(color>>8)&0xFF,color&0xFF);
+            glBegin(GL_POLYGON);
+            for(int k = 0; k < vertices.size(); k++){
+                Vector3 vertex = vertices[k];
+                glVertex3f(vertex.x, vertex.y, vertex.z);
+            }
+            glEnd();
+        }
+    }
     
     if (axis){
         render_axis();
