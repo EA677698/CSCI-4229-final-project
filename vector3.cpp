@@ -1,5 +1,11 @@
 #include "vector3.h"
 
+Vector3::Vector3(){
+    x = 0;
+    y = 0;
+    z = 0;
+}
+
 Vector3::Vector3(float x, float y, float z)
 {
     this->x = x;
@@ -8,6 +14,10 @@ Vector3::Vector3(float x, float y, float z)
 }
 
 Vector3::~Vector3(){}
+
+float Vector3::get_magnitude(){
+    return sqrt(x * x + y * y + z * z);
+}
 
 Vector3 Vector3::normalize(){
     float magnitude = sqrt(x * x + y * y + z * z);

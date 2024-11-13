@@ -21,8 +21,8 @@
 #define RES 1
 #endif
 
-#define PERSPECTIVE 0
-#define ORTHOGONAL 1
+#define ORTHOGONAL 0
+#define PERSPECTIVE 1
 #define FIRST_PERSON 2
 
 class Camera {

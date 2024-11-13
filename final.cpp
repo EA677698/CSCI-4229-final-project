@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "renderer.h"
 #include "objects/terrain.h"
+#include "texture.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,7 +62,7 @@ void special(int key,int x,int y)
 {
    Camera& camera = scene.getCamera();
    //  Right arrow key - increase angle by 5 degrees
-   if (camera.get_viewing_mode() == 2){
+   if (camera.get_viewing_mode() == FIRST_PERSON){
       double speed = 0.5;
       if (key == GLUT_KEY_LEFT){
          camera.x += scene.dir_z * speed;
@@ -153,9 +154,8 @@ void key(unsigned char ch,int x,int y)
       ambient -= 5;
    else if (ch=='C' && ambient<100)
       ambient += 5;
-   camera.change_viewing_mode(camera.get_viewing_mode() % 3);
 
-   if (camera.get_viewing_mode() == 2){
+   if (camera.get_viewing_mode() == FIRST_PERSON){
       if (ch == 'a')
          camera.angle -= 5;
       else if (ch == 'd')
@@ -203,10 +203,12 @@ void idle()
  */
 int main(int argc,char* argv[])
 {
+   Texture::get_instance();
    scene = Scene();
-
    scene.add_object(Terrain());
-   Renderer renderer = Renderer();
+   renderer = Renderer();
+   renderer.set_axis(ENABLE_AXIS);
+   renderer.set_debug(DEBUG_ON);
    //  Initialize GLUT and process user parameters
    glutInit(&argc,argv);
    //  Request double buffered, true color window with Z buffering at 600x600

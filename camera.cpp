@@ -20,13 +20,13 @@ Camera::Camera(){
 Camera::~Camera(){}
 
 void Camera::change_viewing_mode(int mode){
-    this->mode = mode;
+    this->mode = mode % 3;
 }
 
 void Camera::view(double dir_x, double dir_y, double dir_z){
-    if (mode == 2) // first person
+    if (mode == FIRST_PERSON) // first person
       gluLookAt(x, y, z, x + dir_x, y + dir_y, z + dir_z, 0, 1, 0);
-   else if (mode == 1)
+   else if (mode == PERSPECTIVE)
    {
       double Ex = -2*dim*Sin(th)*Cos(ph);
       double Ey = +2*dim        *Sin(ph);

@@ -1,7 +1,9 @@
 #include "renderer.h"
+#include "texture.h"
+#include <string>
 
 Renderer::Renderer(){
-    axis = 1;
+    axis = 0;
     debug = DEBUG_OFF;
 }
 
@@ -19,28 +21,30 @@ void Renderer::render(Scene scene){
 
     std::vector<Object> objects = scene.get_objects();
 
-    for(int i = 0; i < objects.size(); i++){
+    for(unsigned int i = 0; i < objects.size(); i++){
         Object object = objects[i];
         std::vector<Polygon> polygons = object.get_polygons();
-        for(int j = 0; j < polygons.size(); j++){
+        for(unsigned int j = 0; j < polygons.size(); j++){
             Polygon polygon = polygons[j];
             std::vector<Vector3> vertices = polygon.get_vertices();
+            std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
             int color = polygon.get_color();
             unsigned int texture = polygon.get_texture();
-            if (texture != TEXTURE_NULL){
-                glEnable(GL_TEXTURE_2D);
-                glBindTexture(GL_TEXTURE_2D, texture);
-            }
-            else{
-                glDisable(GL_TEXTURE_2D);
-            }
-            glColor3ub((color>>16)&0xFF,(color>>8)&0xFF,color&0xFF);
+            Vector3 normal = polygon.calculate_normal();
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+            glBindTexture(GL_TEXTURE_2D, texture);
             glBegin(GL_POLYGON);
-            for(int k = 0; k < vertices.size(); k++){
+            glColor3ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF);
+            glNormal3f(normal.x, normal.y, normal.z);
+            for(unsigned int k = 0; k < vertices.size(); k++){
                 Vector3 vertex = vertices[k];
+                Vector2 texture_vertex = texture_vertices[k];
+                glTexCoord2f(texture_vertex.x, texture_vertex.y);
                 glVertex3f(vertex.x, vertex.y, vertex.z);
             }
             glEnd();
+            glDisable(GL_TEXTURE_2D);
         }
     }
     
@@ -52,16 +56,16 @@ void Renderer::render(Scene scene){
         //  Five pixels from the lower left corner of the window
         glWindowPos2i(5,5);
         //  Print the text string
-        char* mode_str = "";
+        std::string mode_str = "";
         if (camera.get_viewing_mode() == ORTHOGONAL)
            mode_str = "Orthogonal";
-        else if (camera.get_viewing_mode() == 1)
+        else if (camera.get_viewing_mode() == PERSPECTIVE)
            mode_str = "Perspective";
         else
            mode_str = "First Person";
-        Print("Angle=%d,%d  Dim=%.1f FOV=%d Projection=%s",camera.th,camera.ph,camera.dim,camera.fov,mode_str);
+        Print("Angle=%d,%d  Dim=%.1f FOV=%d Projection=%s",camera.th,camera.ph,camera.dim,camera.fov,mode_str.c_str());
         //  Render the scene
-        ErrCheck("display");
+        ErrCheck("Renderer");
     }
 
     glFlush();
