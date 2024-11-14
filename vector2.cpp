@@ -1,6 +1,11 @@
 #include "vector2.h"
 #include <math.h>
 
+Vector2::Vector2(){
+    x = 0;
+    y = 0;
+}
+
 Vector2::Vector2(float x, float y)
 {
     this->x = x;
@@ -9,11 +14,16 @@ Vector2::Vector2(float x, float y)
 
 Vector2::~Vector2(){}
 
+float Vector2::get_magnitude()
+{
+    return sqrt(x * x + y * y);
+}
+
 Vector2 Vector2::normalize()
 {
-    float magnitude = sqrt(x * x + y * y);
-    float normalized_x = abs(x);
-    float normalized_y = abs(y);
+    float magnitude = get_magnitude();
+    float normalized_x = x;
+    float normalized_y = y;
     if(x != 0){
         normalized_x /= magnitude;
     }

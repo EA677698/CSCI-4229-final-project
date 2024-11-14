@@ -3,9 +3,10 @@
 
 #include "csci_lib/CSCIx229.h"
 
-#define TEXTURE_COUNT 1
+#define TEXTURE_COUNT 2
 
 #define TEXTURE_NULL 0
+#define TEXTURE_SKYSCRAPER 1
 
 class Texture{
 

@@ -13,9 +13,6 @@ Terrain::Terrain()
         for(unsigned int i = 0; i < polygons.size(); i++){
             polygons[i].generate_texture_vertices();
         }
-        for(unsigned int i = 0; i < polygons.size(); i++){
-            polygons[i].print_texture_vertices();
-        }
 
 }
 

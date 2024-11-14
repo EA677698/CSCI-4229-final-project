@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include "texture.h"
 #include <string>
+#include <cstdio>
 
 Renderer::Renderer(){
     axis = 0;
@@ -17,6 +18,7 @@ void Renderer::render(Scene scene){
     glEnable(GL_DEPTH_TEST);
     //  Undo previous transformations
     glLoadIdentity();
+    glEnable(GL_NORMALIZE);
     scene.getCamera().view(scene.dir_x, scene.dir_y, scene.dir_z);
 
     std::vector<Object> objects = scene.get_objects();
@@ -38,10 +40,8 @@ void Renderer::render(Scene scene){
             glColor3ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF);
             glNormal3f(normal.x, normal.y, normal.z);
             for(unsigned int k = 0; k < vertices.size(); k++){
-                Vector3 vertex = vertices[k];
-                Vector2 texture_vertex = texture_vertices[k];
-                glTexCoord2f(texture_vertex.x, texture_vertex.y);
-                glVertex3f(vertex.x, vertex.y, vertex.z);
+                glTexCoord2f(texture_vertices[k].x, texture_vertices[k].y);
+                glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
             }
             glEnd();
             glDisable(GL_TEXTURE_2D);
@@ -65,9 +65,9 @@ void Renderer::render(Scene scene){
            mode_str = "First Person";
         Print("Angle=%d,%d  Dim=%.1f FOV=%d Projection=%s",camera.th,camera.ph,camera.dim,camera.fov,mode_str.c_str());
         //  Render the scene
-        ErrCheck("Renderer");
     }
 
+    ErrCheck("Renderer");
     glFlush();
     glutSwapBuffers();
 }

@@ -12,6 +12,7 @@ private:
 
     std::vector<Vector3> vertices;
     std::vector<Vector2> texture_vertices;
+    void normalize_texture_vectors();
     unsigned int texture;
     int color;
 

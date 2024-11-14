@@ -14,7 +14,7 @@ Polygon::Polygon(int color) : Polygon(TEXTURE_NULL, color) {}
 Polygon::Polygon() : Polygon(TEXTURE_NULL, 0xFFFFFF) {}
 
 Vector3 Polygon::calculate_normal(){
-    Vector3 normal = {0.0f, 0.0f, 0.0f};
+    Vector3 normal = {0.0, 0.0, 0.0};
    for (unsigned int i = 0; i < vertices.size(); i++) {
       Vector3 current = vertices[i];
       Vector3 next = vertices[(i + 1) % vertices.size()];
@@ -27,7 +27,6 @@ Vector3 Polygon::calculate_normal(){
 }
 
 void create_rotation_matrix(Vector3 axis, double theta, Vector3 rotation_matrix[3][3]) {
-    // Normalize the axis
     axis.normalize();
     double ux = axis.x;
     double uy = axis.y;
@@ -37,7 +36,6 @@ void create_rotation_matrix(Vector3 axis, double theta, Vector3 rotation_matrix[
     double sin_theta = sin(theta);
     double one_minus_cos = 1.0 - cos_theta;
 
-    // Populate the 2D array of Vector3 with the rotation matrix components
     rotation_matrix[0][0] = Vector3(cos_theta + ux * ux * one_minus_cos, 0, 0);
     rotation_matrix[0][1] = Vector3(ux * uy * one_minus_cos - uz * sin_theta, 0, 0);
     rotation_matrix[0][2] = Vector3(ux * uz * one_minus_cos + uy * sin_theta, 0, 0);
@@ -59,11 +57,41 @@ Vector3 rotate_vector(Vector3 v, Vector3 matrix[3][3]) {
     );
 }
 
+void Polygon::normalize_texture_vectors(){
+    Vector2 min = texture_vertices[0];
+    double x_min = min.x, x_max = min.x;
+    double y_min = min.y, y_max = min.y;
+    for(unsigned int i = 0; i< texture_vertices.size(); i++){
+        Vector2 vertex = texture_vertices[i];
+        if(vertex.x < x_min){
+            x_min = vertex.x;
+        }
+        if(vertex.x > x_max){
+            x_max = vertex.x;
+        }
+        if(vertex.y < y_min){
+            y_min = vertex.y;
+        }
+        if(vertex.y > y_max){
+            y_max = vertex.y;
+        }
+    }
+
+    for(unsigned int i = 0; i < texture_vertices.size(); i++){
+        Vector2 vertex = texture_vertices[i];
+        vertex.x -= x_min;
+        vertex.x /= (x_max - x_min);
+        vertex.y -= y_min;
+        vertex.y /= (y_max - y_min);
+        texture_vertices[i] = vertex;
+    }
+}
+
 void Polygon::generate_texture_vertices(){
     if(vertices.size() < 3){
         return;
     }
-    Vector3 main_normal = Vector3(0,0,1);
+    Vector3 main_normal = Vector3(0,0,-1);
     Vector3 normal = Polygon::calculate_normal();
     Vector3 axis_of_rotation = Vector3::cross_product(main_normal, normal);
     if (axis_of_rotation.get_magnitude() != 0) {
@@ -76,10 +104,11 @@ void Polygon::generate_texture_vertices(){
     Vector3 rotation_matrix[3][3];
     create_rotation_matrix(axis_of_rotation, angle, rotation_matrix);
     for(unsigned int i = 0; i < vertices.size(); i++){
-        Vector3 vertex = vertices[i];
-        Vector3 flattened = rotate_vector(vertex, rotation_matrix);
-        texture_vertices.push_back(Vector2(flattened.x, flattened.y).normalize());
+        Vector3 flattened = rotate_vector(vertices[i], rotation_matrix);
+        texture_vertices.push_back(Vector2(flattened.x, flattened.y));
     }
+    normalize_texture_vectors();
+
 }
 
 void Polygon::add_vertex(Vector3 vertex)

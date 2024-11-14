@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "renderer.h"
 #include "objects/terrain.h"
+#include "objects/generic/skyscraper.h"
 #include "texture.h"
 
 #include <stdio.h>
@@ -203,12 +204,6 @@ void idle()
  */
 int main(int argc,char* argv[])
 {
-   Texture::get_instance();
-   scene = Scene();
-   scene.add_object(Terrain());
-   renderer = Renderer();
-   renderer.set_axis(ENABLE_AXIS);
-   renderer.set_debug(DEBUG_ON);
    //  Initialize GLUT and process user parameters
    glutInit(&argc,argv);
    //  Request double buffered, true color window with Z buffering at 600x600
@@ -230,6 +225,13 @@ int main(int argc,char* argv[])
    glutSpecialFunc(special);
    //  Tell GLUT to call "key" when a key is pressed
    glutKeyboardFunc(key);
+   scene = Scene();
+   //scene.add_object(Terrain());
+   renderer = Renderer();
+   renderer.set_axis(ENABLE_AXIS);
+   renderer.set_debug(DEBUG_ON);
+   Texture::get_instance();
+   scene.add_object(Skyscraper());
    //  Pass control to GLUT so it can interact with the user
    glutMainLoop();
 
