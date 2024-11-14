@@ -226,11 +226,11 @@ int main(int argc,char* argv[])
    //  Tell GLUT to call "key" when a key is pressed
    glutKeyboardFunc(key);
    scene = Scene();
-   //scene.add_object(Terrain());
    renderer = Renderer();
    renderer.set_axis(ENABLE_AXIS);
    renderer.set_debug(DEBUG_ON);
    Texture::get_instance();
+   scene.add_object(Terrain());
    scene.add_object(Skyscraper());
    //  Pass control to GLUT so it can interact with the user
    glutMainLoop();

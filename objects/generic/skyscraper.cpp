@@ -2,13 +2,13 @@
 #include "../../texture.h"
 
 Skyscraper::Skyscraper(){
-    width = 1;
-    height = 4;
-    depth = 1;
+    width = 50;
+    height = 200;
+    depth = 50;
     
     Polygon polygon;
 
-    int side_texture = TEXTURE_SKYSCRAPER;
+    int side_texture = SKYSCRAPER_TEXTURE;
 
     // Floor
     polygon = Polygon(0xFFFFFF);

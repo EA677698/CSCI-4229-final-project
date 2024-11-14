@@ -3,10 +3,13 @@
 
 #include "csci_lib/CSCIx229.h"
 
-#define TEXTURE_COUNT 2
-
-#define TEXTURE_NULL 0
-#define TEXTURE_SKYSCRAPER 1
+enum TextureType {
+    NULL_TEXTURE,
+    SKYSCRAPER_TEXTURE,
+    ROAD_TEXTURE,
+    GRASS_TEXTURE,
+    TEXTURE_COUNT
+};
 
 class Texture{
 

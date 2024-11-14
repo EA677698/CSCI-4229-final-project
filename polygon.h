@@ -15,6 +15,7 @@ private:
     void normalize_texture_vectors();
     unsigned int texture;
     int color;
+    float texture_repeats;
 
 public:
 
@@ -32,6 +33,9 @@ public:
     void generate_texture_vertices();
     const std::vector<Vector2> get_texture_vertices();
     const std::vector<Vector3> get_vertices();
+
+    float get_texture_repeats();
+    void set_texture_repeats(float repeats);
 
     void print_texture_vertices(){
         for(unsigned int i = 0; i < texture_vertices.size(); i++){

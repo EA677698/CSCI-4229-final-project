@@ -36,7 +36,7 @@ public:
     int ph = 0;       // Elevation of view angle
     int fov = 55;     // Field of view (for perspective)
     double asp = 1;   // Aspect ratio
-    double dim = 10.0; // Size of the world
+    double dim = 1000.0; // Size of the world
 
     double angle = 0;
     double pitch = 0;

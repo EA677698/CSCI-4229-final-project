@@ -1,7 +1,6 @@
 #include "renderer.h"
 #include "texture.h"
 #include <string>
-#include <cstdio>
 
 Renderer::Renderer(){
     axis = 0;
@@ -32,6 +31,7 @@ void Renderer::render(Scene scene){
             std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
             int color = polygon.get_color();
             unsigned int texture = polygon.get_texture();
+            int repeats = polygon.get_texture_repeats();
             Vector3 normal = polygon.calculate_normal();
             glEnable(GL_TEXTURE_2D);
             glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
@@ -40,7 +40,7 @@ void Renderer::render(Scene scene){
             glColor3ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF);
             glNormal3f(normal.x, normal.y, normal.z);
             for(unsigned int k = 0; k < vertices.size(); k++){
-                glTexCoord2f(texture_vertices[k].x, texture_vertices[k].y);
+                glTexCoord2f(texture_vertices[k].x * repeats, texture_vertices[k].y * repeats);
                 glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
             }
             glEnd();

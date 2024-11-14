@@ -7,11 +7,12 @@ Polygon::Polygon(int texture, int color)
 {
     this->texture = Texture::get_instance()->get_texture(texture);
     this->color = color;
+    this->texture_repeats = 1;
 }
 
-Polygon::Polygon(int color) : Polygon(TEXTURE_NULL, color) {}
+Polygon::Polygon(int color) : Polygon(NULL_TEXTURE, color) {}
 
-Polygon::Polygon() : Polygon(TEXTURE_NULL, 0xFFFFFF) {}
+Polygon::Polygon() : Polygon(NULL_TEXTURE, 0xFFFFFF) {}
 
 Vector3 Polygon::calculate_normal(){
     Vector3 normal = {0.0, 0.0, 0.0};
@@ -149,6 +150,16 @@ void Polygon::set_color(int color)
 int Polygon::get_color()
 {
     return color;
+}
+
+void Polygon::set_texture_repeats(float repeats)
+{
+    this->texture_repeats = repeats;
+}
+
+float Polygon::get_texture_repeats()
+{
+    return texture_repeats;
 }
 
 Polygon::~Polygon(){}
