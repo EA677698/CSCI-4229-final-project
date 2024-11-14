@@ -8,7 +8,7 @@ class Object {
 
 protected:
 
-    int width, height, depth;
+    float width, height, depth;
     std::vector<Polygon> polygons;
 
 public:
@@ -19,6 +19,10 @@ public:
     std::vector<Polygon> get_polygons(){
         return polygons;
     }
+
+    float get_width() const;
+    float get_height() const;
+    float get_depth() const;
 
 };
 

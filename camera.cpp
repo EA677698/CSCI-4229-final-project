@@ -5,7 +5,7 @@ Camera::Camera(){
     ph = 0;
     fov = 55;
     asp = 1;
-    dim = 10.0;
+    dim = 1000.0;
 
     angle = 0;
     pitch = 0;
@@ -29,9 +29,9 @@ void Camera::view(double dir_x, double dir_y, double dir_z){
    else if (mode == PERSPECTIVE)
    {
       double Ex = -2*dim*Sin(th)*Cos(ph);
-      double Ey = +2*dim        *Sin(ph);
+      double Ey = (+2*dim        *Sin(ph)) + 300;
       double Ez = +2*dim*Cos(th)*Cos(ph);
-      gluLookAt(Ex,Ey,Ez , 0,0,0 , 0,Cos(ph),0);
+      gluLookAt(Ex, Ey, Ez, 0, 0, 0, 0, Cos(ph), 0);
    }
    //  Orthogonal - set world orientation
    else

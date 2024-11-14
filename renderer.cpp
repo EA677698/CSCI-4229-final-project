@@ -9,9 +9,31 @@ Renderer::Renderer(){
 
 Renderer::~Renderer(){}
 
-void Renderer::render(Scene scene){
-    
+void Renderer::render_debug(Scene scene)
+{
     Camera& camera = scene.getCamera();
+
+    // TODO: Implement bounding box rendering
+
+    // glBegin(GL_POLYGON);
+    // glColor3ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF);
+
+    //  Five pixels from the lower left corner of the window
+    glWindowPos2i(5,5);
+    //  Print the text string
+    std::string mode_str = "";
+    if (camera.get_viewing_mode() == ORTHOGONAL)
+        mode_str = "Orthogonal";
+    else if (camera.get_viewing_mode() == PERSPECTIVE)
+        mode_str = "Perspective";
+    else
+        mode_str = "First Person";
+    Print("Angle=%d,%d  Dim=%.1f FOV=%d Projection=%s",camera.th,camera.ph,camera.dim,camera.fov,mode_str.c_str());
+    //  Render the scene
+}
+
+
+void Renderer::render(Scene scene){
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     //  Enable Z-buffering in OpenGL
     glEnable(GL_DEPTH_TEST);
@@ -20,22 +42,28 @@ void Renderer::render(Scene scene){
     glEnable(GL_NORMALIZE);
     scene.getCamera().view(scene.dir_x, scene.dir_y, scene.dir_z);
 
-    std::vector<Object> objects = scene.get_objects();
+    std::vector<Object*> objects = scene.get_objects();
 
     for(unsigned int i = 0; i < objects.size(); i++){
-        Object object = objects[i];
+        Object object = *objects[i];
         std::vector<Polygon> polygons = object.get_polygons();
+        glPushMatrix();
+        glTranslatef(-(object.get_width()/2), 0, -(object.get_depth()/2));
         for(unsigned int j = 0; j < polygons.size(); j++){
             Polygon polygon = polygons[j];
             std::vector<Vector3> vertices = polygon.get_vertices();
             std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
             int color = polygon.get_color();
+
             unsigned int texture = polygon.get_texture();
-            int repeats = polygon.get_texture_repeats();
+            float repeats = polygon.get_texture_repeats();
             Vector3 normal = polygon.calculate_normal();
-            glEnable(GL_TEXTURE_2D);
-            glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            if (polygon.contains_texture())
+            {
+                glEnable(GL_TEXTURE_2D);
+                glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+                glBindTexture(GL_TEXTURE_2D, texture);
+            }
             glBegin(GL_POLYGON);
             glColor3ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF);
             glNormal3f(normal.x, normal.y, normal.z);
@@ -44,8 +72,12 @@ void Renderer::render(Scene scene){
                 glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
             }
             glEnd();
-            glDisable(GL_TEXTURE_2D);
+            if (polygon.contains_texture())
+            {
+                glDisable(GL_TEXTURE_2D);
+            }
         }
+        glPopMatrix();
     }
     
     if (axis){
@@ -53,18 +85,7 @@ void Renderer::render(Scene scene){
     }
 
     if(debug){
-        //  Five pixels from the lower left corner of the window
-        glWindowPos2i(5,5);
-        //  Print the text string
-        std::string mode_str = "";
-        if (camera.get_viewing_mode() == ORTHOGONAL)
-           mode_str = "Orthogonal";
-        else if (camera.get_viewing_mode() == PERSPECTIVE)
-           mode_str = "Perspective";
-        else
-           mode_str = "First Person";
-        Print("Angle=%d,%d  Dim=%.1f FOV=%d Projection=%s",camera.th,camera.ph,camera.dim,camera.fov,mode_str.c_str());
-        //  Render the scene
+        render_debug(scene);
     }
 
     ErrCheck("Renderer");

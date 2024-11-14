@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "csci_lib/CSCIx229.h"
 
 Texture* Texture::instance = nullptr;
 

@@ -1,14 +1,13 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "csci_lib/CSCIx229.h"
-
 enum TextureType {
     NULL_TEXTURE,
     SKYSCRAPER_TEXTURE,
     ROAD_TEXTURE,
     GRASS_TEXTURE,
-    TEXTURE_COUNT
+    TEXTURE_COUNT,
+    NO_TEXTURE
 };
 
 class Texture{

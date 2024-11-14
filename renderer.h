@@ -34,6 +34,8 @@ private:
     int axis;
     int debug;
 
+    void render_debug(Scene scene);
+
 public:
 
     Renderer();

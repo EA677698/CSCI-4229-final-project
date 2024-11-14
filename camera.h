@@ -32,18 +32,18 @@ private:
     int mode;
 
 public:
-    int th = 0;       // Azimuth of view angle
-    int ph = 0;       // Elevation of view angle
-    int fov = 55;     // Field of view (for perspective)
-    double asp = 1;   // Aspect ratio
-    double dim = 1000.0; // Size of the world
+    int th;       // Azimuth of view angle
+    int ph;       // Elevation of view angle
+    int fov;     // Field of view (for perspective)
+    double asp;   // Aspect ratio
+    double dim; // Size of the world
 
-    double angle = 0;
-    double pitch = 0;
+    double angle;
+    double pitch;
 
-    double x = 0;
-    double y = 1;
-    double z = 5;
+    double x;
+    double y;
+    double z;
 
     Camera();
     ~Camera();

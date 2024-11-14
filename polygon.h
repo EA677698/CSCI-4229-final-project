@@ -5,7 +5,6 @@
 #include <vector>
 #include <cstdio>
 
-
 class Polygon
 {
 private:
@@ -15,6 +14,7 @@ private:
     void normalize_texture_vectors();
     unsigned int texture;
     int color;
+    bool has_texture;
     float texture_repeats;
 
 public:
@@ -29,6 +29,7 @@ public:
     void set_texture(int);
     void set_color(int);
     int get_color();
+    bool contains_texture() const;
     unsigned int get_texture();
     void generate_texture_vertices();
     const std::vector<Vector2> get_texture_vertices();

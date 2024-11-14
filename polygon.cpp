@@ -5,7 +5,14 @@
 
 Polygon::Polygon(int texture, int color)
 {
-    this->texture = Texture::get_instance()->get_texture(texture);
+    if(texture == NO_TEXTURE)
+    {
+        has_texture = false;
+    } else {
+        this->texture = Texture::get_instance()->get_texture(texture);
+        has_texture = true;
+    }
+
     this->color = color;
     this->texture_repeats = 1;
 }
@@ -88,6 +95,11 @@ void Polygon::normalize_texture_vectors(){
     }
 }
 
+bool Polygon::contains_texture() const
+{
+    return has_texture;
+}
+
 void Polygon::generate_texture_vertices(){
     if(vertices.size() < 3){
         return;
@@ -124,7 +136,13 @@ void Polygon::add_vertex(float x, float y, float z)
 
 void Polygon::set_texture(int texture)
 {
+    if(texture == NO_TEXTURE)
+    {
+        has_texture = false;
+        return;
+    }
     this->texture = Texture::get_instance()->get_texture(texture);
+    has_texture = true;
 }
 
 unsigned int Polygon::get_texture()

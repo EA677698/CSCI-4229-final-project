@@ -1,7 +1,10 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <map>
 #include <vector>
+
+#include "boundingbox.h"
 #include "objects/object.h"
 #include "camera.h"
 
@@ -10,7 +13,9 @@ class Scene {
 private:
 
     Camera camera;
-    std::vector<Object> objects;
+    std::vector<Object*> objects;
+    std::map<int, BoundingBox> colors;
+    std::vector<BoundingBox> bounding_boxes;
     
 public:
 
@@ -21,8 +26,9 @@ public:
     Scene(/* args */);
     ~Scene();
     Camera& getCamera();
-    void add_object(Object object);
-    std::vector<Object> get_objects();
+    void add_object(Object* object);
+    std::vector<Object*> get_objects();
+    void delete_scene();
 };
 
 

@@ -3,12 +3,14 @@
 #include "renderer.h"
 #include "objects/terrain.h"
 #include "objects/generic/skyscraper.h"
+#include "objects/generic/street.h"
 #include "texture.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <math.h>
+
 #ifdef USEGLEW
 #include <GL/glew.h>
 #endif
@@ -119,7 +121,10 @@ void key(unsigned char ch,int x,int y)
    Camera& camera = scene.getCamera();
    //  Exit on ESC
    if (ch == 27)
+   {
+      scene.delete_scene();
       exit(0);
+   }
    //  Reset view angle
    else if (ch == '0')
       camera.th = camera.ph = camera.pitch = camera.angle = 0;
@@ -230,8 +235,9 @@ int main(int argc,char* argv[])
    renderer.set_axis(ENABLE_AXIS);
    renderer.set_debug(DEBUG_ON);
    Texture::get_instance();
-   scene.add_object(Terrain());
-   scene.add_object(Skyscraper());
+   scene.add_object(new Terrain());
+   scene.add_object(new Skyscraper());
+   scene.add_object(new Street());
    //  Pass control to GLUT so it can interact with the user
    glutMainLoop();
 
