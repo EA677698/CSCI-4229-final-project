@@ -13,12 +13,40 @@ void Renderer::render_debug(Scene scene)
 {
     Camera& camera = scene.getCamera();
 
-    // TODO: Implement bounding box rendering
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable( GL_BLEND );
 
-    // glBegin(GL_POLYGON);
-    // glColor3ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF);
+    std::vector<BoundingBox> bounding_boxes = scene.get_bounding_boxes();
+    for(unsigned int i = 0; i < bounding_boxes.size(); i++)
+    {
+        Object object = *bounding_boxes[i].get_object();
+        glPushMatrix();
+        glScalef(1.01f, 1.01f, 1.01f);
+        glTranslatef(-(object.get_width()/2), 0, -(object.get_depth()/2));
+        std::vector<Polygon> polygons = bounding_boxes[i].get_polygons();
+        for(unsigned int j = 0; j < polygons.size(); j++)
+        {
+            Polygon polygon = polygons[j];
+            std::vector<Vector3> vertices = polygon.get_vertices();
+            int color = bounding_boxes[i].get_color();
+            glBegin(GL_POLYGON);
+            glColor4ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF, 0xA0);
+            for(unsigned int k = 0; k < vertices.size(); k++)
+            {
+                glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
+            }
+            glEnd();
+        }
+        glPopMatrix();
+
+
+    }
+
+    glDisable(GL_BLEND);
+
 
     //  Five pixels from the lower left corner of the window
+    glColor3ub(0xFF,0xFF,0xFF);
     glWindowPos2i(5,5);
     //  Print the text string
     std::string mode_str = "";

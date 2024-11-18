@@ -36,6 +36,12 @@ std::vector<Object*> Scene::get_objects(){
     return objects;
 }
 
+std::vector<BoundingBox> Scene::get_bounding_boxes()
+{
+    return bounding_boxes;
+}
+
+
 void Scene::delete_scene(){
     for(unsigned int i = 0; i < objects.size(); i++){
         delete objects[i];

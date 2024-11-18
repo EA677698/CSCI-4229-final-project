@@ -24,6 +24,8 @@ public:
     BoundingBox(Object *object, int color);
     ~BoundingBox();
 
+    std::vector<Polygon> get_polygons() const;
+
     Object* get_object() const;
     int get_color() const;
 

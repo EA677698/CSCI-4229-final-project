@@ -235,9 +235,9 @@ int main(int argc,char* argv[])
    renderer.set_axis(ENABLE_AXIS);
    renderer.set_debug(DEBUG_ON);
    Texture::get_instance();
-   scene.add_object(new Terrain());
-   scene.add_object(new Skyscraper());
    scene.add_object(new Street());
+   //scene.add_object(new Terrain());
+   //scene.add_object(new Skyscraper());
    //  Pass control to GLUT so it can interact with the user
    glutMainLoop();
 

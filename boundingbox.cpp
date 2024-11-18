@@ -77,4 +77,9 @@ int BoundingBox::get_color() const
     return color;
 }
 
+std::vector<Polygon> BoundingBox::get_polygons() const
+{
+    return polygons;
+}
+
 BoundingBox::~BoundingBox(){}

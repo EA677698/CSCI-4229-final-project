@@ -28,6 +28,7 @@ public:
     Camera& getCamera();
     void add_object(Object* object);
     std::vector<Object*> get_objects();
+    std::vector<BoundingBox> get_bounding_boxes();
     void delete_scene();
 };
 
