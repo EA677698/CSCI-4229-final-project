@@ -31,7 +31,7 @@ public:
         return instance;
     }
 
-    unsigned int get_texture(int index);
+    unsigned int get_texture(int index) const;
 
 };
 

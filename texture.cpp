@@ -15,7 +15,7 @@ Texture::Texture()
 
 Texture::~Texture(){}
 
-unsigned int Texture::get_texture(int index)
+unsigned int Texture::get_texture(const int index) const
 {
     if(index < 0 || index >= TEXTURE_COUNT){
         return textures[NULL_TEXTURE];

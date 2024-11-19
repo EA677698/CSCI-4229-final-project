@@ -126,11 +126,14 @@ void key(unsigned char ch,int x,int y)
       exit(0);
    }
    //  Reset view angle
-   else if (ch == '0')
+   if (ch == '0')
       camera.th = camera.ph = camera.pitch = camera.angle = 0;
-   //  Toggle axes
+   //  Toggle debug
    else if (ch == 'x' || ch == 'X')
+   {
       renderer.set_axis(1 - renderer.get_axis());
+      renderer.set_debug(1 - renderer.get_debug());
+   }
    else if (ch == 'l' || ch == 'L')
       light = 1-light;
    //  Switch display camera.get_viewing_mode()
@@ -232,12 +235,10 @@ int main(int argc,char* argv[])
    glutKeyboardFunc(key);
    scene = Scene();
    renderer = Renderer();
-   renderer.set_axis(ENABLE_AXIS);
-   renderer.set_debug(DEBUG_ON);
    Texture::get_instance();
    scene.add_object(new Street());
-   //scene.add_object(new Terrain());
-   //scene.add_object(new Skyscraper());
+   scene.add_object(new Terrain());
+   scene.add_object(new Skyscraper());
    //  Pass control to GLUT so it can interact with the user
    glutMainLoop();
 

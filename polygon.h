@@ -23,19 +23,19 @@ public:
     Polygon(int color);
     Polygon(int texture, int color);
     ~Polygon();
-    void add_vertex(Vector3);
+    void add_vertex(const Vector3&);
     void add_vertex(float, float, float);
-    Vector3 calculate_normal();
+    Vector3 calculate_normal() const;
     void set_texture(int);
     void set_color(int);
-    int get_color();
+    int get_color() const;
     bool contains_texture() const;
-    unsigned int get_texture();
+    unsigned int get_texture() const;
     void generate_texture_vertices();
-    const std::vector<Vector2> get_texture_vertices();
-    const std::vector<Vector3> get_vertices();
+    std::vector<Vector2> get_texture_vertices();
+    std::vector<Vector3> get_vertices();
 
-    float get_texture_repeats();
+    float get_texture_repeats() const;
     void set_texture_repeats(float repeats);
 
     void print_texture_vertices(){

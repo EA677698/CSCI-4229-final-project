@@ -12,7 +12,7 @@ public:
     ~Vector2();
 
     Vector2 normalize();
-    float get_magnitude();
+    float get_magnitude() const;
 };
 
 #endif

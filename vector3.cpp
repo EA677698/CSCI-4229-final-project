@@ -6,7 +6,7 @@ Vector3::Vector3(){
     z = 0;
 }
 
-Vector3::Vector3(float x, float y, float z)
+Vector3::Vector3(const float x, const float y, const float z)
 {
     this->x = x;
     this->y = y;
@@ -15,21 +15,23 @@ Vector3::Vector3(float x, float y, float z)
 
 Vector3::~Vector3(){}
 
-float Vector3::get_magnitude(){
+float Vector3::get_magnitude() const
+{
     return sqrt(x * x + y * y + z * z);
 }
 
-Vector3 Vector3::normalize(){
+Vector3 Vector3::normalize() const
+{
     float magnitude = sqrt(x * x + y * y + z * z);
-    return Vector3(x / magnitude, y / magnitude, z / magnitude);
+    return {x / magnitude, y / magnitude, z / magnitude};
 }
 
-float Vector3::dot_product(Vector3 a, Vector3 b){
+float Vector3::dot_product(const Vector3& a, const Vector3& b){
     return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-Vector3 Vector3::cross_product(Vector3 a, Vector3 b){
-    return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+Vector3 Vector3::cross_product(const Vector3& a, const Vector3& b){
+    return {a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x};
 }
 
 

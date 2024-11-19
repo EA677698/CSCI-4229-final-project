@@ -9,16 +9,14 @@
 
 BoundingBox::BoundingBox(): width(0), height(0), depth(0), object(nullptr), color(0) {}
 
-BoundingBox::BoundingBox(Object *object, int color){
+BoundingBox::BoundingBox(Object *object, const int color){
     this->object = object;
     this->width = object->get_width();
     this->height = object->get_height();
     this->depth = object->get_depth();
     this->color = color;
 
-    Polygon polygon;
-
-    polygon = Polygon(NO_TEXTURE, 0xFFFFFF);
+    auto polygon = Polygon(NO_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);

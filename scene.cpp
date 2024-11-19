@@ -26,7 +26,7 @@ void Scene::add_object(Object* object){
     {
         color = generate_color();
     }
-    BoundingBox b = BoundingBox(object, color);
+    const auto b = BoundingBox(object, color);
     colors[color] = b;
     bounding_boxes.push_back(b);
     objects.push_back(object);
@@ -43,9 +43,9 @@ std::vector<BoundingBox> Scene::get_bounding_boxes()
 
 
 void Scene::delete_scene(){
-    for(unsigned int i = 0; i < objects.size(); i++){
-        delete objects[i];
-        objects[i] = nullptr;
+    for(auto& object : objects){
+        delete object;
+        object = nullptr;
     }
     objects.clear();
 }

@@ -5,13 +5,11 @@ Skyscraper::Skyscraper(){
     width = 50;
     height = 200;
     depth = 50;
-    
-    Polygon polygon;
 
-    int side_texture = SKYSCRAPER_TEXTURE;
+    constexpr int side_texture = SKYSCRAPER_TEXTURE;
 
     // Floor
-    polygon = Polygon(0xFFFFFF);
+    auto polygon = Polygon(0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
@@ -59,8 +57,8 @@ Skyscraper::Skyscraper(){
     polygons.push_back(polygon);
 
 
-    for(unsigned int i = 0; i < polygons.size(); i++){
-        polygons[i].generate_texture_vertices();
+    for(auto& polygon1 : polygons){
+        polygon1.generate_texture_vertices();
     }
 }
 

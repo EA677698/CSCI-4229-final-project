@@ -16,24 +16,25 @@ void Renderer::render_debug(Scene scene)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable( GL_BLEND );
 
-    std::vector<BoundingBox> bounding_boxes = scene.get_bounding_boxes();
-    for(unsigned int i = 0; i < bounding_boxes.size(); i++)
+    const std::vector<BoundingBox> bounding_boxes = scene.get_bounding_boxes();
+    for(const auto& bounding_box : bounding_boxes)
     {
-        Object object = *bounding_boxes[i].get_object();
+        Object object = *bounding_box.get_object();
         glPushMatrix();
-        glScalef(1.01f, 1.01f, 1.01f);
-        glTranslatef(-(object.get_width()/2), 0, -(object.get_depth()/2));
-        std::vector<Polygon> polygons = bounding_boxes[i].get_polygons();
-        for(unsigned int j = 0; j < polygons.size(); j++)
+        constexpr float scale = 1.01;
+        glScalef(scale, scale, scale);
+        const float difference = ((scale * object.get_height()) - object.get_height())/2;
+        glTranslatef(-(object.get_width()/2), -difference, -(object.get_depth()/2));
+        std::vector<Polygon> polygons = bounding_box.get_polygons();
+        for(auto polygon : polygons)
         {
-            Polygon polygon = polygons[j];
             std::vector<Vector3> vertices = polygon.get_vertices();
-            int color = bounding_boxes[i].get_color();
+            const int color = bounding_box.get_color();
             glBegin(GL_POLYGON);
             glColor4ub((color >> 16) & 0xFF,( color >> 8) & 0xFF,color & 0xFF, 0xA0);
-            for(unsigned int k = 0; k < vertices.size(); k++)
+            for(const auto& vertex : vertices)
             {
-                glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
+                glVertex3f(vertex.x, vertex.y, vertex.z);
             }
             glEnd();
         }
@@ -49,7 +50,7 @@ void Renderer::render_debug(Scene scene)
     glColor3ub(0xFF,0xFF,0xFF);
     glWindowPos2i(5,5);
     //  Print the text string
-    std::string mode_str = "";
+    std::string mode_str;
     if (camera.get_viewing_mode() == ORTHOGONAL)
         mode_str = "Orthogonal";
     else if (camera.get_viewing_mode() == PERSPECTIVE)
@@ -70,22 +71,21 @@ void Renderer::render(Scene scene){
     glEnable(GL_NORMALIZE);
     scene.getCamera().view(scene.dir_x, scene.dir_y, scene.dir_z);
 
-    std::vector<Object*> objects = scene.get_objects();
+    const std::vector<Object*> objects = scene.get_objects();
 
-    for(unsigned int i = 0; i < objects.size(); i++){
-        Object object = *objects[i];
+    for(auto & i : objects){
+        Object object = *i;
         std::vector<Polygon> polygons = object.get_polygons();
         glPushMatrix();
         glTranslatef(-(object.get_width()/2), 0, -(object.get_depth()/2));
-        for(unsigned int j = 0; j < polygons.size(); j++){
-            Polygon polygon = polygons[j];
+        for(auto polygon : polygons){
             std::vector<Vector3> vertices = polygon.get_vertices();
             std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
-            int color = polygon.get_color();
+            const int color = polygon.get_color();
 
-            unsigned int texture = polygon.get_texture();
-            float repeats = polygon.get_texture_repeats();
-            Vector3 normal = polygon.calculate_normal();
+            const unsigned int texture = polygon.get_texture();
+            const float repeats = polygon.get_texture_repeats();
+            const Vector3 normal = polygon.calculate_normal();
             if (polygon.contains_texture())
             {
                 glEnable(GL_TEXTURE_2D);
@@ -123,7 +123,7 @@ void Renderer::render(Scene scene){
 
 void Renderer::render_axis(){
     glColor3f(1,1,1);
-    const double len=1.5;  //  Length of axes
+    constexpr double len=1.5;  //  Length of axes
     glBegin(GL_LINES);
     glVertex3d(0.0,0.0,0.0);
     glVertex3d(len,0.0,0.0);
@@ -141,14 +141,20 @@ void Renderer::render_axis(){
     Print("Z");
 }
 
-void Renderer::set_axis(int mode){
+void Renderer::set_axis(const int mode){
     axis = mode;
 }
 
-int Renderer::get_axis(){
+int Renderer::get_axis() const
+{
     return axis;
 }
 
-void Renderer::set_debug(int mode){
+void Renderer::set_debug(const int mode){
     debug = mode;
+}
+
+int Renderer::get_debug() const
+{
+    return debug;
 }

@@ -16,7 +16,7 @@ CFLG=-O3 -Wall -Wno-deprecated-declarations -DRES=$(RES)
 LIBS=-framework GLUT -framework OpenGL
 # Linux/Unix/Solaris
 else
-CFLG=-O3 -Wall
+CFLG=-O3 -Wall -g
 LIBS=-lglut -lGLU -lGL -lm
 endif
 # OSX/Linux/Unix/Solaris

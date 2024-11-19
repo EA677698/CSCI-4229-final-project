@@ -51,7 +51,7 @@ public:
     void update_View_angle(int deltaTh, int deltaPh);
     void change_viewing_mode(int mode);
     void view(double dir_x, double dir_y, double dir_z);
-    int get_viewing_mode();
+    int get_viewing_mode() const;
 };
 
 

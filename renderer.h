@@ -36,20 +36,23 @@ private:
 
     void render_debug(Scene scene);
 
+    void render_axis();
+
 public:
 
     Renderer();
     ~Renderer();
-    
-    void render(Scene scene);
 
-    void render_axis();
+    void render(Scene scene);
 
     void set_axis(int mode);
 
-    int get_axis();
+    int get_axis() const;
 
     void set_debug(int mode);
+
+    int get_debug() const;
+
 };
 
 

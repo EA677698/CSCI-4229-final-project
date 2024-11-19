@@ -6,7 +6,7 @@ Vector2::Vector2(){
     y = 0;
 }
 
-Vector2::Vector2(float x, float y)
+Vector2::Vector2(const float x, const float y)
 {
     this->x = x;
     this->y = y;
@@ -14,7 +14,7 @@ Vector2::Vector2(float x, float y)
 
 Vector2::~Vector2(){}
 
-float Vector2::get_magnitude()
+float Vector2::get_magnitude() const
 {
     return sqrt(x * x + y * y);
 }

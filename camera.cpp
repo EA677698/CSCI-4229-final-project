@@ -41,6 +41,7 @@ void Camera::view(double dir_x, double dir_y, double dir_z){
    }
 }
 
-int Camera::get_viewing_mode(){
+int Camera::get_viewing_mode() const
+{
     return mode;
 }

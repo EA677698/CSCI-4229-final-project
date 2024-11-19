@@ -15,7 +15,7 @@ Controls:
 
     Press 'm' or 'M' to change display mode (Orthagonal, Perspective, First Person)
 
-    Press 'x' or 'X' to toggle the axis
+    Press 'x' or 'X' to toggle debug mode
 
     Press '0' to reset the camera angle
 
