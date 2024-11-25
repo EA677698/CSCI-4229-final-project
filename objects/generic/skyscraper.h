@@ -3,11 +3,12 @@
 
 #include "../object.h"
 
-class Skyscraper: public Object {
+class Skyscraper : public Object {
 
 public:
 
     Skyscraper();
+
     ~Skyscraper();
 
 };

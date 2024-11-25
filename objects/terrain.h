@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-class Terrain: public Object {
+class Terrain : public Object {
 
 private:
 
@@ -11,6 +11,7 @@ private:
 public:
 
     Terrain();
+
     ~Terrain();
 
 };

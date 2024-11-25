@@ -34,11 +34,13 @@ csci_lib/projection.o: csci_lib/projection.c csci_lib/CSCIx229.h
 
 # Objects
 objects/object.o: objects/object.cpp objects/object.h
+objects/skybox.o: objects/skybox.cpp objects/skybox.h
 objects/terrain.o: objects/terrain.cpp objects/terrain.h
 
 # Generic Objects
 objects/generic/skyscraper.o: objects/generic/skyscraper.cpp objects/generic/skyscraper.h
 objects/generic/street.o: objects/generic/street.cpp objects/generic/street.h
+objects/generic/intersection.o: objects/generic/intersection.cpp objects/generic/intersection.h
 
 boundingbox.o: boundingbox.cpp boundingbox.h
 vector2.o: vector2.cpp vector2.h
@@ -72,7 +74,7 @@ objects/generic/%.o: objects/generic/%.cpp objects/generic/%.h
 	g++ -c $(CFLG) -Icsci_lib $<
 
 # Link
-final: final.o camera.o scene.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/terrain.o objects/generic/skyscraper.o objects/generic/street.o csci_lib/CSCIx229.a
+final: final.o camera.o scene.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/skybox.o objects/terrain.o objects/generic/skyscraper.o objects/generic/street.o objects/generic/intersection.o csci_lib/CSCIx229.a
 	g++ $(CFLG) -o $@ $^ $(LIBS)
 
 # Clean

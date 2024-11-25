@@ -11,24 +11,36 @@ protected:
     Vector3 position; // positions based on center of object
     float width, height, depth;
     std::vector<Polygon> polygons;
+    bool bounding_box;
 
 public:
 
-    Object() : position(Vector3(0,0,0)), width(1), height(1), depth(1) {};
+    Object() : position(Vector3(0, 0, 0)), width(1), height(1), depth(1), bounding_box(true) {};
+
     virtual ~Object() {};
 
-    std::vector<Polygon> get_polygons(){
+    std::vector<Polygon> get_polygons() {
         return polygons;
     }
 
     float get_width() const;
+
     float get_height() const;
+
     float get_depth() const;
 
-    void set_position(const Vector3& position);
+    void set_position(const Vector3 &position);
+
     void set_position(float x, float y, float z);
-    void translate(const Vector3& translation) const;
+
+    void translate(const Vector3 &translation) const;
+
     void translate(float x, float y, float z) const;
+
+    void disable_bounding_box();
+
+    bool has_bounding_box() const;
+
     Vector3 get_position() const;
 
 };

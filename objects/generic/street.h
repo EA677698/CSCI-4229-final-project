@@ -8,6 +8,7 @@ class Street : public Object {
 public:
 
     Street();
+
     ~Street();
 
 };

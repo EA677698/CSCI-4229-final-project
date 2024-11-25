@@ -13,7 +13,9 @@
 // Tell Xcode IDE to not gripe about OpenGL deprecation
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #else
+
 #include <GL/glut.h>
+
 #endif
 //  Default resolution
 //  For Retina displays compile with -DRES=2
@@ -46,11 +48,15 @@ public:
     double z;
 
     Camera();
+
     ~Camera();
 
     void update_View_angle(int deltaTh, int deltaPh);
+
     void change_viewing_mode(int mode);
+
     void view(double dir_x, double dir_y, double dir_z);
+
     int get_viewing_mode() const;
 };
 

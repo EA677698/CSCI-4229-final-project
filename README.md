@@ -49,3 +49,5 @@ Controls:
 
 
 Credit to Willem A. (Vlakkies) Schreuder for the starter code (from various CSCI-4229 examples)
+
+Credit to opengl-tutorial.org for guidance on [color picking](http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-an-opengl-hack/)

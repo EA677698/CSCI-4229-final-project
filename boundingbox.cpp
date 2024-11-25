@@ -7,9 +7,9 @@
 #include "texture.h"
 
 
-BoundingBox::BoundingBox(): width(0), height(0), depth(0), object(nullptr), color(0) {}
+BoundingBox::BoundingBox() : width(0), height(0), depth(0), object(nullptr), color(0) {}
 
-BoundingBox::BoundingBox(Object *object, const int color){
+BoundingBox::BoundingBox(Object *object, const int color) {
     this->object = object;
     this->width = object->get_width();
     this->height = object->get_height();
@@ -65,19 +65,16 @@ BoundingBox::BoundingBox(Object *object, const int color){
 
 }
 
-Object* BoundingBox::get_object() const
-{
+Object *BoundingBox::get_object() const {
     return object;
 }
 
-int BoundingBox::get_color() const
-{
+int BoundingBox::get_color() const {
     return color;
 }
 
-std::vector<Polygon> BoundingBox::get_polygons() const
-{
+std::vector<Polygon> BoundingBox::get_polygons() const {
     return polygons;
 }
 
-BoundingBox::~BoundingBox(){}
+BoundingBox::~BoundingBox() {}
