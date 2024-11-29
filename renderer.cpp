@@ -103,7 +103,7 @@ void Renderer::render_debug(Scene scene) {
         mode_str = "Perspective";
     else
         mode_str = "First Person";
-    Print("Angle=%d,%d  Dim=%.1f FOV=%d Projection=%s", camera.th, camera.ph, camera.dim, camera.fov, mode_str.c_str());
+    Print("Angle=%d,%d  Dim=%.1f FOV=%f Projection=%s", camera.th, camera.ph, camera.dim, camera.fov, mode_str.c_str());
 }
 
 
@@ -134,12 +134,22 @@ void Renderer::render_object(Object *object) {
             glDisable(GL_TEXTURE_2D);
         }
     }
+    if(!object->get_polyhedrons().empty()) {
+        for (auto *polyhedron: object->get_polyhedrons()) {
+            glPushMatrix();
+            glTranslatef(polyhedron->get_position().x, polyhedron->get_position().y, polyhedron->get_position().z);
+            render_object(polyhedron);
+            glPopMatrix();
+        }
+    }
 }
 
 
 void Renderer::render(Scene scene) {
 
     render_picking_pass(scene);
+
+    Camera camera = scene.getCamera();
 
     scene.add_selected_object(scene.get_object_by_color(read_color()));
 
@@ -150,7 +160,7 @@ void Renderer::render(Scene scene) {
     //  Undo previous transformations
     glLoadIdentity();
     glEnable(GL_NORMALIZE);
-    scene.getCamera().view(scene.dir_x, scene.dir_y, scene.dir_z);
+    camera.view(scene.dir_x, scene.dir_y, scene.dir_z);
 
     Object *skybox = scene.get_skybox();
 
@@ -158,6 +168,7 @@ void Renderer::render(Scene scene) {
         glDisable(GL_DEPTH_TEST);
 //        glDisable(GL_LIGHTING);
         glPushMatrix();
+        glScaled(camera.dim, camera.dim, camera.dim);
         glTranslatef(-(skybox->get_width() / 2), -(skybox->get_height() / 2), -(skybox->get_depth() / 2));
         render_object(skybox);
         glPopMatrix();
@@ -168,11 +179,14 @@ void Renderer::render(Scene scene) {
     const std::vector<Object *> objects = scene.get_objects();
 
     for (auto &i: objects) {
-        Object object = *i;
-        std::vector<Polygon> polygons = object.get_polygons();
+        Object* object = i;
+        std::vector<Polygon> polygons = object->get_polygons();
         glPushMatrix();
-        glTranslatef(-(object.get_width() / 2), 0, -(object.get_depth() / 2));
-        render_object(&object);
+        // Translate object to its position
+        glTranslatef(object->get_position().x, object->get_position().y, object->get_position().z);
+        // Position based on center of object
+        glTranslatef(-(object->get_width() / 2), 0, -(object->get_depth() / 2));
+        render_object(object);
         glPopMatrix();
     }
     ErrCheck("Renderer object display");

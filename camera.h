@@ -34,9 +34,14 @@ private:
     int mode;
 
 public:
+    bool is_dragging;
+    int mouse_x;
+    int mouse_y;
+    float pan_speed;
+
     int th;       // Azimuth of view angle
     int ph;       // Elevation of view angle
-    int fov;     // Field of view (for perspective)
+    float fov;     // Field of view (for perspective)
     double asp;   // Aspect ratio
     double dim; // Size of the world
 

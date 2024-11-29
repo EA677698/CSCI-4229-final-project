@@ -3,7 +3,7 @@
 #include "CSCIx229.h"
 
 //
-//  Load texture from BMP file
+//  Load textures from BMP file
 //
 
 //
@@ -21,7 +21,7 @@ static void Reverse(void* x,const int n)
 }
 
 //
-//  Load texture from BMP file
+//  Load textures from BMP file
 //
 unsigned int LoadTexBMP(const char* file)
 {
@@ -58,7 +58,7 @@ unsigned int LoadTexBMP(const char* file)
    if (bpp!=24) Fatal("%s bits per pixel is not 24: %d\n",file,bpp);
    if (k!=0)    Fatal("%s compressed files not supported\n",file);
 #ifndef GL_VERSION_2_0
-   //  OpenGL 2.0 lifts the restriction that texture size must be a power of two
+   //  OpenGL 2.0 lifts the restriction that textures size must be a power of two
    for (k=1;k<dx;k*=2);
    if (k!=dx) Fatal("%s image width not a power of two: %d\n",file,dx);
    for (k=1;k<dy;k*=2);
@@ -82,7 +82,7 @@ unsigned int LoadTexBMP(const char* file)
 
    //  Sanity check
    ErrCheck("LoadTexBMP");
-   //  Generate 2D texture
+   //  Generate 2D textures
    unsigned int texture;
    glGenTextures(1,&texture);
    glBindTexture(GL_TEXTURE_2D,texture);
@@ -95,6 +95,6 @@ unsigned int LoadTexBMP(const char* file)
 
    //  Free image memory
    free(image);
-   //  Return texture name
+   //  Return textures name
    return texture;
 }

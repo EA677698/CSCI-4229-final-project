@@ -1,18 +1,23 @@
 #include "camera.h"
 
 Camera::Camera() {
+    is_dragging = false;
     th = 0;
     ph = 0;
     fov = 55;
     asp = 1;
     dim = 1000.0;
 
+    pan_speed = 0.01f;
+    mouse_x = 0;
+    mouse_y = 0;
+
     angle = 0;
     pitch = 0;
 
     x = 0;
-    y = 1;
-    z = 5;
+    y = 100;
+    z = 0;
 
     mode = PERSPECTIVE;
 }

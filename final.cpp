@@ -5,6 +5,10 @@
 #include "objects/terrain.h"
 #include "objects/generic/skyscraper.h"
 #include "objects/generic/street.h"
+#include "objects/generic/park_bench.h"
+#include "objects/primitives/polyhedron.h"
+#include "objects/primitives/arc.h"
+#include "objects/eiffel_tower.h"
 #include "texture.h"
 
 #include <stdio.h>
@@ -62,15 +66,57 @@ void display() {
 
 void mouse_click(int button, int state, int x, int y) {
     int glY = DISPLAY_HEIGHT - y;
+    Camera &camera = scene.getCamera();
 
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        renderer.set_mouse_position(Vector2(x, glY));
+    if (button == GLUT_LEFT_BUTTON){
+
+        if (state == GLUT_DOWN) {
+            renderer.set_mouse_position(Vector2(x, glY));
+            camera.is_dragging = true;
+            camera.mouse_x = x;
+            camera.mouse_y = glY;
+        } else if (state == GLUT_UP) {
+            camera.is_dragging = false;
+        }
+
     }
+
+    if (button == 4) { // Scroll down
+        camera.fov += camera.fov > 0 ? -0.1 : 0;
+    } else if (button == 3) { // Scroll up
+        camera.fov += camera.fov < 180 ? 0.1 : 0;
+    }
+    Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
+    glutPostRedisplay();
 }
 
 void mouse_move(int x, int y) {
     int glY = DISPLAY_HEIGHT - y;
     renderer.set_mouse_position(Vector2(x, glY));
+
+    Camera &camera = scene.getCamera();
+    if(camera.is_dragging){
+        int dx = x - camera.mouse_x;
+        int dy = y - camera.mouse_y;
+
+        if (camera.get_viewing_mode() == FIRST_PERSON) {
+            camera.x -= dx * camera.pan_speed * scene.dir_z;
+            camera.z += dx * camera.pan_speed * scene.dir_x;
+
+            camera.x += dy * camera.pan_speed * scene.dir_x;
+            camera.z += dy * camera.pan_speed * scene.dir_z;
+
+        } else {
+            camera.th += dx * camera.pan_speed * 100.0f;
+            camera.ph += dy * camera.pan_speed * 100.0f;
+        }
+
+        camera.mouse_x = x;
+        camera.mouse_y = y;
+
+        // Redisplay the scene
+        glutPostRedisplay();
+    }
 }
 
 /*
@@ -160,9 +206,9 @@ void key(unsigned char ch, int x, int y) {
         ylight += 0.1;
         //  Change field of view angle
     else if (ch == '-' && ch > 1)
-        camera.fov--;
+        camera.fov += camera.fov > 0 ? -1 : 0;
     else if (ch == '+' && ch < 179)
-        camera.fov++;
+        camera.fov += camera.fov < 180 ? 1 : 0;
         //  Move light
     else if (ch == '<')
         zh += 1;
@@ -221,7 +267,7 @@ void idle() {
 int main(int argc, char *argv[]) {
     //  Initialize GLUT and process user parameters
     glutInit(&argc, argv);
-    //  Request double buffered, true color window with Z buffering at 600x600
+    //  Request double buffered, true colors window with Z buffering at 600x600
     glutInitWindowSize(DISPLAY_WIDTH, DISPLAY_HEIGHT);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     //  Create the window
@@ -244,12 +290,19 @@ int main(int argc, char *argv[]) {
     glutSpecialFunc(special);
     //  Tell GLUT to call "key" when a key is pressed
     glutKeyboardFunc(key);
+    Texture::get_instance(); // To initialize textures
     scene = Scene();
     renderer = Renderer();
-    Texture::get_instance();
-    scene.add_skybox(new Skybox());
-    scene.add_object(new Terrain());
-    scene.add_object(new Skyscraper());
+    scene.getCamera().fov = 1;
+//    scene.add_skybox(new Skybox());
+//    scene.add_object(new Terrain());
+//    scene.add_object(new Arc(5.0f, 0.0f, M_PI / 2, 3, 1.0f, 0.5f, 0.5f));
+//    scene.add_object(new EiffelTower());
+    scene.add_object(new Polyhedron(1.0f, 10.0f, 1.0f, 10));
+
+//    scene.add_object(new ParkBench());
+
+//    scene.add_object(new Skyscraper());
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();
 

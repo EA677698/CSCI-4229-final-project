@@ -20,12 +20,23 @@ void Object::set_position(const float x, const float y, const float z) {
     this->position = Vector3(x, y, z);
 }
 
-void Object::translate(const Vector3 &translation) const {
+void Object::translate(const Vector3 &translation) {
     this->position += translation;
+    if(!polyhedrons.empty()){
+        for(auto& polyhedron : polyhedrons){
+            polyhedron->translate(translation);
+        }
+    }
+
 }
 
-void Object::translate(const float x, const float y, const float z) const {
+void Object::translate(const float x, const float y, const float z) {
     this->position += Vector3(x, y, z);
+    if(!polyhedrons.empty()){
+        for(auto& polyhedron : polyhedrons){
+            polyhedron->translate(Vector3(x, y, z));
+        }
+    }
 }
 
 void Object::disable_bounding_box() {

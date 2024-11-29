@@ -201,13 +201,13 @@ static void LoadMaterial(const char* file)
       //  If no material short circuit here
       else if (k<0)
       {}
-      //  Ambient color
+      //  Ambient colors
       else if (line[0]=='K' && line[1]=='a')
          readfloat(line+2,3,mtl[k].Ka);
-      //  Diffuse color
+      //  Diffuse colors
       else if (line[0]=='K' && line[1] == 'd')
          readfloat(line+2,3,mtl[k].Kd);
-      //  Specular color
+      //  Specular colors
       else if (line[0]=='K' && line[1] == 's')
          readfloat(line+2,3,mtl[k].Ks);
       //  Material Shininess
@@ -239,7 +239,7 @@ static void SetMaterial(const char* name)
          glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE  ,mtl[k].Kd);
          glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR ,mtl[k].Ks);
          glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,&mtl[k].Ns);
-         //  Bind texture if specified
+         //  Bind textures if specified
          if (mtl[k].map)
          {
             glEnable(GL_TEXTURE_2D);

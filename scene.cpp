@@ -23,7 +23,7 @@ int generate_color() {
 void Scene::add_object(Object *object) {
     if(object->has_bounding_box()) {
         int color = generate_color();
-        while (colors.count(color)) // makes sure color is unique
+        while (colors.count(color)) // makes sure colors is unique
         {
             color = generate_color();
         }
