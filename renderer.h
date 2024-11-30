@@ -49,7 +49,7 @@ private:
 
     void render_axis();
 
-    void render_object(Object* object);
+    void render_object(Object* object, bool object_selected = false);
 
     GLuint frame_buffer;
     GLuint texture_color_buffer;

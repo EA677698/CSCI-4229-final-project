@@ -10,7 +10,11 @@ private:
 
 public:
 
+    using Object::Object;
+
     Terrain();
+
+    void refresh() override;
 
     ~Terrain();
 

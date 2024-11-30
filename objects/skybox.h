@@ -11,7 +11,12 @@ class Skybox : public Object {
 
 
 public:
+
+    using Object::Object;
+
     Skybox();
+
+    void refresh() override;
 
     ~Skybox();
 

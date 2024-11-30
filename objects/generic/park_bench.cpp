@@ -11,6 +11,8 @@ ParkBench::ParkBench() {
 
     bounding_box = true;
 
+    name = "Park Bench";
+
     // Seat
     auto polygon = Polygon(0xFFFFFF);
     polygon.add_vertex(0, 0, 0);

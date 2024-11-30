@@ -45,6 +45,8 @@ public:
     double asp;   // Aspect ratio
     double dim; // Size of the world
 
+    bool camera_locked;
+
     double angle;
     double pitch;
 

@@ -9,6 +9,8 @@
 Arc::Arc(float radius, float startAngle, float endAngle, int definition, float width, float height, float depth) {
     float angleIncrement = (endAngle - startAngle) / definition;
 
+    name = "Arc";
+
     for (int i = 0; i < definition; ++i) {
         // Calculate the angles for the current segment
         float angle1 = startAngle + i * angleIncrement;
@@ -47,4 +49,8 @@ Arc::Arc(float radius, float startAngle, float endAngle, int definition, float w
     for(auto& polygon1 : polygons){
         polygon1.generate_texture_vertices();
     }
+}
+
+void Arc::refresh() {
+
 }

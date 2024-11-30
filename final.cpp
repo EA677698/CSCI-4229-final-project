@@ -1,15 +1,8 @@
 #include "csci_lib/CSCIx229.h"
 #include "scene.h"
 #include "renderer.h"
-#include "objects/skybox.h"
-#include "objects/terrain.h"
-#include "objects/generic/skyscraper.h"
-#include "objects/generic/street.h"
-#include "objects/generic/park_bench.h"
-#include "objects/primitives/polyhedron.h"
-#include "objects/primitives/arc.h"
-#include "objects/eiffel_tower.h"
 #include "texture.h"
+#include "example_scene.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -146,7 +139,7 @@ void special(int key, int x, int y) {
             camera.x -= scene.dir_x * speed;
             camera.z -= scene.dir_z * speed;
         }
-    } else {
+    } else if(!camera.camera_locked) {
         if (key == GLUT_KEY_RIGHT)
             camera.th += 5;
             //  Left arrow key - decrease angle by 5 degrees
@@ -167,6 +160,18 @@ void special(int key, int x, int y) {
         //  Keep angles to +/-360 degrees
         camera.th %= 360;
         camera.ph %= 360;
+    } else{
+        if (key == GLUT_KEY_RIGHT)
+            scene.update_selected_objects(Vector3(1, 0, 0));
+            //  Left arrow key - decrease angle by 5 degrees
+        else if (key == GLUT_KEY_LEFT)
+            scene.update_selected_objects(Vector3(-1, 0, 0));
+            //  Up arrow key - increase elevation by 5 degrees
+        else if (key == GLUT_KEY_UP)
+            scene.update_selected_objects(Vector3(0, 1, 0));
+            //  Down arrow key - decrease elevation by 5 degrees
+        else if (key == GLUT_KEY_DOWN)
+            scene.update_selected_objects(Vector3(0, -1, 0));
     }
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
     //  Tell GLUT it is necessary to redisplay the scene
@@ -219,6 +224,18 @@ void key(unsigned char ch, int x, int y) {
         ambient -= 5;
     else if (ch == 'C' && ambient < 100)
         ambient += 5;
+    else if (ch == 't'){
+        camera.camera_locked = true;
+        scene.set_object_op(TRANSLATE);
+    } else if (ch == 'r'){
+        camera.camera_locked = true;
+        scene.set_object_op(ROTATE);
+    } else if (ch == 'y'){
+        camera.camera_locked = true;
+        scene.set_object_op(SCALE);
+    } else if (ch == 'u'){
+        camera.camera_locked = false;
+    }
 
     if (camera.get_viewing_mode() == FIRST_PERSON) {
         if (ch == 'a')
@@ -291,18 +308,9 @@ int main(int argc, char *argv[]) {
     //  Tell GLUT to call "key" when a key is pressed
     glutKeyboardFunc(key);
     Texture::get_instance(); // To initialize textures
-    scene = Scene();
+    ExampleScene exampleScene = ExampleScene();
+    scene = exampleScene.get_scene();
     renderer = Renderer();
-    scene.getCamera().fov = 1;
-//    scene.add_skybox(new Skybox());
-//    scene.add_object(new Terrain());
-//    scene.add_object(new Arc(5.0f, 0.0f, M_PI / 2, 3, 1.0f, 0.5f, 0.5f));
-//    scene.add_object(new EiffelTower());
-    scene.add_object(new Polyhedron(1.0f, 10.0f, 1.0f, 10));
-
-//    scene.add_object(new ParkBench());
-
-//    scene.add_object(new Skyscraper());
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();
 

@@ -50,3 +50,32 @@ bool Object::has_bounding_box() const {
 Vector3 Object::get_position() const {
     return this->position;
 }
+
+void Object::set_rotation(const Vector3 &rotation) {
+    this->rotation = rotation;
+}
+
+void Object::set_rotation(const float x, const float y, const float z) {
+    this->rotation = Vector3(x, y, z);
+}
+
+Vector3 Object::get_rotation() const {
+    return this->rotation;
+
+}
+
+std::string Object::get_name() const {
+    return name;
+}
+
+void Object::add_width(float width) {
+    this->width += width;
+}
+
+void Object::add_height(float height) {
+    this->height += height;
+}
+
+void Object::add_depth(float depth) {
+    this->depth += depth;
+}

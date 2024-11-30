@@ -7,11 +7,12 @@
 
 
 Cuboid::Cuboid(float width, float height, float depth) {
-    polyhedrons = {};
     this->width = width;
     this->height = height;
     this->depth = depth;
     bounding_box = true;
+
+    name = "Cuboid";
 
     for(unsigned int i = 0; i < 6; i++){
         colors[i] = 0xFFFFFF;
@@ -166,4 +167,25 @@ void Cuboid::construct_cuboid() {
 }
 
 Cuboid::~Cuboid() {}
+
+void Cuboid::refresh() {
+
+    for(unsigned int i = 0; i < 6; i++){
+        colors[i] = 0xFFFFFF;
+        textures[i] = NULL_TEXTURE;
+    }
+
+    vertices[BACK_BOTTOM_LEFT] = Vector3(0, 0, 0);
+    vertices[BACK_BOTTOM_RIGHT] = Vector3(width, 0, 0);
+    vertices[BACK_TOP_LEFT] = Vector3(width, height, 0);
+    vertices[BACK_TOP_RIGHT] = Vector3(0, height, 0);
+
+    vertices[FRONT_BOTTOM_LEFT] = Vector3(0, 0, depth);
+    vertices[FRONT_BOTTOM_RIGHT] = Vector3(width, 0, depth);
+    vertices[FRONT_TOP_RIGHT] = Vector3(width, height, depth);
+    vertices[FRONT_TOP_LEFT] = Vector3(0, height, depth);
+
+    construct_cuboid();
+
+}
 

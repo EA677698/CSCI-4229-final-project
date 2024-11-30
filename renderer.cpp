@@ -35,9 +35,9 @@ int Renderer::read_color() {
     glReadPixels(mouse_position.x, mouse_position.y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    //printf("Color: %d %d %d\n", pixel[0], pixel[1], pixel[2]);
+    int ret = (pixel[0] << 16) | (pixel[1] << 8) | pixel[2];
 
-    return (pixel[0] << 16) | (pixel[1] << 8) | pixel[2];
+    return ret;
 }
 
 void Renderer::render_bounding_boxes(Scene scene) {
@@ -50,12 +50,16 @@ void Renderer::render_bounding_boxes(Scene scene) {
 
     const std::vector<BoundingBox> bounding_boxes = scene.get_bounding_boxes();
     for (const auto &bounding_box: bounding_boxes) {
-        Object object = *bounding_box.get_object();
+        Object* object = bounding_box.get_object();
         glPushMatrix();
         constexpr float scale = 1.01;
         glScalef(scale, scale, scale);
-        const float difference = ((scale * object.get_height()) - object.get_height()) / 2;
-        glTranslatef(-(object.get_width() / 2), -difference, -(object.get_depth() / 2));
+        const float difference = ((scale * object->get_height()) - object->get_height()) / 2;
+        glRotatef(object->get_rotation().x, 1, 0, 0);
+        glRotatef(object->get_rotation().y, 0, 1, 0);
+        glRotatef(object->get_rotation().z, 0, 0, 1);
+        glTranslatef(-(object->get_width() / 2), -difference, -(object->get_depth() / 2));
+        glTranslatef(object->get_position().x, object->get_position().y, object->get_position().z);
         std::vector<Polygon> polygons = bounding_box.get_polygons();
         for (auto polygon: polygons) {
             std::vector<Vector3> vertices = polygon.get_vertices();
@@ -81,8 +85,10 @@ void Renderer::render_picking_pass(Scene scene) {
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
     glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    bool prev_debug = debug;
+    debug = DEBUG_OFF;
     render_bounding_boxes(scene);
+    debug = prev_debug;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
@@ -104,10 +110,16 @@ void Renderer::render_debug(Scene scene) {
     else
         mode_str = "First Person";
     Print("Angle=%d,%d  Dim=%.1f FOV=%f Projection=%s", camera.th, camera.ph, camera.dim, camera.fov, mode_str.c_str());
+    glWindowPos2i(5, 25);
+    int color = read_color();
+    Object* selected = scene.get_object_by_color(color);
+    if(selected){
+        Print("Object selected: %s Pos:(%f, %f, %f), Rot:(%f, %f, %f)", selected->get_name().c_str(), selected->get_position().x, selected->get_position().y, selected->get_position().z, selected->get_rotation().x, selected->get_rotation().y, selected->get_rotation().z);
+    }
 }
 
 
-void Renderer::render_object(Object *object) {
+void Renderer::render_object(Object *object, bool object_selected) {
     std::vector<Polygon> polygons = object->get_polygons();
     for (auto polygon: polygons) {
         std::vector<Vector3> vertices = polygon.get_vertices();
@@ -123,7 +135,11 @@ void Renderer::render_object(Object *object) {
             glBindTexture(GL_TEXTURE_2D, texture);
         }
         glBegin(GL_POLYGON);
-        glColor3ub((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
+        if(object_selected){
+            glColor3ub(0x0, 0xFF, 0x0);
+        } else {
+            glColor3ub((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
+        }
         glNormal3f(normal.x, normal.y, normal.z);
         for (unsigned int k = 0; k < vertices.size(); k++) {
             glTexCoord2f(texture_vertices[k].x * repeats, texture_vertices[k].y * repeats);
@@ -151,7 +167,14 @@ void Renderer::render(Scene scene) {
 
     Camera camera = scene.getCamera();
 
-    scene.add_selected_object(scene.get_object_by_color(read_color()));
+    int color = read_color();
+
+    if(color != 0){
+        scene.add_selected_object(scene.get_object_by_color(read_color()));
+    } else{
+        scene.clear_selected_objects();
+    }
+
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -183,10 +206,14 @@ void Renderer::render(Scene scene) {
         std::vector<Polygon> polygons = object->get_polygons();
         glPushMatrix();
         // Translate object to its position
+        Vector3 rotation = object->get_rotation();
+        glRotatef(rotation.x, 1, 0, 0);
+        glRotatef(rotation.y, 0, 1, 0);
+        glRotatef(rotation.z, 0, 0, 1);
         glTranslatef(object->get_position().x, object->get_position().y, object->get_position().z);
         // Position based on center of object
         glTranslatef(-(object->get_width() / 2), 0, -(object->get_depth() / 2));
-        render_object(object);
+        render_object(object, scene.is_selected(object));
         glPopMatrix();
     }
     ErrCheck("Renderer object display");

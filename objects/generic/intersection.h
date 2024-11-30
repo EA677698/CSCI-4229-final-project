@@ -5,9 +5,20 @@
 #ifndef INTERSECTION_H
 #define INTERSECTION_H
 
+#include "../object.h"
 
-class Intersection {
+class Intersection : public Object {
 
+
+public:
+
+    using Object::Object;
+
+    Intersection();
+
+    void refresh() override;
+
+    ~Intersection();
 };
 
 

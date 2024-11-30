@@ -8,6 +8,12 @@
 #include "camera.h"
 #include "objects/object.h"
 
+enum Object_OP {
+    TRANSLATE,
+    ROTATE,
+    SCALE
+};
+
 class Scene {
 
 private:
@@ -18,6 +24,9 @@ private:
     std::map<int, BoundingBox> colors;
     std::vector<BoundingBox> bounding_boxes;
     std::vector<Object *> selected_objects;
+    int object_op;
+
+
 
 public:
 
@@ -46,6 +55,16 @@ public:
     Object* get_skybox();
 
     Object *get_object_by_color(int color);
+
+    void clear_selected_objects();
+
+    bool is_selected(Object *object);
+
+    void set_object_op(int object_op);
+
+    void update_selected_objects(const Vector3& operation);
+
+
 
     void delete_scene();
 };

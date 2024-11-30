@@ -14,7 +14,11 @@ class Arc : public Object {
 
 public:
 
+    using Object::Object;
+
     Arc(float radius, float startAngle, float endAngle, int definition, float width, float height, float depth);
+
+    void refresh() override;
 
 
 };

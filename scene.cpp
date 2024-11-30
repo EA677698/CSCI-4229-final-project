@@ -1,10 +1,12 @@
 #include "scene.h"
 
 #include <random>
+#include <algorithm>
 
 Scene::Scene() {
     camera = Camera();
     skybox = nullptr;
+    object_op = TRANSLATE;
 }
 
 Scene::~Scene() {}
@@ -50,7 +52,7 @@ std::vector<Object *> Scene::get_selected_objects() {
     return selected_objects;
 }
 
-Object *Scene::get_object_by_color(int color) {
+Object* Scene::get_object_by_color(int color) {
     return colors[color].get_object();
 }
 
@@ -69,4 +71,43 @@ void Scene::add_skybox(Object *skybox) {
 
 Object *Scene::get_skybox() {
     return skybox;
+}
+
+void Scene::clear_selected_objects() {
+    selected_objects.clear();
+}
+
+bool Scene::is_selected(Object *object) {
+    return std::find(selected_objects.begin(), selected_objects.end(), object) != selected_objects.end();
+}
+
+void Scene::update_selected_objects(const Vector3& operation) {
+    if(!camera.camera_locked) {
+        return;
+    }
+    switch (object_op) {
+        case TRANSLATE:
+            for (auto &object: selected_objects) {
+                object->translate(operation);
+            }
+            break;
+        case ROTATE:
+            for (auto &object: selected_objects) {
+                object->set_rotation(object->get_rotation() + operation);
+            }
+            break;
+        case SCALE:
+            for (auto &object: selected_objects) {
+                object->add_width(operation.x);
+                object->add_height(operation.y);
+                object->add_depth(operation.z);
+            }
+            break;
+    }
+
+}
+
+void Scene::set_object_op(int object_op) {
+    this->object_op = object_op;
+
 }

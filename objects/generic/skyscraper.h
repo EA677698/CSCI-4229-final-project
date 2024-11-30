@@ -7,7 +7,11 @@ class Skyscraper : public Object {
 
 public:
 
+    using Object::Object;
+
     Skyscraper();
+
+    void refresh() override;
 
     ~Skyscraper();
 

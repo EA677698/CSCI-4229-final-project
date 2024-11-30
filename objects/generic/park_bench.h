@@ -12,6 +12,8 @@ class ParkBench : public Object {
 
 public:
 
+    using Object::Object;
+
     ParkBench();
     ~ParkBench();
 

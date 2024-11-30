@@ -13,7 +13,11 @@ class EiffelTower : public Object {
 
 public:
 
+    using Object::Object;
+
     EiffelTower();
+
+    void refresh() override;
 
     ~EiffelTower();
 

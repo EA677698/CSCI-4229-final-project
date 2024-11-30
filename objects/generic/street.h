@@ -7,7 +7,11 @@ class Street : public Object {
 
 public:
 
+    using Object::Object;
+
     Street();
+
+    void refresh() override;
 
     ~Street();
 

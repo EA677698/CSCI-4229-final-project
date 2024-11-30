@@ -31,7 +31,11 @@ private:
 
 public:
 
+    using Object::Object;
+
     Cuboid(float width = 1, float height = 1, float depth = 1);
+
+    void refresh() override;
 
     ~Cuboid();
 
