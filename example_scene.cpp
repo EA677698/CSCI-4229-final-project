@@ -10,7 +10,7 @@
 #include "objects/generic/street.h"
 #include "objects/generic/park_bench.h"
 #include "objects/primitives/cylinder.h"
-#include "objects/primitives/arc.h"
+#include "objects/primitives/curve.h"
 #include "objects/eiffel_tower.h"
 #include "objects/generic/intersection.h"
 

@@ -22,13 +22,26 @@ public:
         return *this;
     }
 
+    Vector3& operator*=(const float scalar) {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        return *this;
+    }
 
+    Vector3 operator*(const float scalar) const {
+        return {x * scalar, y * scalar, z * scalar};
+    }
 
     Vector3& operator-=(const Vector3 &v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
         return *this;
+    }
+
+    Vector3 operator-(const Vector3 &v) const {
+        return {x - v.x, y - v.y, z - v.z};
     }
 
 
