@@ -168,3 +168,17 @@ float Polygon::get_texture_repeats() const {
 
 Polygon::~Polygon() {
 }
+
+void Polygon::flip_texture_vertically() {
+    for (auto &vertex: texture_vertices) {
+        vertex.y = 1 - vertex.y;
+    }
+
+}
+
+void Polygon::flip_texture_horizontally() {
+    for (auto &vertex: texture_vertices) {
+        vertex.x = 1 - vertex.x;
+    }
+
+}

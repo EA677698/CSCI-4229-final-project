@@ -7,6 +7,8 @@ Scene::Scene() {
     camera = Camera();
     skybox = nullptr;
     object_op = TRANSLATE;
+    bounding_boxes = {};
+    selected_objects = {};
 }
 
 Scene::~Scene() {}

@@ -111,10 +111,13 @@ void Renderer::render_debug(Scene scene) {
         mode_str = "First Person";
     Print("Angle=%d,%d  Dim=%.1f FOV=%f Projection=%s", camera.th, camera.ph, camera.dim, camera.fov, mode_str.c_str());
     glWindowPos2i(5, 25);
-    int color = read_color();
-    Object* selected = scene.get_object_by_color(color);
-    if(selected){
-        Print("Object selected: %s Pos:(%f, %f, %f), Rot:(%f, %f, %f)", selected->get_name().c_str(), selected->get_position().x, selected->get_position().y, selected->get_position().z, selected->get_rotation().x, selected->get_rotation().y, selected->get_rotation().z);
+    if(!scene.get_selected_objects().empty()) {
+        Object *selected = scene.get_selected_objects().front();
+        if (selected) {
+            Print("Object selected: %s Pos:(%f, %f, %f), Rot:(%f, %f, %f)", selected->get_name().c_str(),
+                  selected->get_position().x, selected->get_position().y, selected->get_position().z,
+                  selected->get_rotation().x, selected->get_rotation().y, selected->get_rotation().z);
+        }
     }
 }
 
@@ -167,14 +170,6 @@ void Renderer::render(Scene scene) {
 
     Camera camera = scene.getCamera();
 
-    int color = read_color();
-
-    if(color != 0){
-        scene.add_selected_object(scene.get_object_by_color(read_color()));
-    } else{
-        scene.clear_selected_objects();
-    }
-
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -191,7 +186,8 @@ void Renderer::render(Scene scene) {
         glDisable(GL_DEPTH_TEST);
 //        glDisable(GL_LIGHTING);
         glPushMatrix();
-        glScaled(camera.dim, camera.dim, camera.dim);
+        float scalar = 4.0;
+        glScaled(scalar * camera.dim, scalar * camera.dim, scalar * camera.dim);
         glTranslatef(-(skybox->get_width() / 2), -(skybox->get_height() / 2), -(skybox->get_depth() / 2));
         render_object(skybox);
         glPopMatrix();

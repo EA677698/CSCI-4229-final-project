@@ -34,7 +34,7 @@ void Camera::view(double dir_x, double dir_y, double dir_z) {
         gluLookAt(x, y, z, x + dir_x, y + dir_y, z + dir_z, 0, 1, 0);
     else if (mode == PERSPECTIVE) {
         double Ex = -2 * dim * Sin(th) * Cos(ph);
-        double Ey = (+2 * dim * Sin(ph)) + 300;
+        double Ey = (+2 * dim * Sin(ph)) + 500;
         double Ez = +2 * dim * Cos(th) * Cos(ph);
         gluLookAt(Ex, Ey, Ez, 0, 0, 0, 0, Cos(ph), 0);
     }

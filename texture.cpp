@@ -10,7 +10,12 @@ Texture::Texture() {
     textures[ROAD_TEXTURE] = LoadTexBMP("textures/road.bmp");
     textures[INTERSECTION_TEXTURE] = LoadTexBMP("textures/intersection.bmp");
     textures[GRASS_TEXTURE] = LoadTexBMP("textures/grass.bmp");
-    textures[SKYBOX_SIDE_TEXTURE] = LoadTexBMP("textures/skybox_side.bmp");
+    textures[SKYBOX_FRONT_TEXTURE] = LoadTexBMP("textures/sky_front.bmp");
+    textures[SKYBOX_BACK_TEXTURE] = LoadTexBMP("textures/sky_back.bmp");
+    textures[SKYBOX_LEFT_TEXTURE] = LoadTexBMP("textures/sky_left.bmp");
+    textures[SKYBOX_RIGHT_TEXTURE] = LoadTexBMP("textures/sky_right.bmp");
+    textures[SKYBOX_TOP_TEXTURE] = LoadTexBMP("textures/sky_top.bmp");
+    textures[SKYBOX_BOTTOM_TEXTURE] = LoadTexBMP("textures/sky_bottom.bmp");
 
 }
 

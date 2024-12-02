@@ -25,12 +25,16 @@ ExampleScene::ExampleScene() {
     terrain->disable_bounding_box();
     scene.add_object(terrain);
 
-    Street *street = new Street();
-    street->set_rotation(0, 90, 0);
-    scene.add_object(street);
-    Intersection *intersection = new Intersection();
-    intersection->set_position(0, 0, -street->get_depth());
-    scene.add_object(intersection);
+//    Street *street = new Street();
+//    street->set_rotation(0, 90, 0);
+//    scene.add_object(street);
+//    Intersection *intersection = new Intersection();
+//    intersection->set_position(0, 0, -street->get_depth());
+//    scene.add_object(intersection);
+
+    EiffelTower *eiffel_tower = new EiffelTower();
+    eiffel_tower->set_position(0, 0, -eiffel_tower->get_depth());
+    scene.add_object(eiffel_tower);
 
 
 

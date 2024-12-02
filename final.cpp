@@ -61,17 +61,22 @@ void mouse_click(int button, int state, int x, int y) {
     int glY = DISPLAY_HEIGHT - y;
     Camera &camera = scene.getCamera();
 
-    if (button == GLUT_LEFT_BUTTON){
+    if (button == GLUT_MIDDLE_BUTTON){
+        camera.is_dragging = state == GLUT_DOWN;
+        camera.mouse_x = x;
+        camera.mouse_y = y;
+    }
 
-        if (state == GLUT_DOWN) {
-            renderer.set_mouse_position(Vector2(x, glY));
-            camera.is_dragging = true;
-            camera.mouse_x = x;
-            camera.mouse_y = glY;
-        } else if (state == GLUT_UP) {
-            camera.is_dragging = false;
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        renderer.set_mouse_position(Vector2(x, glY));
+        if(!renderer.read_color()){
+            scene.clear_selected_objects();
+        } else {
+            Object* object = scene.get_object_by_color(renderer.read_color());
+            if(object){
+                scene.add_selected_object(object);
+            }
         }
-
     }
 
     if (button == 4) { // Scroll down
@@ -84,9 +89,6 @@ void mouse_click(int button, int state, int x, int y) {
 }
 
 void mouse_move(int x, int y) {
-    int glY = DISPLAY_HEIGHT - y;
-    renderer.set_mouse_position(Vector2(x, glY));
-
     Camera &camera = scene.getCamera();
     if(camera.is_dragging){
         int dx = x - camera.mouse_x;

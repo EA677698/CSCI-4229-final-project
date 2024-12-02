@@ -14,13 +14,11 @@ Skybox::Skybox() {
     name = "Skybox";
     bounding_box = false;
 
-    int side_texture = SKYBOX_SIDE_TEXTURE;
-
 
     // Skybox made clockwise fashion to have normals point inward
 
     // Bottom
-    auto polygon = Polygon(0xFFFFFF);
+    auto polygon = Polygon(SKYBOX_BOTTOM_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
@@ -28,7 +26,7 @@ Skybox::Skybox() {
     polygons.push_back(polygon);
 
     // Front Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_FRONT_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, depth);
     polygon.add_vertex(width, height, depth);
     polygon.add_vertex(width, 0, depth);
@@ -36,7 +34,7 @@ Skybox::Skybox() {
     polygons.push_back(polygon);
 
     // Back Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_BACK_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(width, height, 0);
@@ -44,7 +42,7 @@ Skybox::Skybox() {
     polygons.push_back(polygon);
 
     // Left Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_LEFT_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(0, height, depth);
@@ -52,7 +50,7 @@ Skybox::Skybox() {
     polygons.push_back(polygon);
 
     // Right Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_RIGHT_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
     polygon.add_vertex(width, height, depth);
@@ -60,7 +58,7 @@ Skybox::Skybox() {
     polygons.push_back(polygon);
 
     // Top
-    polygon = Polygon(0xFFFFFF);
+    polygon = Polygon(SKYBOX_TOP_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(width, height, 0);
     polygon.add_vertex(width, height, depth);
@@ -70,6 +68,10 @@ Skybox::Skybox() {
     for (auto &polygon1: polygons) {
         polygon1.generate_texture_vertices();
     }
+    polygons.at(2).flip_texture_horizontally();
+    polygons.at(3).flip_texture_horizontally();
+    polygons.at(4).flip_texture_horizontally();
+    polygons.at(5).flip_texture_vertically();
 
 }
 
@@ -78,13 +80,12 @@ Skybox::~Skybox() {}
 void Skybox::refresh() {
 
     polygons.clear();
-    int side_texture = SKYBOX_SIDE_TEXTURE;
 
 
     // Skybox made clockwise fashion to have normals point inward
 
     // Bottom
-    auto polygon = Polygon(0xFFFFFF);
+    auto polygon = Polygon(SKYBOX_BOTTOM_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
@@ -92,7 +93,7 @@ void Skybox::refresh() {
     polygons.push_back(polygon);
 
     // Front Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_FRONT_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, depth);
     polygon.add_vertex(width, height, depth);
     polygon.add_vertex(width, 0, depth);
@@ -100,7 +101,7 @@ void Skybox::refresh() {
     polygons.push_back(polygon);
 
     // Back Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_BACK_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(width, height, 0);
@@ -108,7 +109,7 @@ void Skybox::refresh() {
     polygons.push_back(polygon);
 
     // Left Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_LEFT_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(0, height, depth);
@@ -116,7 +117,7 @@ void Skybox::refresh() {
     polygons.push_back(polygon);
 
     // Right Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
+    polygon = Polygon(SKYBOX_RIGHT_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
     polygon.add_vertex(width, height, depth);
@@ -124,7 +125,7 @@ void Skybox::refresh() {
     polygons.push_back(polygon);
 
     // Top
-    polygon = Polygon(0xFFFFFF);
+    polygon = Polygon(SKYBOX_TOP_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(width, height, 0);
     polygon.add_vertex(width, height, depth);
@@ -134,5 +135,9 @@ void Skybox::refresh() {
     for (auto &polygon1: polygons) {
         polygon1.generate_texture_vertices();
     }
+    polygons.at(2).flip_texture_horizontally();
+    polygons.at(3).flip_texture_horizontally();
+    polygons.at(4).flip_texture_horizontally();
+    polygons.at(5).flip_texture_vertically();
 
 }

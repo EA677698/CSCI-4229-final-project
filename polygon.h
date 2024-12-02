@@ -39,6 +39,10 @@ public:
 
     void set_color(int);
 
+    void flip_texture_vertically();
+
+    void flip_texture_horizontally();
+
     int get_color() const;
 
     bool contains_texture() const;

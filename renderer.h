@@ -39,7 +39,6 @@ private:
     int axis;
     int debug;
 
-    int read_color();
 
     void render_picking_pass(Scene scene);
 
@@ -56,6 +55,8 @@ private:
     GLuint render_buffer;
 
 public:
+
+    int read_color();
 
     Renderer();
 
