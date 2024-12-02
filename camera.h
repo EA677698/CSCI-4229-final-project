@@ -35,6 +35,9 @@ private:
 
 public:
     bool is_dragging;
+    bool object_dragging;
+    int object_x;
+    int object_y;
     int mouse_x;
     int mouse_y;
     float pan_speed;

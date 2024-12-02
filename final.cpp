@@ -67,9 +67,9 @@ void mouse_click(int button, int state, int x, int y) {
         camera.mouse_y = y;
     }
 
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+    if (button == GLUT_LEFT_BUTTON) {
         renderer.set_mouse_position(Vector2(x, glY));
-        if(!renderer.read_color()){
+        if(!renderer.read_color() && state == GLUT_DOWN){
             scene.clear_selected_objects();
         } else {
             Object* object = scene.get_object_by_color(renderer.read_color());
@@ -77,6 +77,7 @@ void mouse_click(int button, int state, int x, int y) {
                 scene.add_selected_object(object);
             }
         }
+        camera.object_dragging = state == GLUT_DOWN;
     }
 
     if (button == 4) { // Scroll down
@@ -93,7 +94,6 @@ void mouse_move(int x, int y) {
     if(camera.is_dragging){
         int dx = x - camera.mouse_x;
         int dy = y - camera.mouse_y;
-
         if (camera.get_viewing_mode() == FIRST_PERSON) {
             camera.x -= dx * camera.pan_speed * scene.dir_z;
             camera.z += dx * camera.pan_speed * scene.dir_x;
@@ -109,6 +109,14 @@ void mouse_move(int x, int y) {
         camera.mouse_x = x;
         camera.mouse_y = y;
 
+    }
+    if(camera.object_dragging)
+    {
+        float dir_x = (x - camera.object_x);
+        float dir_y = (y - camera.object_y);
+        scene.update_selected_objects(Vector3(dir_x, 0, dir_y));
+        camera.object_x = x;
+        camera.object_y = y;
     }
     // Redisplay the scene
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
@@ -171,10 +179,10 @@ void special(int key, int x, int y) {
             scene.update_selected_objects(Vector3(-1, 0, 0));
             //  Up arrow key - increase elevation by 5 degrees
         else if (key == GLUT_KEY_UP)
-            scene.update_selected_objects(Vector3(0, 1, 0));
+            scene.update_selected_objects(Vector3(0, 0, -1));
             //  Down arrow key - decrease elevation by 5 degrees
         else if (key == GLUT_KEY_DOWN)
-            scene.update_selected_objects(Vector3(0, -1, 0));
+            scene.update_selected_objects(Vector3(0, 0, 1));
     }
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
     //  Tell GLUT it is necessary to redisplay the scene

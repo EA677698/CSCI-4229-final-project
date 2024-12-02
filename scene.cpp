@@ -77,6 +77,7 @@ Object *Scene::get_skybox() {
 
 void Scene::clear_selected_objects() {
     selected_objects.clear();
+    camera.camera_locked = false;
 }
 
 bool Scene::is_selected(Object *object) {

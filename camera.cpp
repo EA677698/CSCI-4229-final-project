@@ -3,6 +3,7 @@
 Camera::Camera() {
     is_dragging = false;
     camera_locked = false;
+    object_dragging = false;
     th = 0;
     ph = 0;
     fov = 55;

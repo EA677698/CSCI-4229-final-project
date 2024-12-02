@@ -11,12 +11,14 @@ Renderer::Renderer() {
     // Generate frame buffer
     glGenFramebuffers(1, &frame_buffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
+
     glGenTextures(1, &texture_color_buffer);
     glBindTexture(GL_TEXTURE_2D, texture_color_buffer);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_color_buffer, 0);
+
     glGenRenderbuffers(1, &render_buffer);
     glBindRenderbuffer(GL_RENDERBUFFER, render_buffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
@@ -131,8 +133,8 @@ void Renderer::render_debug(Scene scene) {
 }
 
 
-void Renderer::render_object(Object *object, bool object_selected) {
-    std::vector<Polygon> polygons = object->get_polygons();
+void Renderer::render_object(Object *object, const bool object_selected) {
+    const std::vector<Polygon> polygons = object->get_polygons();
     for (auto polygon: polygons) {
         std::vector<Vector3> vertices = polygon.get_vertices();
         std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
@@ -166,34 +168,35 @@ void Renderer::render_object(Object *object, bool object_selected) {
         for (auto *polyhedron: object->get_polyhedrons()) {
             glPushMatrix();
             glTranslatef(polyhedron->get_position().x, polyhedron->get_position().y, polyhedron->get_position().z);
-            render_object(polyhedron);
+            render_object(polyhedron, object_selected);
             glPopMatrix();
         }
     }
     ErrCheck("Renderer object");
 }
 
-void Renderer::resize()
-{
+void Renderer::resize() {
     glDeleteTextures(1, &texture_color_buffer);
     glDeleteRenderbuffers(1, &render_buffer);
 
-    // color texture buffer
+    // color texture
     glGenTextures(1, &texture_color_buffer);
     glBindTexture(GL_TEXTURE_2D, texture_color_buffer);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_color_buffer, 0);
 
-    // render buffer
+    // renderbuffer
     glGenRenderbuffers(1, &render_buffer);
     glBindRenderbuffer(GL_RENDERBUFFER, render_buffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_color_buffer, 0);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_buffer);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    ErrCheck("Renderer resizing");
 }
+
 
 int Renderer::get_display_width() const
 {
