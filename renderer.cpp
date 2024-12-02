@@ -5,19 +5,21 @@
 Renderer::Renderer() {
     axis = 0;
     debug = DEBUG_OFF;
+    width = 600;
+    height = 600;
 
     // Generate frame buffer
     glGenFramebuffers(1, &frame_buffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
     glGenTextures(1, &texture_color_buffer);
     glBindTexture(GL_TEXTURE_2D, texture_color_buffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, DISPLAY_WIDTH, DISPLAY_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_color_buffer, 0);
     glGenRenderbuffers(1, &render_buffer);
     glBindRenderbuffer(GL_RENDERBUFFER, render_buffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_buffer);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -37,6 +39,7 @@ int Renderer::read_color() {
 
     int ret = (pixel[0] << 16) | (pixel[1] << 8) | pixel[2];
 
+    ErrCheck("Renderer color read");
     return ret;
 }
 
@@ -78,18 +81,22 @@ void Renderer::render_bounding_boxes(Scene scene) {
         glDisable(GL_BLEND);
     }
 
+    ErrCheck("Renderer bounding boxes");
+
 }
 
 void Renderer::render_picking_pass(Scene scene) {
 
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
-    glViewport(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     bool prev_debug = debug;
     debug = DEBUG_OFF;
     render_bounding_boxes(scene);
     debug = prev_debug;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    ErrCheck("Renderer picking pass");
 
 }
 
@@ -119,6 +126,8 @@ void Renderer::render_debug(Scene scene) {
                   selected->get_rotation().x, selected->get_rotation().y, selected->get_rotation().z);
         }
     }
+
+    ErrCheck("Renderer debug");
 }
 
 
@@ -161,6 +170,49 @@ void Renderer::render_object(Object *object, bool object_selected) {
             glPopMatrix();
         }
     }
+    ErrCheck("Renderer object");
+}
+
+void Renderer::resize()
+{
+    glDeleteTextures(1, &texture_color_buffer);
+    glDeleteRenderbuffers(1, &render_buffer);
+
+    // color texture buffer
+    glGenTextures(1, &texture_color_buffer);
+    glBindTexture(GL_TEXTURE_2D, texture_color_buffer);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture_color_buffer, 0);
+
+    // render buffer
+    glGenRenderbuffers(1, &render_buffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, render_buffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_buffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    ErrCheck("Renderer resizing");
+}
+
+int Renderer::get_display_width() const
+{
+    return width;
+}
+
+void Renderer::set_display_width(int width)
+{
+    this->width = width;
+}
+
+int Renderer::get_display_height() const
+{
+    return height;
+}
+
+void Renderer::set_display_height(int height)
+{
+    this->height = height;
 }
 
 
@@ -212,7 +264,7 @@ void Renderer::render(Scene scene) {
         render_object(object, scene.is_selected(object));
         glPopMatrix();
     }
-    ErrCheck("Renderer object display");
+    ErrCheck("Renderer display");
 
     if (axis) {
         render_axis();

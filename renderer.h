@@ -24,8 +24,6 @@
 #define RES 1
 #endif
 
-#define DISPLAY_WIDTH 600
-#define DISPLAY_HEIGHT 600
 #define ENABLE_AXIS 1
 #define DISABLE_AXIS 0
 #define DEBUG_ON 1
@@ -39,6 +37,8 @@ private:
     int axis;
     int debug;
 
+    int width;
+    int height;
 
     void render_picking_pass(Scene scene);
 
@@ -55,6 +55,16 @@ private:
     GLuint render_buffer;
 
 public:
+
+    void resize();
+
+    int get_display_width() const;
+
+    void set_display_width(int width);
+
+    int get_display_height() const;
+
+    void set_display_height(int height);
 
     int read_color();
 

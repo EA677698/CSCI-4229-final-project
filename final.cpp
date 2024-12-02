@@ -58,7 +58,7 @@ void display() {
 }
 
 void mouse_click(int button, int state, int x, int y) {
-    int glY = DISPLAY_HEIGHT - y;
+    int glY = renderer.get_display_height() - y;
     Camera &camera = scene.getCamera();
 
     if (button == GLUT_MIDDLE_BUTTON){
@@ -109,9 +109,10 @@ void mouse_move(int x, int y) {
         camera.mouse_x = x;
         camera.mouse_y = y;
 
-        // Redisplay the scene
-        glutPostRedisplay();
     }
+    // Redisplay the scene
+    Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
+    glutPostRedisplay();
 }
 
 /*
@@ -265,10 +266,13 @@ void key(unsigned char ch, int x, int y) {
  */
 void reshape(int width, int height) {
     Camera &camera = scene.getCamera();
+    renderer.set_display_width(width);
+    renderer.set_display_height(height);
     //  Ratio of the width to the height of the window
     camera.asp = (height > 0) ? (double) width / height : 1;
     //  Set the viewport to the entire window
     glViewport(0, 0, RES * width, RES * height);
+    renderer.resize();
     //  Set projection
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
 }
@@ -287,7 +291,7 @@ int main(int argc, char *argv[]) {
     //  Initialize GLUT and process user parameters
     glutInit(&argc, argv);
     //  Request double buffered, true colors window with Z buffering at 600x600
-    glutInitWindowSize(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    glutInitWindowSize(600, 600);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     //  Create the window
     glutCreateWindow("Erick Alanis");
@@ -309,10 +313,10 @@ int main(int argc, char *argv[]) {
     glutSpecialFunc(special);
     //  Tell GLUT to call "key" when a key is pressed
     glutKeyboardFunc(key);
+    renderer = Renderer();
     Texture::get_instance(); // To initialize textures
     ExampleScene exampleScene = ExampleScene();
     scene = exampleScene.get_scene();
-    renderer = Renderer();
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();
 
