@@ -65,6 +65,8 @@ Vector3 rotate_vector(const Vector3 &v, Vector3 matrix[3][3]) {
     };
 }
 
+
+// makes sure the coordinates are between 0 and 1
 void Polygon::normalize_texture_vectors() {
     const Vector2 min = texture_vertices[0];
     double x_min = min.x, x_max = min.x;
@@ -98,10 +100,14 @@ bool Polygon::contains_texture() const {
     return has_texture;
 }
 
+
+// The function determines the normal of the polygon and then rotates it to match the "main normal" if needed to properly flatten the polygon into 2d space.
+// Then the flatten polygon's coordinates is squeezed between 0 and 1 to fix into the texture space.
 void Polygon::generate_texture_vertices() {
     if (vertices.size() < 3) {
         return;
     }
+    // defines a normal to have textures face the camera through rotation matrices
     const Vector3 main_normal = Vector3(0, 0, -1);
     const Vector3 normal = Polygon::calculate_normal();
     const Vector3 axis_of_rotation = Vector3::cross_product(main_normal, normal);

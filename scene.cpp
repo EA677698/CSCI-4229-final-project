@@ -24,6 +24,7 @@ int generate_color() {
     return dist(gen);
 }
 
+// automatically adds bounding box to parent object (not to any of the children it may have)
 void Scene::add_object(Object *object) {
     if(object->has_bounding_box()) {
         int color = generate_color();
@@ -84,6 +85,7 @@ bool Scene::is_selected(Object *object) {
     return std::find(selected_objects.begin(), selected_objects.end(), object) != selected_objects.end();
 }
 
+// Reacts to inputs from user
 void Scene::update_selected_objects(const Vector3& operation) {
     if(!camera.camera_locked) {
         return;

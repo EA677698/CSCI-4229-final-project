@@ -15,7 +15,7 @@ protected:
     std::vector<Polygon> polygons;
     std::vector<Object*> polyhedrons;
     bool bounding_box;
-    std::string name;
+    std::string name; // identifier used for debugging
 
 public:
 
@@ -43,6 +43,7 @@ public:
 
     void add_depth(float depth);
 
+    // Used to recreate the object if attributes are changed
     virtual void refresh() = 0;
 
     void set_position(const Vector3 &position);

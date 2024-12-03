@@ -18,6 +18,7 @@ enum TextureType {
     NO_TEXTURE
 };
 
+// singleton class for loading textures
 class Texture {
 
 private:

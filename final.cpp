@@ -35,6 +35,8 @@ Renderer renderer;
 int move = 1;       //  Move light
 const char *text[] = {""};
 
+// Light code is not used yet. Will implement soon.
+
 int light = 0;  // Lighting
 int one = 1;  // Unit value
 int distance = 5;  // Light distance

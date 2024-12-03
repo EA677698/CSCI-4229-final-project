@@ -45,6 +45,7 @@ int Renderer::read_color() {
     return ret;
 }
 
+// renders the bounding boxes of the objects to whatever frame buffer is currently active (if its the main frame buffer, it will render to the screen while containing an alpha value)
 void Renderer::render_bounding_boxes(Scene scene) {
 
 
@@ -87,6 +88,7 @@ void Renderer::render_bounding_boxes(Scene scene) {
 
 }
 
+// switches to the frame buffer and renders the bounding boxes
 void Renderer::render_picking_pass(Scene scene) {
 
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
@@ -132,7 +134,7 @@ void Renderer::render_debug(Scene scene) {
     ErrCheck("Renderer debug");
 }
 
-
+// recursively calls itself if an object is composed of other objects (polyhedrons)
 void Renderer::render_object(Object *object, const bool object_selected) {
     const std::vector<Polygon> polygons = object->get_polygons();
     for (auto polygon: polygons) {
