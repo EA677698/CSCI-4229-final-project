@@ -80,6 +80,12 @@ void mouse_click(int button, int state, int x, int y) {
         camera.object_dragging = state == GLUT_DOWN;
     }
 
+    if (button == GLUT_RIGHT_BUTTON) {
+        camera.pan_dragging = state == GLUT_DOWN;
+        camera.prev_pan_x = x;
+        camera.prev_pan_y = y;
+    }
+
     if (button == 4) { // Scroll down
         camera.fov += camera.fov > 0 ? -0.1 : 0;
     } else if (button == 3) { // Scroll up
@@ -110,6 +116,16 @@ void mouse_move(int x, int y) {
         camera.mouse_y = y;
 
     }
+
+    if(camera.pan_dragging){
+        int dx = x - camera.prev_pan_x;
+        int dy = y - camera.prev_pan_y;
+        camera.pan_x += dx;
+        camera.pan_y += dy;
+        camera.prev_pan_x = x;
+        camera.prev_pan_y = y;
+    }
+
     if(camera.object_dragging)
     {
         float dir_x = (x - camera.object_x);
@@ -172,17 +188,28 @@ void special(int key, int x, int y) {
         camera.th %= 360;
         camera.ph %= 360;
     } else{
+        int modifiers = glutGetModifiers();
         if (key == GLUT_KEY_RIGHT)
             scene.update_selected_objects(Vector3(1, 0, 0));
             //  Left arrow key - decrease angle by 5 degrees
         else if (key == GLUT_KEY_LEFT)
             scene.update_selected_objects(Vector3(-1, 0, 0));
             //  Up arrow key - increase elevation by 5 degrees
-        else if (key == GLUT_KEY_UP)
-            scene.update_selected_objects(Vector3(0, 0, -1));
-            //  Down arrow key - decrease elevation by 5 degrees
-        else if (key == GLUT_KEY_DOWN)
-            scene.update_selected_objects(Vector3(0, 0, 1));
+        else if (key == GLUT_KEY_UP) {
+            if (modifiers == GLUT_ACTIVE_SHIFT) {
+                scene.update_selected_objects(Vector3(0, 1, 0));
+            } else {
+                scene.update_selected_objects(Vector3(0, 0, -1));
+            }
+        }
+        //  Down arrow key - decrease elevation by 5 degrees
+        else if (key == GLUT_KEY_DOWN) {
+            if (modifiers == GLUT_ACTIVE_SHIFT) {
+                scene.update_selected_objects(Vector3(0, -1, 0));
+            } else {
+                scene.update_selected_objects(Vector3(0, 0, 1));
+            }
+        }
     }
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
     //  Tell GLUT it is necessary to redisplay the scene
@@ -201,7 +228,7 @@ void key(unsigned char ch, int x, int y) {
     }
     //  Reset view angle
     if (ch == '0')
-        camera.th = camera.ph = camera.pitch = camera.angle = 0;
+        camera.th = camera.ph = camera.pitch = camera.angle = camera.pan_x = camera.pan_y = camera.prev_pan_x = camera.prev_pan_y = 0;
         //  Toggle debug
     else if (ch == 'x' || ch == 'X') {
         renderer.set_axis(1 - renderer.get_axis());

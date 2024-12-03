@@ -57,7 +57,7 @@ void Renderer::render_bounding_boxes(Scene scene) {
     for (const auto &bounding_box: bounding_boxes) {
         Object* object = bounding_box.get_object();
         glPushMatrix();
-        constexpr float scale = 1.01;
+        constexpr float scale = 1.02;
         glScalef(scale, scale, scale);
         const float difference = ((scale * object->get_height()) - object->get_height()) / 2;
         glRotatef(object->get_rotation().x, 1, 0, 0);
@@ -167,6 +167,10 @@ void Renderer::render_object(Object *object, const bool object_selected) {
     if(!object->get_polyhedrons().empty()) {
         for (auto *polyhedron: object->get_polyhedrons()) {
             glPushMatrix();
+            Vector3 rotation = polyhedron->get_rotation();
+            glRotatef(rotation.x, 1, 0, 0);
+            glRotatef(rotation.y, 0, 1, 0);
+            glRotatef(rotation.z, 0, 0, 1);
             glTranslatef(polyhedron->get_position().x, polyhedron->get_position().y, polyhedron->get_position().z);
             render_object(polyhedron, object_selected);
             glPopMatrix();
@@ -284,6 +288,7 @@ void Renderer::render(Scene scene) {
 }
 
 void Renderer::render_axis() {
+    glDisable(GL_DEPTH_TEST);
     glColor3f(1, 1, 1);
     constexpr double len = 1.5;  //  Length of axes
     glBegin(GL_LINES);
@@ -301,6 +306,7 @@ void Renderer::render_axis() {
     Print("Y");
     glRasterPos3d(0.0, 0.0, len);
     Print("Z");
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::set_mouse_position(const Vector2 &position) {

@@ -79,3 +79,15 @@ void Object::add_height(float height) {
 void Object::add_depth(float depth) {
     this->depth += depth;
 }
+
+void Object::add_position(const Vector3 &position) {
+
+    this->position += position;
+
+}
+
+void Object::add_position(float x, float y, float z) {
+
+    this->position += Vector3(x, y, z);
+
+}

@@ -49,6 +49,10 @@ public:
 
     void set_position(float x, float y, float z);
 
+    void add_position(const Vector3 &position);
+
+    void add_position(float x, float y, float z);
+
     void set_rotation(const Vector3 &rotation);
 
     void set_rotation(float x, float y, float z);

@@ -11,6 +11,13 @@ Camera::Camera() {
     dim = 1000.0;
 
     pan_speed = 0.01f;
+
+    prev_pan_x = 0;
+    prev_pan_y = 0;
+
+    pan_x = 0;
+    pan_y = 0;
+
     mouse_x = 0;
     mouse_y = 0;
 
@@ -37,7 +44,7 @@ void Camera::view(double dir_x, double dir_y, double dir_z) {
         double Ex = -2 * dim * Sin(th) * Cos(ph);
         double Ey = (+2 * dim * Sin(ph)) + 500;
         double Ez = +2 * dim * Cos(th) * Cos(ph);
-        gluLookAt(Ex, Ey, Ez, 0, 0, 0, 0, Cos(ph), 0);
+        gluLookAt(Ex, Ey, Ez, pan_x, 0, pan_y, 0, Cos(ph), 0);
     }
         //  Orthogonal - set world orientation
     else {

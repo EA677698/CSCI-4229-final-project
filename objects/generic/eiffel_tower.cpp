@@ -3,7 +3,7 @@
 //
 
 #include "eiffel_tower.h"
-#include "primitives/cuboid.h"
+#include "../primitives/cuboid.h"
 
 EiffelTower::EiffelTower() {
 

@@ -5,7 +5,7 @@
 #ifndef EIFFEL_TOWER_H
 #define EIFFEL_TOWER_H
 
-#include "object.h"
+#include "../object.h"
 
 
 class EiffelTower : public Object {

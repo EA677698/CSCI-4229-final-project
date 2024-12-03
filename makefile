@@ -16,7 +16,7 @@ CFLG=-O3 -Wall -Wno-deprecated-declarations -DRES=$(RES)
 LIBS=-framework GLUT -framework OpenGL
 # Linux/Unix/Solaris
 else
-CFLG=-O0 -Wall -g
+CFLG=-O3 -Wall -g
 LIBS=-lglut -lGLU -lGL -lm
 endif
 # OSX/Linux/Unix/Solaris
@@ -34,20 +34,24 @@ csci_lib/projection.o: csci_lib/projection.c csci_lib/CSCIx229.h
 
 # Primitives
 objects/primitives/cuboid.o: objects/primitives/cuboid.cpp objects/primitives/cuboid.h
-objects/primitives/curve.o: objects/primitives/curve.cpp objects/primitives/curve.h
 objects/primitives/polyhedron.o: objects/primitives/cylinder.cpp objects/primitives/cylinder.h
 
 # Objects
 objects/object.o: objects/object.cpp objects/object.h
 objects/skybox.o: objects/skybox.cpp objects/skybox.h
 objects/terrain.o: objects/terrain.cpp objects/terrain.h
-objects/eiffel_tower.o: objects/eiffel_tower.cpp objects/eiffel_tower.h
 
 # Generic Objects
 objects/generic/skyscraper.o: objects/generic/skyscraper.cpp objects/generic/skyscraper.h
+objects/generic/street_light.o: objects/generic/street_light.cpp objects/generic/street_light.h
 objects/generic/street.o: objects/generic/street.cpp objects/generic/street.h
 objects/generic/intersection.o: objects/generic/intersection.cpp objects/generic/intersection.h
 objects/generic/park_bench.o: objects/generic/park_bench.cpp objects/generic/park_bench.h
+objects/generic/eiffel_tower.o: objects/generic/eiffel_tower.cpp objects/generic/eiffel_tower.h
+objects/generic/sidewalk.o: objects/generic/sidewalk.cpp objects/generic/sidewalk.h
+
+# Prefabs
+objects/prefabs/light_intersection.o: objects/prefabs/light_intersection.cpp objects/prefabs/light_intersection.h
 
 boundingbox.o: boundingbox.cpp boundingbox.h
 vector2.o: vector2.cpp vector2.h
@@ -72,6 +76,8 @@ objects/%.o: objects/%.cpp objects/%.h
 
 objects/primitives/%.o: objects/primitives/%.cpp objects/primitives/%.h
 
+objects/prefabs/%.o: objects/prefabs/%.cpp objects/prefabs/%.h
+
 objects/generic/%.o: objects/generic/%.cpp objects/generic/%.h
 	g++ -c $(CFLG) -Icsci_lib -o $@ $<
 
@@ -84,7 +90,7 @@ objects/generic/%.o: objects/generic/%.cpp objects/generic/%.h
 	g++ -c $(CFLG) -Icsci_lib $<
 
 # Link
-final: final.o camera.o scene.o example_scene.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/primitives/cuboid.o objects/primitives/cylinder.o objects/primitives/curve.o objects/skybox.o objects/terrain.o objects/eiffel_tower.o objects/generic/skyscraper.o objects/generic/street.o objects/generic/intersection.o objects/generic/park_bench.o csci_lib/CSCIx229.a
+final: final.o camera.o scene.o example_scene.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/primitives/cuboid.o objects/primitives/cylinder.o objects/skybox.o objects/terrain.o objects/generic/eiffel_tower.o objects/generic/sidewalk.o objects/prefabs/light_intersection.o objects/generic/skyscraper.o objects/generic/street_light.o objects/generic/street.o objects/generic/intersection.o objects/generic/park_bench.o csci_lib/CSCIx229.a
 	g++ $(CFLG) -o $@ $^ $(LIBS)
 
 # Clean

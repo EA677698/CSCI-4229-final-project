@@ -91,7 +91,7 @@ void Scene::update_selected_objects(const Vector3& operation) {
     switch (object_op) {
         case TRANSLATE:
             for (auto &object: selected_objects) {
-                object->translate(operation);
+                object->add_position(operation);
             }
             break;
         case ROTATE:
