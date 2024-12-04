@@ -18,6 +18,14 @@ enum CuboidVertex {
     FRONT_TOP_LEFT
 };
 
+enum CuboidFace {
+    BACK_FACE,
+    RIGHT_FACE,
+    FRONT_FACE,
+    LEFT_FACE,
+    TOP_FACE,
+    BOTTOM_FACE
+};
 
 class Cuboid : public Object {
 
@@ -50,6 +58,8 @@ public:
     void set_color(int index, int color);
 
     void set_texture(int index, int texture);
+
+    void set_texture_repeat(int index, Vector2 repeat);
 
     void construct_cuboid();
 

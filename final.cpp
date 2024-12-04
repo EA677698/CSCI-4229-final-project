@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "texture.h"
 #include "example_scene.h"
+#include "objects/generic/sidewalk.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -354,6 +355,7 @@ int main(int argc, char *argv[]) {
     Texture::get_instance(); // To initialize textures
     ExampleScene exampleScene = ExampleScene();
     scene = exampleScene.get_scene();
+
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();
 

@@ -4,8 +4,6 @@
 
 
 Polygon::Polygon(const int texture, const int color) {
-    vertices = {};
-    texture_vertices = {};
     if (texture == NO_TEXTURE) {
         has_texture = false;
     } else {
@@ -14,7 +12,7 @@ Polygon::Polygon(const int texture, const int color) {
     }
 
     this->color = color;
-    this->texture_repeats = {1,1};
+    texture_repeats = Vector2(1, 1);
 }
 
 Polygon::Polygon(const int color) : Polygon(NULL_TEXTURE, color) {
@@ -147,10 +145,10 @@ void Polygon::set_texture(const int texture) {
 }
 
 unsigned int Polygon::get_texture() const {
-    return texture;
+    return has_texture ? texture : NULL_TEXTURE;
 }
 
-std::vector<Vector2> Polygon::get_texture_vertices() {
+const std::vector<Vector2>& Polygon::get_texture_vertices() const {
     return texture_vertices;
 }
 
@@ -177,9 +175,6 @@ Vector2 Polygon::get_texture_repeats() const {
 void Polygon::set_texture_repeats(float repeat_x, float repeat_y)
 {
     this->texture_repeats = {repeat_x, repeat_y};
-}
-
-Polygon::~Polygon() {
 }
 
 void Polygon::flip_texture_vertically() {

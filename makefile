@@ -20,7 +20,7 @@ CFLG=-O0 -Wall -g
 LIBS=-lglut -lGLU -lGL -lm
 endif
 # OSX/Linux/Unix/Solaris
-CLEAN=rm -f $(EXE) *.o *.a csci_lib/*.o objects/*.o
+CLEAN=rm -f $(EXE) *.o *.a csci_lib/*.o objects/*.o objects/primitives/*.o objects/generic/*.o objects/prefabs/*.o
 endif
 
 # Dependencies
