@@ -21,6 +21,12 @@ public:
 
     void refresh() override;
 
+    void set_texture_repeat(const Vector2& repeat);
+
+    void set_texture(int texture);
+
+    void set_color(int color);
+
     ~Cylinder();
 
 };

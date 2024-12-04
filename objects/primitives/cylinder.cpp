@@ -109,3 +109,27 @@ void Cylinder::refresh() {
         polygon1.generate_texture_vertices();
     }
 }
+
+void Cylinder::set_texture_repeat(const Vector2& repeat) {
+
+    for (auto& polygon : polygons) {
+        polygon.set_texture_repeats(repeat);
+    }
+
+}
+
+void Cylinder::set_texture(int texture) {
+
+        for (auto& polygon : polygons) {
+            polygon.set_texture(texture);
+        }
+
+}
+
+void Cylinder::set_color(int color) {
+
+    for (auto& polygon : polygons) {
+        polygon.set_color(color);
+    }
+
+}

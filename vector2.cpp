@@ -1,5 +1,6 @@
 #include "vector2.h"
 #include <math.h>
+#include <iostream>
 
 Vector2::Vector2() {
     x = 0;
@@ -11,11 +12,11 @@ Vector2::Vector2(const float x, const float y) {
     this->y = y;
 }
 
-Vector2::~Vector2() {}
-
 float Vector2::get_magnitude() const {
     return sqrt(x * x + y * y);
 }
+
+Vector2::~Vector2() {}
 
 Vector2 Vector2::normalize() {
     float magnitude = get_magnitude();

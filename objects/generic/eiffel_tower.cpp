@@ -263,8 +263,8 @@ void EiffelTower::refresh() {
     bl_leg2->construct_cuboid();
     polyhedrons.push_back(bl_leg2);
 
-    // Back right leg
     auto* br_leg2 = new Cuboid(leg2_proportion * width, second_layer_height, leg2_proportion * depth);
+    // Back right leg
     br_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f, leg1_proportion * depth);
     br_leg2->add_vector(BACK_TOP_RIGHT, -leg2_proportion * width, 0, leg2_proportion * depth);
     br_leg2->add_vector(BACK_TOP_LEFT, -leg2_proportion * width, 0, leg2_proportion * depth);

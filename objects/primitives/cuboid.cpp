@@ -189,3 +189,9 @@ void Cuboid::refresh() {
 
 }
 
+void Cuboid::set_texture_repeat(int index, Vector2 repeat) {
+
+    polygons[index].set_texture_repeats(repeat);
+
+}
+

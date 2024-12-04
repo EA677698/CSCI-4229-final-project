@@ -13,7 +13,7 @@ Skyscraper::Skyscraper() {
     constexpr int side_texture = SKYSCRAPER_TEXTURE;
 
     // Floor
-    auto polygon = Polygon(0xFFFFFF);
+    auto polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
@@ -53,7 +53,7 @@ Skyscraper::Skyscraper() {
     polygons.push_back(polygon);
 
     // Roof
-    polygon = Polygon(0xFFFFFF);
+    polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(width, height, 0);
     polygon.add_vertex(width, height, depth);
@@ -73,7 +73,7 @@ void Skyscraper::refresh() {
     constexpr int side_texture = SKYSCRAPER_TEXTURE;
 
     // Floor
-    auto polygon = Polygon(0xFFFFFF);
+    auto polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, 0, 0);
     polygon.add_vertex(width, 0, 0);
     polygon.add_vertex(width, 0, depth);
@@ -113,7 +113,7 @@ void Skyscraper::refresh() {
     polygons.push_back(polygon);
 
     // Roof
-    polygon = Polygon(0xFFFFFF);
+    polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);
     polygon.add_vertex(width, height, 0);
     polygon.add_vertex(width, height, depth);
