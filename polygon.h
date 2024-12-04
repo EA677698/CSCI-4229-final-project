@@ -7,6 +7,7 @@
 #include <cstdio>
 
 class Polygon {
+
 private:
 
     std::vector<Vector3> vertices;
@@ -17,7 +18,7 @@ private:
     unsigned int texture;
     int color;
     bool has_texture;
-    float texture_repeats;
+    Vector2 texture_repeats;
 
 public:
 
@@ -55,9 +56,11 @@ public:
 
     std::vector<Vector3> get_vertices();
 
-    float get_texture_repeats() const;
+    Vector2 get_texture_repeats() const;
 
-    void set_texture_repeats(float repeats);
+    void set_texture_repeats(const Vector2& repeats);
+
+    void set_texture_repeats(float repeat_x, float repeat_y);
 
     void print_texture_vertices() {
         for (unsigned int i = 0; i < texture_vertices.size(); i++) {

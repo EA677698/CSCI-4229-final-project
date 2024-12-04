@@ -15,7 +15,7 @@ Terrain::Terrain() {
     polygons.push_back(polygon);
     for (unsigned int i = 0; i < polygons.size(); i++) {
         polygons[i].generate_texture_vertices();
-        polygons[i].set_texture_repeats(20);
+        polygons[i].set_texture_repeats({20, 20});
     }
 
 }
@@ -32,6 +32,6 @@ void Terrain::refresh() {
     polygons.push_back(polygon);
     for (unsigned int i = 0; i < polygons.size(); i++) {
         polygons[i].generate_texture_vertices();
-        polygons[i].set_texture_repeats(20);
+        polygons[i].set_texture_repeats({20, 20});
     }
 }

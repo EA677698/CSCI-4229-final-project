@@ -16,6 +16,7 @@ Texture::Texture() {
     textures[SKYBOX_RIGHT_TEXTURE] = LoadTexBMP("textures/sky_right.bmp");
     textures[SKYBOX_TOP_TEXTURE] = LoadTexBMP("textures/sky_top.bmp");
     textures[SKYBOX_BOTTOM_TEXTURE] = LoadTexBMP("textures/sky_bottom.bmp");
+    textures[SIDEWALK_TEXTURE] = LoadTexBMP("textures/sidewalk.bmp");
 
 }
 

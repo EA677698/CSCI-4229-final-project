@@ -143,7 +143,7 @@ void Renderer::render_object(Object *object, const bool object_selected) {
         const int color = polygon.get_color();
 
         const unsigned int texture = polygon.get_texture();
-        const float repeats = polygon.get_texture_repeats();
+        const Vector2 repeats = polygon.get_texture_repeats();
         const Vector3 normal = polygon.calculate_normal();
         if (polygon.contains_texture()) {
             glEnable(GL_TEXTURE_2D);
@@ -158,7 +158,7 @@ void Renderer::render_object(Object *object, const bool object_selected) {
         }
         glNormal3f(normal.x, normal.y, normal.z);
         for (unsigned int k = 0; k < vertices.size(); k++) {
-            glTexCoord2f(texture_vertices[k].x * repeats, texture_vertices[k].y * repeats);
+            glTexCoord2f(texture_vertices[k].x * repeats.x, texture_vertices[k].y * repeats.y);
             glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
         }
         glEnd();

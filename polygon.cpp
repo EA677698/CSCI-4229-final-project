@@ -4,6 +4,8 @@
 
 
 Polygon::Polygon(const int texture, const int color) {
+    vertices = {};
+    texture_vertices = {};
     if (texture == NO_TEXTURE) {
         has_texture = false;
     } else {
@@ -12,7 +14,7 @@ Polygon::Polygon(const int texture, const int color) {
     }
 
     this->color = color;
-    this->texture_repeats = 1;
+    this->texture_repeats = {1,1};
 }
 
 Polygon::Polygon(const int color) : Polygon(NULL_TEXTURE, color) {
@@ -109,7 +111,7 @@ void Polygon::generate_texture_vertices() {
     }
     // defines a normal to have textures face the camera through rotation matrices
     const Vector3 main_normal = Vector3(0, 0, -1);
-    const Vector3 normal = Polygon::calculate_normal();
+    const Vector3 normal = calculate_normal();
     const Vector3 axis_of_rotation = Vector3::cross_product(main_normal, normal);
     if (axis_of_rotation.get_magnitude() != 0) {
         axis_of_rotation.normalize();
@@ -164,12 +166,17 @@ int Polygon::get_color() const {
     return color;
 }
 
-void Polygon::set_texture_repeats(const float repeats) {
+void Polygon::set_texture_repeats(const Vector2& repeats) {
     this->texture_repeats = repeats;
 }
 
-float Polygon::get_texture_repeats() const {
+Vector2 Polygon::get_texture_repeats() const {
     return texture_repeats;
+}
+
+void Polygon::set_texture_repeats(float repeat_x, float repeat_y)
+{
+    this->texture_repeats = {repeat_x, repeat_y};
 }
 
 Polygon::~Polygon() {
