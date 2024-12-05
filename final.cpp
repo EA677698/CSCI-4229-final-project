@@ -3,12 +3,16 @@
 #include "renderer.h"
 #include "texture.h"
 #include "example_scene.h"
-#include "objects/generic/sidewalk.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <math.h>
+
+#include "objects/skybox.h"
+#include "objects/generic/street_light.h"
+#include "objects/primitives/pyramid.h"
+#include "objects/primitives/sphere.h"
 
 #ifdef USEGLEW
 #include <GL/glew.h>
@@ -353,8 +357,15 @@ int main(int argc, char *argv[]) {
     glutKeyboardFunc(key);
     renderer = Renderer();
     Texture::get_instance(); // To initialize textures
-    ExampleScene exampleScene = ExampleScene();
-    scene = exampleScene.get_scene();
+
+    // ExampleScene exampleScene = ExampleScene();
+    // scene = exampleScene.get_scene();
+
+    scene = Scene();
+    scene.getCamera().fov = 2;
+    scene.getCamera().change_viewing_mode(PERSPECTIVE);
+    scene.add_skybox(new Skybox());
+    scene.add_object(new Sphere());
 
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();

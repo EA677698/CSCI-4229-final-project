@@ -1,7 +1,3 @@
-//
-// Created by erickalanis on 12/2/24.
-//
-
 #ifndef STREET_LIGHT_H
 #define STREET_LIGHT_H
 

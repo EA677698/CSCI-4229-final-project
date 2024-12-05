@@ -10,7 +10,7 @@
 #include "objects/generic/street.h"
 #include "objects/generic/eiffel_tower.h"
 #include "objects/generic/intersection.h"
-#include "objects/generic/street_light.h"
+#include "objects/generic/intersection_light.h"
 #include "objects/generic/sidewalk.h"
 
 ExampleScene::ExampleScene() {
@@ -236,21 +236,21 @@ ExampleScene::ExampleScene() {
     scene.add_object(intersection6);
 
 
-    auto *street_light1 = new StreetLight();
+    auto *street_light1 = new IntersectionLight();
     street_light1->set_position(16, 0, -10);
     scene.add_object(street_light1);
 
-    auto *street_light2 = new StreetLight();
+    auto *street_light2 = new IntersectionLight();
     street_light2->set_rotation(-180, 0, -180);
     street_light2->set_position(-36, 0, -10);
     scene.add_object(street_light2);
 
-    auto *street_light3 = new StreetLight();
+    auto *street_light3 = new IntersectionLight();
     street_light3->set_rotation(0, 90, 0);
     street_light3->set_position(-10, 0, 16);
     scene.add_object(street_light3);
 
-    auto *street_light4 = new StreetLight();
+    auto *street_light4 = new IntersectionLight();
     street_light4->set_rotation(0, -90, 0);
     street_light4->set_position(-10, 0, -36);
     scene.add_object(street_light4);
