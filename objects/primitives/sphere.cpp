@@ -18,3 +18,22 @@ Sphere::Sphere(float radius, int slices, int stacks)
 
 
 }
+
+void Sphere::set_texture_repeat(const Vector2 &repeat) {
+
+}
+
+void Sphere::set_texture(int texture) {
+
+}
+
+void Sphere::set_color(int color) {
+
+}
+
+void Sphere::refresh() {
+
+}
+
+Sphere::~Sphere() {}
+

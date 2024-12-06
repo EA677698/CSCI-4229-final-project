@@ -13,6 +13,7 @@
 #include "objects/generic/street_light.h"
 #include "objects/primitives/pyramid.h"
 #include "objects/primitives/sphere.h"
+#include "objects/primitives/pipe.h"
 
 #ifdef USEGLEW
 #include <GL/glew.h>
@@ -323,6 +324,10 @@ void reshape(int width, int height) {
  *  GLUT calls this routine when there is nothing else to do
  */
 void idle() {
+    Camera &camera = scene.getCamera();
+    renderer.sun_xy.x = fmod(renderer.sun_xy.x + 1, 360.0f);
+    renderer.sun_xy.y = fmod(renderer.sun_xy.y + 1, 360.0f);
+//    renderer.add_sun_position({ 1, 0});
     glutPostRedisplay();
 }
 
@@ -358,14 +363,19 @@ int main(int argc, char *argv[]) {
     renderer = Renderer();
     Texture::get_instance(); // To initialize textures
 
-    // ExampleScene exampleScene = ExampleScene();
-    // scene = exampleScene.get_scene();
+     ExampleScene exampleScene = ExampleScene();
+     scene = exampleScene.get_scene();
 
-    scene = Scene();
-    scene.getCamera().fov = 2;
-    scene.getCamera().change_viewing_mode(PERSPECTIVE);
-    scene.add_skybox(new Skybox());
-    scene.add_object(new Sphere());
+//    scene = Scene();
+//    scene.getCamera().fov = 2;
+//    scene.getCamera().change_viewing_mode(PERSPECTIVE);
+//    scene.add_skybox(new Skybox());
+//    Pipe* pipe = new Pipe();
+//    pipe->add_point(Vector3(0, 0, 0));
+//    pipe->add_point(Vector3(0, 0, 10));
+//    pipe->add_point(Vector3(10, 0, 10));
+//    pipe->generate_pipe();
+//    scene.add_object(pipe);
 
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();

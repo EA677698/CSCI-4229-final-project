@@ -13,11 +13,15 @@ private:
 
     int sides;
 
+    float radius;
+
+    std::vector<Vector3> path;
+
     Vector3 get_distance(const Vector3& a, const Vector3& b);
 
 public:
 
-    Pipe(int sides = 3, Vector3... path);
+    Pipe(float radius = 1, int sides = 3);
 
     void refresh() override;
 
@@ -26,6 +30,14 @@ public:
     void set_texture(int texture);
 
     void set_color(int color);
+
+    void add_point(const Vector3& point);
+
+    void generate_pipe();
+
+    void set_sides(int sides);
+
+
 
     ~Pipe();
 

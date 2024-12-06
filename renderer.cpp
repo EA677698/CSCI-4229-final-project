@@ -8,6 +8,15 @@ Renderer::Renderer() {
     width = 600;
     height = 600;
 
+    lighting = true;
+    sun = true;
+    sun_position = Vector3(0, 0, 0);
+    ambient = 10;
+    diffuse = 50;
+    specular = 0;
+    shininess = 0;
+    shiny = 1;
+
     // Generate frame buffer
     glGenFramebuffers(1, &frame_buffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
@@ -236,6 +245,9 @@ void Renderer::render(Scene scene) {
 
     //  Enable Z-buffering in OpenGL
     glEnable(GL_DEPTH_TEST);
+    if(lighting){
+        glEnable(GL_LIGHTING);
+    }
     //  Undo previous transformations
     glLoadIdentity();
     glEnable(GL_NORMALIZE);
@@ -245,16 +257,42 @@ void Renderer::render(Scene scene) {
 
     if (skybox) {
         glDisable(GL_DEPTH_TEST);
-//        glDisable(GL_LIGHTING);
+        glDisable(GL_LIGHTING);
         glPushMatrix();
         float scalar = 4.0;
         glScaled(scalar * camera.dim, scalar * camera.dim, scalar * camera.dim);
         glTranslatef(-(skybox->get_width() / 2), -(skybox->get_height() / 2), -(skybox->get_depth() / 2));
         render_object(skybox);
         glPopMatrix();
-//        glEnable(GL_LIGHTING);
+        if(lighting){
+            glEnable(GL_LIGHTING);
+        }
         glEnable(GL_DEPTH_TEST);
     }
+
+    // sun
+    if(sun && lighting){
+        float Position[] = {sun_position.x, sun_position.y, sun_position.z, 1.0f};
+        float Ambient[] = {0.01f * ambient ,0.01f * ambient ,0.01f * ambient ,1.0};
+        float Diffuse[] = {0.01f * diffuse ,0.01f * diffuse ,0.01f * diffuse ,1.0};
+        float Specular[] = {0.01f * specular,0.01f * specular,0.01f * specular,1.0};
+        float Shininess = 16;
+        float Emission[] = {0.0f, 0.0f, 0.0f, 1.0f};
+        float GlobalAmbient[] = {0.3, 0.3, 0.3, 1.0};
+        glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, GlobalAmbient);
+        glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+        glLightfv(GL_LIGHT0, GL_POSITION, Position);
+        glLightfv(GL_LIGHT0, GL_AMBIENT, Ambient);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, Specular);
+        glEnable(GL_LIGHT0);
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &Shininess);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Emission);
+    }
+
 
     const std::vector<Object *> objects = scene.get_objects();
 
@@ -329,4 +367,32 @@ void Renderer::set_debug(const int mode) {
 
 int Renderer::get_debug() const {
     return debug;
+}
+
+void Renderer::enable_sun() {
+    sun = true;
+}
+
+void Renderer::enable_lighting() {
+    lighting = true;
+}
+
+void Renderer::disable_sun() {
+    sun = false;
+}
+
+void Renderer::disable_lighting() {
+    lighting = false;
+}
+
+void Renderer::set_sun_position(const Vector3 &position) {
+    sun_position = position;
+}
+
+void Renderer::add_sun_position(const Vector3 &position) {
+    sun_position += position;
+}
+
+Vector3 Renderer::get_sun_position() const {
+    return sun_position;
 }
