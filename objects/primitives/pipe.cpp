@@ -7,13 +7,8 @@
 #define Cos(th) cos(3.14159265/180*(th))
 #define Sin(th) sin(3.14159265/180*(th))
 
-Vector3 Pipe::get_distance(const Vector3& a, const Vector3& b)
-{
-    return Vector3(b.x - a.x, b.y - a.y, b.z - a.z);
-}
 
-Pipe::Pipe(float radius, int sides)
-{
+Pipe::Pipe(float radius, int sides) {
     width = 1;
     height = 1;
     this->sides = sides;
@@ -50,41 +45,74 @@ void Pipe::set_sides(int sides) {
 void Pipe::generate_pipe() {
 
     float step = 360.0f / this->sides;
-    Polygon polygon;
 
-    for(unsigned int i = 0; i < path.size() - 1; i++){
+    for (unsigned int i = 0; i < path.size() - 1; i++) {
 
-        Vector3 a = path[i];
-        Vector3 b = path[i + 1];
+        Vector3 v1 = path[i];
+        Vector3 v2 = path[i + 1];
 
-        for(int j = 0; j < this->sides; j++){
+        generate_basis(v1, v2);
+
+        Vector3 b1 = basis_transformation(v1);
+        Vector3 b2 = basis_transformation(v2);
+
+        Vector3 diff = b2 - b1;
+        diff.set_if_zero();
+
+        printf("diff: %f, %f, %f\n", diff.x, diff.y, diff.z);
+
+        Polygon polygon1 = Polygon(0xFF0000);
+        Polygon polygon2 = Polygon(0x0000FF);
+
+        for (int j = 0; j < sides; j++) {
 
             float angle = j * step;
-            float next_angle = (j + 1) * step;
-
-            float z = this->width * Cos(angle);
-            float y = this->depth * Sin(angle);
-
-            float next_z = this->width * Cos(next_angle);
-            float next_y = this->depth * Sin(next_angle);
-
-            polygon = Polygon(0xFFFFFF);
-            polygon.add_vertex(0, y, z);
-            polygon.add_vertex(0, next_y, next_z);
-            polygon.add_vertex(0, y, next_z);
-            polygon.add_vertex(0, next_y, z);
-            polygons.push_back(polygon);
+            Vector3 v = Vector3(radius * Cos(angle), radius * Sin(angle), radius * Cos(angle));
+            v *= diff;
+            polygon1.add_vertex(normal_basis_transformation(b1 + v));
+            polygon2.add_vertex(normal_basis_transformation(b2 + v));
 
         }
 
-        for(auto& polygon1 : polygons){
-            polygon1.generate_texture_vertices();
-        }
+        polygons.push_back(polygon1);
+        polygons.push_back(polygon2);
 
     }
+
+
+        for (auto &polygon1: polygons) {
+            polygon1.generate_texture_vertices();
+            polygon1.print_vertices();
+        }
 
 
 }
 
 Pipe::~Pipe() {}
 
+void Pipe::generate_basis(const Vector3 &v1, const Vector3 &v2) {
+
+    Vector3 direction_vector = v2 - v1;
+    basis[0] = direction_vector.normalize();
+    basis[1] = Vector3(0, 1, 0);
+    basis[1] = direction_vector.is_parallel(basis[1]) ? Vector3(1, 0, 0) : basis[1];
+    basis[1] = basis[1].normalize();
+    basis[2] = Vector3::cross_product(basis[0], basis[1]).normalize();
+
+}
+
+Vector3 Pipe::basis_transformation(const Vector3 &v) {
+    return {
+            basis[0].x * v.x + basis[0].y * v.y + basis[0].z * v.z,
+            basis[1].x * v.x + basis[1].y * v.y + basis[1].z * v.z,
+            basis[2].x * v.x + basis[2].y * v.y + basis[2].z * v.z
+    };
+}
+
+Vector3 Pipe::normal_basis_transformation(const Vector3 &v) {
+    return {
+            basis[0].x * v.x + basis[1].x * v.y + basis[2].x * v.z,
+            basis[0].y * v.x + basis[1].y * v.y + basis[2].y * v.z,
+            basis[0].z * v.x + basis[1].z * v.y + basis[2].z * v.z
+    };
+}

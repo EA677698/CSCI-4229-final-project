@@ -15,9 +15,9 @@ private:
 
     float radius;
 
-    std::vector<Vector3> path;
+    Vector3 basis[3];
 
-    Vector3 get_distance(const Vector3& a, const Vector3& b);
+    std::vector<Vector3> path;
 
 public:
 
@@ -36,6 +36,12 @@ public:
     void generate_pipe();
 
     void set_sides(int sides);
+
+    void generate_basis(const Vector3& v1, const Vector3& v2);
+
+    Vector3 basis_transformation(const Vector3& v);
+
+    Vector3 normal_basis_transformation(const Vector3& v);
 
 
 

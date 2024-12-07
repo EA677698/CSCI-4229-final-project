@@ -363,19 +363,19 @@ int main(int argc, char *argv[]) {
     renderer = Renderer();
     Texture::get_instance(); // To initialize textures
 
-     ExampleScene exampleScene = ExampleScene();
-     scene = exampleScene.get_scene();
+//     ExampleScene exampleScene = ExampleScene();
+//     scene = exampleScene.get_scene();
 
-//    scene = Scene();
-//    scene.getCamera().fov = 2;
-//    scene.getCamera().change_viewing_mode(PERSPECTIVE);
-//    scene.add_skybox(new Skybox());
-//    Pipe* pipe = new Pipe();
-//    pipe->add_point(Vector3(0, 0, 0));
-//    pipe->add_point(Vector3(0, 0, 10));
-//    pipe->add_point(Vector3(10, 0, 10));
-//    pipe->generate_pipe();
-//    scene.add_object(pipe);
+    scene = Scene();
+    scene.getCamera().fov = 2;
+    scene.getCamera().change_viewing_mode(PERSPECTIVE);
+    scene.add_skybox(new Skybox());
+    renderer.disable_lighting();
+    Pipe* pipe = new Pipe();
+    pipe->add_point(Vector3(0, 0, 0));
+    pipe->add_point(Vector3(5, 2, 10));
+    pipe->generate_pipe();
+    scene.add_object(pipe);
 
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();

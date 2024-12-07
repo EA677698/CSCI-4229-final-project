@@ -69,6 +69,13 @@ public:
             printf("Texture Vertex %d: (%f, %f)\n", i, vertex.x, vertex.y);
         }
     }
+
+    void print_vertices() {
+        for (unsigned int i = 0; i < vertices.size(); i++) {
+            const Vector3& vertex = vertices[i];
+            printf("Vertex %d: (%f, %f, %f)\n", i, vertex.x, vertex.y, vertex.z);
+        }
+    }
 };
 
 
