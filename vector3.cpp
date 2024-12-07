@@ -35,22 +35,6 @@ bool Vector3::is_parallel(const Vector3 &v) const {
     return cross_product(*this, v) == Vector3(0, 0, 0);
 }
 
-void Vector3::set_if_zero() {
-    int sum = x + y + z;
-
-    if(sum == 1){
-        x = x == 0;
-        y = y == 0;
-        z = z == 0;
-    } else {
-        x = x != 0;
-        y = y != 0;
-        z = z != 0;
-    }
-
-
-}
-
 
 
 

@@ -17,7 +17,20 @@ private:
 
     Vector3 basis[3];
 
+    Vector3 bounds[2];
+
     std::vector<Vector3> path;
+
+    void check_bounds(const Vector3& v);
+
+    void recompute_size();
+
+    Vector3 normal_basis_transformation(const Vector3& v);
+
+    Vector3 basis_transformation(const Vector3& v);
+
+    void generate_basis(const Vector3& v1, const Vector3& v2);
+
 
 public:
 
@@ -33,15 +46,15 @@ public:
 
     void add_point(const Vector3& point);
 
-    void generate_pipe();
+    void generate_pipe(bool render_endcaps = false);
 
     void set_sides(int sides);
 
-    void generate_basis(const Vector3& v1, const Vector3& v2);
+    void set_radius(float radius);
 
-    Vector3 basis_transformation(const Vector3& v);
 
-    Vector3 normal_basis_transformation(const Vector3& v);
+
+
 
 
 

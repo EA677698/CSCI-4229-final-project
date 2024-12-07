@@ -91,3 +91,19 @@ void Object::add_position(float x, float y, float z) {
     this->position += Vector3(x, y, z);
 
 }
+
+Vector3 Object::get_scale() const {
+    return scale;
+}
+
+void Object::set_scale(float x, float y, float z) {
+
+    this->scale = Vector3(x, y, z);
+
+}
+
+void Object::set_scale(const Vector3 &scale) {
+
+    this->scale = scale;
+
+}

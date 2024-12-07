@@ -9,6 +9,7 @@ class Object {
 
 protected:
 
+    Vector3 scale;
     Vector3 position; // positions based on center of object
     Vector3 rotation;
     float width, height, depth;
@@ -19,7 +20,7 @@ protected:
 
 public:
 
-    Object() : position(Vector3(0, 0, 0)), rotation(Vector3(0,0,0)), width(1), height(1), depth(1), polygons(0), polyhedrons(0), bounding_box(true), name("Generic Object") {};
+    Object() : scale(Vector3(1,1,1)), position(Vector3(0, 0, 0)), rotation(Vector3(0,0,0)), width(1), height(1), depth(1), polygons(0), polyhedrons(0), bounding_box(true), name("Generic Object") {};
 
     virtual ~Object() {};
 
@@ -45,6 +46,12 @@ public:
 
     // Used to recreate the object if attributes are changed
     virtual void refresh() = 0;
+
+    void set_scale(const Vector3 &scale);
+
+    void set_scale(float x, float y, float z);
+
+    Vector3 get_scale() const;
 
     void set_position(const Vector3 &position);
 

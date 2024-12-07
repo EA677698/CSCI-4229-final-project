@@ -62,7 +62,6 @@ public:
 
     void set_texture_repeats(float repeat_x, float repeat_y);
 
-    // DEBUG
     void print_texture_vertices() {
         for (unsigned int i = 0; i < texture_vertices.size(); i++) {
             const Vector2& vertex = texture_vertices[i];
@@ -75,6 +74,7 @@ public:
             const Vector3& vertex = vertices[i];
             printf("Vertex %d: (%f, %f, %f)\n", i, vertex.x, vertex.y, vertex.z);
         }
+        printf("\n");
     }
 };
 

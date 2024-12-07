@@ -372,9 +372,16 @@ int main(int argc, char *argv[]) {
     scene.add_skybox(new Skybox());
     renderer.disable_lighting();
     Pipe* pipe = new Pipe();
-    pipe->add_point(Vector3(0, 0, 0));
-    pipe->add_point(Vector3(5, 2, 10));
-    pipe->generate_pipe();
+    pipe->set_sides(100);
+    // create a spiral made of pipes using sin and cos
+    for (int i = 0; i < 100; i++) {
+        float x = i * 0.1;
+        float y = sin(x);
+        float z = cos(x);
+        pipe->add_point(Vector3(x, y, z));
+    }
+    pipe->set_radius(0.5);
+    pipe->generate_pipe(true);
     scene.add_object(pipe);
 
     //  Pass control to GLUT so it can interact with the user

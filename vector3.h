@@ -73,8 +73,6 @@ public:
 
     bool is_parallel(const Vector3 &v) const;
 
-    void set_if_zero();
-
 };
 
 #endif

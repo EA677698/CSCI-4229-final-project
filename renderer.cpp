@@ -301,6 +301,7 @@ void Renderer::render(Scene scene) {
         std::vector<Polygon> polygons = object->get_polygons();
         glPushMatrix();
         // Translate object to its position
+        glScalef(object->get_scale().x, object->get_scale().y, object->get_scale().z);
         Vector3 rotation = object->get_rotation();
         glRotatef(rotation.x, 1, 0, 0);
         glRotatef(rotation.y, 0, 1, 0);
