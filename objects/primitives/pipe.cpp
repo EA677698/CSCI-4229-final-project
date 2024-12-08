@@ -14,22 +14,38 @@ Pipe::Pipe(float radius, int sides) {
     this->sides = sides;
     this->radius = radius;
     this->name = "Pipe";
+    z_rotation = false;
 }
 
 
 void Pipe::refresh() {
+    polygons.clear();
+
+    generate_pipe();
 
 }
 
 void Pipe::set_texture_repeat(const Vector2 &repeat) {
 
+    for(auto& polygon : polygons){
+        polygon.set_texture_repeats(repeat);
+    }
+
 }
 
 void Pipe::set_texture(int texture) {
 
+    for(auto& polygon : polygons){
+        polygon.set_texture(texture);
+    }
+
 }
 
 void Pipe::set_color(int color) {
+
+    for(auto& polygon : polygons){
+        polygon.set_color(color);
+    }
 
 }
 
@@ -44,8 +60,8 @@ void Pipe::set_sides(int sides) {
 }
 
 void Pipe::generate_pipe(bool render_endcaps) {
-
     float step = 360.0f / this->sides;
+    Polygon previous_polygon = Polygon();
 
     for (unsigned int i = 0; i < path.size() - 1; i++) {
 
@@ -63,7 +79,7 @@ void Pipe::generate_pipe(bool render_endcaps) {
         for (int j = 0; j < sides; j++) {
 
             float angle = j * step;
-            Vector3 v = Vector3(radius * Cos(angle), radius * Sin(angle), radius * Cos(angle));
+            Vector3 v = Vector3(radius * Cos(angle), radius * Sin(angle), z_rotation ? radius * Cos(angle) : 0);
             Vector3 p1 = normal_basis_transformation(b1 + v);
             Vector3 p2 = normal_basis_transformation(b2 + v);
             polygon1.add_vertex(p1);
@@ -76,7 +92,7 @@ void Pipe::generate_pipe(bool render_endcaps) {
 
         Polygon polygon;
         for(int j = 0; j < sides; j++){
-            polygon = Polygon(0xFFFFFF >> j);
+            polygon = Polygon(0xFFFFFF);
             unsigned int next = (j + 1) % sides;
             polygon.add_vertex(polygon1.get_vertices()[j]);
             polygon.add_vertex(polygon2.get_vertices()[j]);
@@ -90,11 +106,24 @@ void Pipe::generate_pipe(bool render_endcaps) {
             polygons.push_back(polygon2);
         }
 
+        if(!previous_polygon.get_vertices().empty()){
+            polygon = Polygon(0xFFFFFF);
+            for(int j = 0; j < sides; j++){
+                unsigned int next = (j + 1) % sides;
+                polygon.add_vertex(previous_polygon.get_vertices()[j]);
+                polygon.add_vertex(previous_polygon.get_vertices()[next]);
+                polygon.add_vertex(polygon1.get_vertices()[j]);
+                polygon.add_vertex(polygon1.get_vertices()[next]);
+            }
+            polygons.push_back(polygon);
+        }
+
+        previous_polygon = polygon2;
+
     }
 
     for (auto &polygon1: polygons) {
         polygon1.generate_texture_vertices();
-        polygon1.print_vertices();
     }
 
     recompute_size();
@@ -153,4 +182,12 @@ void Pipe::recompute_size() {
 
 void Pipe::set_radius(float radius) {
     this->radius = radius;
+}
+
+void Pipe::enable_z_rotation() {
+    z_rotation = true;
+}
+
+void Pipe::disable_z_rotation() {
+    z_rotation = false;
 }

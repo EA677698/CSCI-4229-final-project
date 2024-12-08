@@ -20,6 +20,7 @@ Texture::Texture() {
     textures[CONCRETE1_TEXTURE] = LoadTexBMP("textures/concrete1.bmp");
     textures[GALVANIZED_METAL_TEXTURE] = LoadTexBMP("textures/galvanized_metal.bmp");
     textures[CHIPPED_METAL_TEXTURE] = LoadTexBMP("textures/chipped_metal.bmp");
+    textures[GOLDEN_GATE_TEXTURE] = LoadTexBMP("textures/golden_gate.bmp");
 
 }
 

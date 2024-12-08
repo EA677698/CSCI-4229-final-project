@@ -8,8 +8,6 @@ Renderer::Renderer() {
     width = 600;
     height = 600;
 
-    lighting = true;
-    sun = true;
     sun_position = Vector3(0, 0, 0);
     ambient = 10;
     diffuse = 50;
@@ -245,7 +243,7 @@ void Renderer::render(Scene scene) {
 
     //  Enable Z-buffering in OpenGL
     glEnable(GL_DEPTH_TEST);
-    if(lighting){
+    if(scene.is_lighting_enabled()){
         glEnable(GL_LIGHTING);
     }
     //  Undo previous transformations
@@ -264,14 +262,14 @@ void Renderer::render(Scene scene) {
         glTranslatef(-(skybox->get_width() / 2), -(skybox->get_height() / 2), -(skybox->get_depth() / 2));
         render_object(skybox);
         glPopMatrix();
-        if(lighting){
+        if(scene.is_lighting_enabled()){
             glEnable(GL_LIGHTING);
         }
         glEnable(GL_DEPTH_TEST);
     }
 
     // sun
-    if(sun && lighting){
+    if(scene.is_sun_enabled() && scene.is_lighting_enabled()){
         float Position[] = {sun_position.x, sun_position.y, sun_position.z, 1.0f};
         float Ambient[] = {0.01f * ambient ,0.01f * ambient ,0.01f * ambient ,1.0};
         float Diffuse[] = {0.01f * diffuse ,0.01f * diffuse ,0.01f * diffuse ,1.0};
@@ -368,22 +366,6 @@ void Renderer::set_debug(const int mode) {
 
 int Renderer::get_debug() const {
     return debug;
-}
-
-void Renderer::enable_sun() {
-    sun = true;
-}
-
-void Renderer::enable_lighting() {
-    lighting = true;
-}
-
-void Renderer::disable_sun() {
-    sun = false;
-}
-
-void Renderer::disable_lighting() {
-    lighting = false;
 }
 
 void Renderer::set_sun_position(const Vector3 &position) {

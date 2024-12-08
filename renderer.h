@@ -40,9 +40,7 @@ private:
     int width;
     int height;
 
-    bool sun;
     Vector3 sun_position;
-    bool lighting;
     int ambient;
     int diffuse;
     int specular;
@@ -68,14 +66,6 @@ public:
     Vector2 sun_xy;
 
     void resize();
-
-    void enable_sun();
-
-    void enable_lighting();
-
-    void disable_sun();
-
-    void disable_lighting();
 
     void set_sun_position(const Vector3 &position);
 

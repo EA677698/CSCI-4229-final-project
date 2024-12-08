@@ -107,3 +107,15 @@ void Object::set_scale(const Vector3 &scale) {
     this->scale = scale;
 
 }
+
+void Object::set_width(float width) {
+    this->width = width;
+}
+
+void Object::set_height(float height) {
+    this->height = height;
+}
+
+void Object::set_depth(float depth) {
+    this->depth = depth;
+}

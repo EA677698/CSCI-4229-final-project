@@ -44,6 +44,12 @@ public:
 
     void add_depth(float depth);
 
+    void set_width(float width);
+
+    void set_height(float height);
+
+    void set_depth(float depth);
+
     // Used to recreate the object if attributes are changed
     virtual void refresh() = 0;
 

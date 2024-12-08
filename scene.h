@@ -25,6 +25,8 @@ private:
     std::vector<BoundingBox> bounding_boxes;
     std::vector<Object *> selected_objects;
     int object_op;
+    bool sun;
+    bool lighting;
 
 
 
@@ -63,6 +65,18 @@ public:
     void set_object_op(int object_op);
 
     void update_selected_objects(const Vector3& operation);
+
+    bool is_sun_enabled() const;
+
+    bool is_lighting_enabled() const;
+
+    void enable_sun();
+
+    void enable_lighting();
+
+    void disable_sun();
+
+    void disable_lighting();
 
 
 

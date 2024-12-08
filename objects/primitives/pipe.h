@@ -21,6 +21,8 @@ private:
 
     std::vector<Vector3> path;
 
+    bool z_rotation;
+
     void check_bounds(const Vector3& v);
 
     void recompute_size();
@@ -51,6 +53,10 @@ public:
     void set_sides(int sides);
 
     void set_radius(float radius);
+
+    void enable_z_rotation();
+
+    void disable_z_rotation();
 
 
 

@@ -47,19 +47,23 @@ public:
 
     ~Cuboid();
 
-    void set_vector(int index, Vector3 vector);
+    void set_vector(int index, const Vector3& vector);
 
     void set_vector(int index, float x, float y, float z);
 
-    void add_vector(int index, Vector3 vector);
+    void add_vector(int index, const Vector3& vector);
 
     void add_vector(int index, float x, float y, float z);
+
+    void set_texture_to_all(int texture);
 
     void set_color(int index, int color);
 
     void set_texture(int index, int texture);
 
     void set_texture_repeat(int index, Vector2 repeat);
+
+    void set_texture_repeat_all(const Vector2& repeat);
 
     void construct_cuboid();
 

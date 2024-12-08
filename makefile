@@ -53,6 +53,7 @@ objects/generic/intersection.o: objects/generic/intersection.cpp objects/generic
 objects/generic/park_bench.o: objects/generic/park_bench.cpp objects/generic/park_bench.h
 objects/generic/eiffel_tower.o: objects/generic/eiffel_tower.cpp objects/generic/eiffel_tower.h
 objects/generic/sidewalk.o: objects/generic/sidewalk.cpp objects/generic/sidewalk.h
+objects/generic/golden_gate.o: objects/generic/golden_gate.cpp objects/generic/golden_gate.h
 
 
 boundingbox.o: boundingbox.cpp boundingbox.h
@@ -90,7 +91,7 @@ objects/generic/%.o: objects/generic/%.cpp objects/generic/%.h
 	g++ -c $(CFLG) -Icsci_lib $<
 
 # Link
-final: final.o camera.o scene.o example_scene.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/primitives/cuboid.o objects/primitives/sphere.o objects/primitives/cylinder.o objects/primitives/pipe.o objects/primitives/pyramid.o objects/skybox.o objects/terrain.o objects/generic/eiffel_tower.o objects/generic/sidewalk.o objects/generic/skyscraper.o objects/generic/street_light.o objects/generic/intersection_light.o objects/generic/street.o objects/generic/intersection.o objects/generic/park_bench.o csci_lib/CSCIx229.a
+final: final.o camera.o scene.o example_scene.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/primitives/cuboid.o objects/primitives/sphere.o objects/primitives/cylinder.o objects/primitives/pipe.o objects/primitives/pyramid.o objects/skybox.o objects/terrain.o objects/generic/eiffel_tower.o objects/generic/golden_gate.o objects/generic/sidewalk.o objects/generic/skyscraper.o objects/generic/street_light.o objects/generic/intersection_light.o objects/generic/street.o objects/generic/intersection.o objects/generic/park_bench.o csci_lib/CSCIx229.a
 	g++ $(CFLG) -o $@ $^ $(LIBS)
 
 # Clean

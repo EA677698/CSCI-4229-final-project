@@ -14,6 +14,8 @@
 #include "objects/primitives/pyramid.h"
 #include "objects/primitives/sphere.h"
 #include "objects/primitives/pipe.h"
+#include "objects/generic/eiffel_tower.h"
+#include "objects/generic/golden_gate.h"
 
 #ifdef USEGLEW
 #include <GL/glew.h>
@@ -69,7 +71,7 @@ void mouse_click(int button, int state, int x, int y) {
     int glY = renderer.get_display_height() - y;
     Camera &camera = scene.getCamera();
 
-    if (button == GLUT_MIDDLE_BUTTON){
+    if (button == GLUT_MIDDLE_BUTTON) {
         camera.is_dragging = state == GLUT_DOWN;
         camera.mouse_x = x;
         camera.mouse_y = y;
@@ -77,11 +79,11 @@ void mouse_click(int button, int state, int x, int y) {
 
     if (button == GLUT_LEFT_BUTTON) {
         renderer.set_mouse_position(Vector2(x, glY));
-        if(!renderer.read_color() && state == GLUT_DOWN){
+        if (!renderer.read_color() && state == GLUT_DOWN) {
             scene.clear_selected_objects();
         } else {
-            Object* object = scene.get_object_by_color(renderer.read_color());
-            if(object){
+            Object *object = scene.get_object_by_color(renderer.read_color());
+            if (object) {
                 scene.add_selected_object(object);
             }
         }
@@ -105,7 +107,7 @@ void mouse_click(int button, int state, int x, int y) {
 
 void mouse_move(int x, int y) {
     Camera &camera = scene.getCamera();
-    if(camera.is_dragging){
+    if (camera.is_dragging) {
         int dx = x - camera.mouse_x;
         int dy = y - camera.mouse_y;
         if (camera.get_viewing_mode() == FIRST_PERSON) {
@@ -125,7 +127,7 @@ void mouse_move(int x, int y) {
 
     }
 
-    if(camera.pan_dragging){
+    if (camera.pan_dragging) {
         int dx = x - camera.prev_pan_x;
         int dy = y - camera.prev_pan_y;
         camera.pan_x += dx;
@@ -134,8 +136,7 @@ void mouse_move(int x, int y) {
         camera.prev_pan_y = y;
     }
 
-    if(camera.object_dragging)
-    {
+    if (camera.object_dragging) {
         float dir_x = (x - camera.object_x);
         float dir_y = (y - camera.object_y);
         scene.update_selected_objects(Vector3(dir_x, 0, dir_y));
@@ -174,7 +175,7 @@ void special(int key, int x, int y) {
             camera.x -= scene.dir_x * speed;
             camera.z -= scene.dir_z * speed;
         }
-    } else if(!camera.camera_locked) {
+    } else if (!camera.camera_locked) {
         if (key == GLUT_KEY_RIGHT)
             camera.th += 5;
             //  Left arrow key - decrease angle by 5 degrees
@@ -195,7 +196,7 @@ void special(int key, int x, int y) {
         //  Keep angles to +/-360 degrees
         camera.th %= 360;
         camera.ph %= 360;
-    } else{
+    } else {
         int modifiers = glutGetModifiers();
         if (key == GLUT_KEY_RIGHT)
             scene.update_selected_objects(Vector3(1, 0, 0));
@@ -210,7 +211,7 @@ void special(int key, int x, int y) {
                 scene.update_selected_objects(Vector3(0, 0, -1));
             }
         }
-        //  Down arrow key - decrease elevation by 5 degrees
+            //  Down arrow key - decrease elevation by 5 degrees
         else if (key == GLUT_KEY_DOWN) {
             if (modifiers == GLUT_ACTIVE_SHIFT) {
                 scene.update_selected_objects(Vector3(0, -1, 0));
@@ -270,16 +271,16 @@ void key(unsigned char ch, int x, int y) {
         ambient -= 5;
     else if (ch == 'C' && ambient < 100)
         ambient += 5;
-    else if (ch == 't'){
+    else if (ch == 't') {
         camera.camera_locked = true;
         scene.set_object_op(TRANSLATE);
-    } else if (ch == 'r'){
+    } else if (ch == 'r') {
         camera.camera_locked = true;
         scene.set_object_op(ROTATE);
-    } else if (ch == 'y'){
+    } else if (ch == 'y') {
         camera.camera_locked = true;
         scene.set_object_op(SCALE);
-    } else if (ch == 'u'){
+    } else if (ch == 'u') {
         camera.camera_locked = false;
     }
 
@@ -324,10 +325,8 @@ void reshape(int width, int height) {
  *  GLUT calls this routine when there is nothing else to do
  */
 void idle() {
-    Camera &camera = scene.getCamera();
     renderer.sun_xy.x = fmod(renderer.sun_xy.x + 1, 360.0f);
     renderer.sun_xy.y = fmod(renderer.sun_xy.y + 1, 360.0f);
-//    renderer.add_sun_position({ 1, 0});
     glutPostRedisplay();
 }
 
@@ -363,26 +362,16 @@ int main(int argc, char *argv[]) {
     renderer = Renderer();
     Texture::get_instance(); // To initialize textures
 
-//     ExampleScene exampleScene = ExampleScene();
-//     scene = exampleScene.get_scene();
+//    ExampleScene exampleScene = ExampleScene();
+//    scene = exampleScene.get_scene();
 
     scene = Scene();
-    scene.getCamera().fov = 2;
-    scene.getCamera().change_viewing_mode(PERSPECTIVE);
-    scene.add_skybox(new Skybox());
-    renderer.disable_lighting();
-    Pipe* pipe = new Pipe();
-    pipe->set_sides(100);
-    // create a spiral made of pipes using sin and cos
-    for (int i = 0; i < 100; i++) {
-        float x = i * 0.1;
-        float y = sin(x);
-        float z = cos(x);
-        pipe->add_point(Vector3(x, y, z));
-    }
-    pipe->set_radius(0.5);
-    pipe->generate_pipe(true);
-    scene.add_object(pipe);
+    auto *skybox = new Skybox();
+    scene.add_skybox(skybox);
+    scene.disable_lighting();
+    GoldenGateBridge *bridge = new GoldenGateBridge();
+    scene.add_object(bridge);
+    scene.getCamera().fov = 5;
 
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();

@@ -9,6 +9,8 @@ Scene::Scene() {
     object_op = TRANSLATE;
     bounding_boxes = {};
     selected_objects = {};
+    sun = true;
+    lighting = true;
 }
 
 Scene::~Scene() {}
@@ -115,4 +117,28 @@ void Scene::update_selected_objects(const Vector3& operation) {
 void Scene::set_object_op(int object_op) {
     this->object_op = object_op;
 
+}
+
+bool Scene::is_sun_enabled() const {
+    return sun;
+}
+
+bool Scene::is_lighting_enabled() const {
+    return lighting;
+}
+
+void Scene::enable_sun() {
+    sun = true;
+}
+
+void Scene::enable_lighting() {
+    lighting = true;
+}
+
+void Scene::disable_sun() {
+    sun = false;
+}
+
+void Scene::disable_lighting() {
+    lighting = false;
 }

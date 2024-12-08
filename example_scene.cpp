@@ -12,11 +12,14 @@
 #include "objects/generic/intersection.h"
 #include "objects/generic/intersection_light.h"
 #include "objects/generic/sidewalk.h"
+#include "objects/generic/street_light.h"
 
 ExampleScene::ExampleScene() {
     scene = Scene();
     scene.getCamera().change_viewing_mode(PERSPECTIVE);
     scene.getCamera().fov = 15;
+    scene.disable_lighting();
+    scene.disable_sun();
     auto *skybox = new Skybox();
     scene.add_skybox(skybox);
     auto *terrain = new Terrain();
@@ -236,29 +239,57 @@ ExampleScene::ExampleScene() {
     scene.add_object(intersection6);
 
 
-    auto *street_light1 = new IntersectionLight();
-    street_light1->set_position(16, 0, -10);
+    auto *intersection_light1 = new IntersectionLight();
+    intersection_light1->set_position(16, 0, -10);
+    scene.add_object(intersection_light1);
+
+    auto *intersection_light2 = new IntersectionLight();
+    intersection_light2->set_rotation(-180, 0, -180);
+    intersection_light2->set_position(-36, 0, -10);
+    scene.add_object(intersection_light2);
+
+    auto *intersection_light3 = new IntersectionLight();
+    intersection_light3->set_rotation(0, 90, 0);
+    intersection_light3->set_position(-10, 0, 16);
+    scene.add_object(intersection_light3);
+
+    auto *intersection_light4 = new IntersectionLight();
+    intersection_light4->set_rotation(0, -90, 0);
+    intersection_light4->set_position(-10, 0, -36);
+    scene.add_object(intersection_light4);
+
+    float distance_apart = -50;
+
+    auto *street_light1 = new StreetLight();
+    street_light1->set_position(intersection_light1->get_position().x + distance_apart, 0, -10);
     scene.add_object(street_light1);
 
-    auto *street_light2 = new IntersectionLight();
-    street_light2->set_rotation(-180, 0, -180);
-    street_light2->set_position(-36, 0, -10);
-    scene.add_object(street_light2);
-
-    auto *street_light3 = new IntersectionLight();
-    street_light3->set_rotation(0, 90, 0);
-    street_light3->set_position(-10, 0, 16);
-    scene.add_object(street_light3);
-
-    auto *street_light4 = new IntersectionLight();
-    street_light4->set_rotation(0, -90, 0);
-    street_light4->set_position(-10, 0, -36);
+    auto *street_light4 = new StreetLight();
+    street_light4->set_rotation(0, 180, 0);
+    street_light4->set_position(-15 + -distance_apart / 2, 0, -10);
     scene.add_object(street_light4);
 
+    auto *street_light2 = new StreetLight();
+    street_light2->set_position(street_light1->get_position().x + distance_apart, 0, -10);
+    scene.add_object(street_light2);
 
-    auto *eiffel_tower = new EiffelTower();
-    eiffel_tower->set_position(-230, 0, 0);
-    scene.add_object(eiffel_tower);
+    auto *street_light5 = new StreetLight();
+    street_light5->set_rotation(0, 180, 0);
+    street_light5->set_position(street_light4->get_position().x - distance_apart, 0, -10);
+    scene.add_object(street_light5);
+
+    auto *street_light3 = new StreetLight();
+    street_light3->set_position(street_light2->get_position().x + distance_apart, 0, -10);
+    scene.add_object(street_light3);
+
+    auto *street_light6 = new StreetLight();
+    street_light6->set_rotation(0, 180, 0);
+    street_light6->set_position(street_light5->get_position().x - distance_apart, 0, -10);
+    scene.add_object(street_light6);
+
+//    auto *eiffel_tower = new EiffelTower();
+//    eiffel_tower->set_position(-230, 0, 0);
+//    scene.add_object(eiffel_tower);
 
 
 
