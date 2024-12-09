@@ -2,13 +2,14 @@
 #include "texture.h"
 #include <string>
 
+#include "objects/primitives/cuboid.h"
+
 Renderer::Renderer() {
     axis = 0;
     debug = DEBUG_OFF;
     width = 600;
     height = 600;
 
-    sun_position = Vector3(0, 0, 0);
     ambient = 10;
     diffuse = 50;
     specular = 0;
@@ -270,7 +271,7 @@ void Renderer::render(Scene scene) {
 
     // sun
     if(scene.is_sun_enabled() && scene.is_lighting_enabled()){
-        float Position[] = {sun_position.x, sun_position.y, sun_position.z, 1.0f};
+        float Position[] = {sun_xy.x, sun_xy.y, 0, 1.0f};
         float Ambient[] = {0.01f * ambient ,0.01f * ambient ,0.01f * ambient ,1.0};
         float Diffuse[] = {0.01f * diffuse ,0.01f * diffuse ,0.01f * diffuse ,1.0};
         float Specular[] = {0.01f * specular,0.01f * specular,0.01f * specular,1.0};
@@ -368,14 +369,14 @@ int Renderer::get_debug() const {
     return debug;
 }
 
-void Renderer::set_sun_position(const Vector3 &position) {
-    sun_position = position;
+void Renderer::set_sun_position(const Vector2 &position) {
+    sun_xy = position;
 }
 
-void Renderer::add_sun_position(const Vector3 &position) {
-    sun_position += position;
+void Renderer::add_sun_position(const Vector2 &position) {
+    sun_xy += position;
 }
 
-Vector3 Renderer::get_sun_position() const {
-    return sun_position;
+Vector2 Renderer::get_sun_position() const {
+    return sun_xy;
 }

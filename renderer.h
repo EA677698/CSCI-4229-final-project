@@ -40,7 +40,6 @@ private:
     int width;
     int height;
 
-    Vector3 sun_position;
     int ambient;
     int diffuse;
     int specular;
@@ -67,11 +66,11 @@ public:
 
     void resize();
 
-    void set_sun_position(const Vector3 &position);
+    void set_sun_position(const Vector2 &position);
 
-    void add_sun_position(const Vector3 &position);
+    void add_sun_position(const Vector2 &position);
 
-    Vector3 get_sun_position() const;
+    Vector2 get_sun_position() const;
 
     int get_display_width() const;
 

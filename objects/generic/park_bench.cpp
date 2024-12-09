@@ -3,6 +3,9 @@
 //
 
 #include "park_bench.h"
+
+#include <random>
+
 #include "../primitives/cuboid.h"
 #include "../../texture.h"
 #include "../primitives/pipe.h"
@@ -19,35 +22,54 @@ ParkBench::ParkBench() {
 
     name = "Park Bench";
 
+    position = {0,0,height / 2.0f};
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, 8);
+
+
 
     auto* top_plank1 = new Cuboid(width, plank_height, plank_depth);
     top_plank1->set_position(0, 0.2f, 0);
+    top_plank1->set_texture_to_all(OLD_WOOD_TEXTURE);
     top_plank1->refresh();
+    top_plank1->set_texture_repeat_all({width, distrib(gen) / 8.0f});
     polyhedrons.push_back(top_plank1);
 
     auto* top_plank2 = new Cuboid(width, plank_height, plank_depth);
     top_plank2->set_position(0, top_plank1->get_position().y * 4, 0);
+    top_plank2->set_texture_to_all(OLD_WOOD_TEXTURE);
     top_plank2->refresh();
+    top_plank2->set_texture_repeat_all({width, distrib(gen) / 8.0f});
     polyhedrons.push_back(top_plank2);
 
     auto* top_plank3 = new Cuboid(width, plank_height, plank_depth);
     top_plank3->set_position(0, top_plank1->get_position().y * 7, 0);
+    top_plank3->set_texture_to_all(OLD_WOOD_TEXTURE);
     top_plank3->refresh();
+    top_plank3->set_texture_repeat_all({width, distrib(gen) / 8.0f});
     polyhedrons.push_back(top_plank3);
 
     auto* bottom_plank1 = new Cuboid(width, plank_depth, plank_height);
     bottom_plank1->set_position(0, 0, 0.2f);
+    bottom_plank1->set_texture_to_all(OLD_WOOD_TEXTURE);
     bottom_plank1->refresh();
+    bottom_plank1->set_texture_repeat_all({width, distrib(gen) / 8.0f});
     polyhedrons.push_back(bottom_plank1);
 
     auto* bottom_plank2 = new Cuboid(width, plank_depth, plank_height);
     bottom_plank2->set_position(0, 0, bottom_plank1->get_position().z * 4);
+    bottom_plank2->set_texture_to_all(OLD_WOOD_TEXTURE);
     bottom_plank2->refresh();
+    bottom_plank2->set_texture_repeat_all({width, distrib(gen) / 8.0f});
     polyhedrons.push_back(bottom_plank2);
 
     auto* bottom_plank3 = new Cuboid(width, plank_depth, plank_height);
     bottom_plank3->set_position(0, 0, bottom_plank1->get_position().z * 7);
+    bottom_plank3->set_texture_to_all(OLD_WOOD_TEXTURE);
     bottom_plank3->refresh();
+    bottom_plank3->set_texture_repeat_all({width, distrib(gen) / 8.0f});
     polyhedrons.push_back(bottom_plank3);
 
     auto structure_pipe = new Pipe();

@@ -19,8 +19,8 @@ ExampleScene::ExampleScene() {
     scene = Scene();
     scene.getCamera().change_viewing_mode(PERSPECTIVE);
     scene.getCamera().fov = 15;
-    scene.disable_lighting();
-    scene.disable_sun();
+    // scene.disable_lighting();
+    // scene.disable_sun();
     auto *skybox = new Skybox();
     scene.add_skybox(skybox);
     auto *terrain = new Terrain();

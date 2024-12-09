@@ -4,6 +4,9 @@
 
 #include "sphere.h"
 
+#include "../texture.h"
+#include <CSCIx229.h>
+
 Sphere::Sphere(float radius, int slices, int stacks)
 {
     width = radius * 2;
@@ -13,9 +16,21 @@ Sphere::Sphere(float radius, int slices, int stacks)
     name = "Sphere";
 
     Polygon polygon;
+    std::vector<float> vertices;
     float step = 360.0f / slices;
     float stack_step = 180.0f / stacks;
 
+    for(int i = 0; i < stacks; i++)
+    {
+        for(int j = 0; j < slices; j++)
+        {
+            float theta = 360 * (j / slices);
+            float phi = 90 - 180 * (i / stacks);
+            float theta2 = 360 * ((j + 1) / slices);
+
+            polygon = Polygon(NULL_TEXTURE, 0xFFFFFF);
+        }
+    }
 
 }
 

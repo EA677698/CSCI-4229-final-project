@@ -11,6 +11,7 @@ Texture::Texture() {
     textures[OLD_OFFICE_TEXTURE] = LoadTexBMP("textures/facades/old_office.bmp");
     textures[APARTMENT_TEXTURE] = LoadTexBMP("textures/facades/apartment.bmp");
     textures[BRICK_APARTMENT_TEXTURE] = LoadTexBMP("textures/facades/brick_apartment.bmp");
+    textures[OLD_WOOD_TEXTURE] = LoadTexBMP("textures/old_wood.bmp");
     textures[ROAD_TEXTURE] = LoadTexBMP("textures/road.bmp");
     textures[INTERSECTION_TEXTURE] = LoadTexBMP("textures/intersection.bmp");
     textures[GRASS_TEXTURE] = LoadTexBMP("textures/grass.bmp");

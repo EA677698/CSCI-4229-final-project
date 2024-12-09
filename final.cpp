@@ -370,7 +370,7 @@ int main(int argc, char *argv[]) {
     auto *skybox = new Skybox();
     scene.add_skybox(skybox);
     scene.disable_lighting();
-    auto* bridge = new ParkBench();
+    auto* bridge = new Sphere();
     scene.add_object(bridge);
     scene.getCamera().fov = 1;
 
