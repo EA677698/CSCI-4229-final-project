@@ -65,6 +65,8 @@ public:
 
     void set_texture_repeat_all(const Vector2& repeat);
 
+    void set_color_to_all(int color);
+
     void construct_cuboid();
 
 };

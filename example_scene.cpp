@@ -13,6 +13,7 @@
 #include "objects/generic/intersection_light.h"
 #include "objects/generic/sidewalk.h"
 #include "objects/generic/street_light.h"
+#include "objects/generic/golden_gate.h"
 
 ExampleScene::ExampleScene() {
     scene = Scene();
@@ -23,7 +24,9 @@ ExampleScene::ExampleScene() {
     auto *skybox = new Skybox();
     scene.add_skybox(skybox);
     auto *terrain = new Terrain();
-    terrain->set_position(0, -0.1, 0);
+    terrain->set_width(600);
+    terrain->set_position(-100, -0.1, 0);
+    terrain->refresh();
     terrain->disable_bounding_box();
     scene.add_object(terrain);
 
@@ -287,9 +290,37 @@ ExampleScene::ExampleScene() {
     street_light6->set_position(street_light5->get_position().x - distance_apart, 0, -10);
     scene.add_object(street_light6);
 
-//    auto *eiffel_tower = new EiffelTower();
-//    eiffel_tower->set_position(-230, 0, 0);
-//    scene.add_object(eiffel_tower);
+    auto *eiffel_tower = new EiffelTower();
+    eiffel_tower->set_position(-230, 0, 0);
+    scene.add_object(eiffel_tower);
+
+    auto *street24 = new Street();
+    street24->set_rotation(0, 90, 0);
+    street24->set_position(0, 0, 92);
+    scene.add_object(street24);
+
+    auto *street25 = new Street();
+    street25->set_rotation(0, 90, 0);
+    street25->set_position(0, 0, 132);
+    scene.add_object(street25);
+
+    auto *street26 = new Street();
+    street26->set_depth(32);
+    street26->refresh();
+    street26->set_rotation(0, 90, 0);
+    street26->set_position(0, 0, 168);
+    scene.add_object(street26);
+
+    Terrain *terrain2 = new Terrain();
+    terrain2->disable_bounding_box();
+    terrain2->set_position(1280, -0.1, 0);
+    scene.add_object(terrain2);
+
+
+    auto *golden_gate = new GoldenGateBridge();
+    golden_gate->set_rotation(0, -90, 0);
+    golden_gate->set_position(44, 0, -546);
+    scene.add_object(golden_gate);
 
 
 

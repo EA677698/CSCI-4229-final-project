@@ -17,6 +17,8 @@ public:
     ParkBench();
     ~ParkBench();
 
+    void refresh() override;
+
 };
 
 

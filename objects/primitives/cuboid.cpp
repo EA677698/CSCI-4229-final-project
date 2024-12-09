@@ -203,3 +203,11 @@ void Cuboid::set_texture_repeat_all(const Vector2& repeat) {
         }
 }
 
+void Cuboid::set_color_to_all(int color) {
+
+    for(unsigned int i = 0; i < 6; i++){
+        colors[i] = color;
+    }
+
+}
+
