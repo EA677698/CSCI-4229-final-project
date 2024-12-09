@@ -363,16 +363,16 @@ int main(int argc, char *argv[]) {
     renderer = Renderer();
     Texture::get_instance(); // To initialize textures
 
-    ExampleScene exampleScene = ExampleScene();
-    scene = exampleScene.get_scene();
+    // ExampleScene exampleScene = ExampleScene();
+    // scene = exampleScene.get_scene();
 
-//    scene = Scene();
-//    auto *skybox = new Skybox();
-//    scene.add_skybox(skybox);
-//    scene.disable_lighting();
-//    auto* bridge = new ParkBench();
-//    scene.add_object(bridge);
-//    scene.getCamera().fov = 1;
+    scene = Scene();
+    auto *skybox = new Skybox();
+    scene.add_skybox(skybox);
+    scene.disable_lighting();
+    auto* bridge = new ParkBench();
+    scene.add_object(bridge);
+    scene.getCamera().fov = 1;
 
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();

@@ -1,5 +1,6 @@
 #include "skyscraper.h"
 #include "../../texture.h"
+#include "../primitives/cuboid.h"
 
 Skyscraper::Skyscraper() {
     width = 50;
@@ -10,55 +11,13 @@ Skyscraper::Skyscraper() {
 
     name = "Skyscraper";
 
-    constexpr int side_texture = SKYSCRAPER_TEXTURE;
-
-    // Floor
-    auto polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
-    polygon.add_vertex(0, 0, 0);
-    polygon.add_vertex(width, 0, 0);
-    polygon.add_vertex(width, 0, depth);
-    polygon.add_vertex(0, 0, depth);
-    polygons.push_back(polygon);
-
-    // Front Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(0, 0, depth);
-    polygon.add_vertex(width, 0, depth);
-    polygon.add_vertex(width, height, depth);
-    polygon.add_vertex(0, height, depth);
-    polygons.push_back(polygon);
-
-    // Back Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(0, 0, 0);
-    polygon.add_vertex(width, 0, 0);
-    polygon.add_vertex(width, height, 0);
-    polygon.add_vertex(0, height, 0);
-    polygons.push_back(polygon);
-
-    // Left Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(0, 0, 0);
-    polygon.add_vertex(0, 0, depth);
-    polygon.add_vertex(0, height, depth);
-    polygon.add_vertex(0, height, 0);
-    polygons.push_back(polygon);
-
-    // Right Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(width, 0, 0);
-    polygon.add_vertex(width, 0, depth);
-    polygon.add_vertex(width, height, depth);
-    polygon.add_vertex(width, height, 0);
-    polygons.push_back(polygon);
-
-    // Roof
-    polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
-    polygon.add_vertex(0, height, 0);
-    polygon.add_vertex(width, height, 0);
-    polygon.add_vertex(width, height, depth);
-    polygon.add_vertex(0, height, depth);
-    polygons.push_back(polygon);
+    auto* cuboid = new Cuboid(width, height, depth);
+    cuboid->set_texture_to_all(OFFICE_TEXTURE);
+    cuboid->set_texture(TOP_FACE, CONCRETE1_TEXTURE);
+    cuboid->set_texture(BOTTOM_FACE, CONCRETE1_TEXTURE);
+    cuboid->construct_cuboid();
+    cuboid->set_texture_repeat_all({1, height/width});
+    polyhedrons.push_back(cuboid);
 
 
     for(auto& polygon1 : polygons){
@@ -70,55 +29,14 @@ Skyscraper::~Skyscraper(){}
 
 void Skyscraper::refresh() {
     polygons.clear();
-    constexpr int side_texture = SKYSCRAPER_TEXTURE;
 
-    // Floor
-    auto polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
-    polygon.add_vertex(0, 0, 0);
-    polygon.add_vertex(width, 0, 0);
-    polygon.add_vertex(width, 0, depth);
-    polygon.add_vertex(0, 0, depth);
-    polygons.push_back(polygon);
-
-    // Front Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(0, 0, depth);
-    polygon.add_vertex(width, 0, depth);
-    polygon.add_vertex(width, height, depth);
-    polygon.add_vertex(0, height, depth);
-    polygons.push_back(polygon);
-
-    // Back Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(0, 0, 0);
-    polygon.add_vertex(width, 0, 0);
-    polygon.add_vertex(width, height, 0);
-    polygon.add_vertex(0, height, 0);
-    polygons.push_back(polygon);
-
-    // Left Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(0, 0, 0);
-    polygon.add_vertex(0, 0, depth);
-    polygon.add_vertex(0, height, depth);
-    polygon.add_vertex(0, height, 0);
-    polygons.push_back(polygon);
-
-    // Right Side
-    polygon = Polygon(side_texture, 0xFFFFFF);
-    polygon.add_vertex(width, 0, 0);
-    polygon.add_vertex(width, 0, depth);
-    polygon.add_vertex(width, height, depth);
-    polygon.add_vertex(width, height, 0);
-    polygons.push_back(polygon);
-
-    // Roof
-    polygon = Polygon(CONCRETE1_TEXTURE, 0xFFFFFF);
-    polygon.add_vertex(0, height, 0);
-    polygon.add_vertex(width, height, 0);
-    polygon.add_vertex(width, height, depth);
-    polygon.add_vertex(0, height, depth);
-    polygons.push_back(polygon);
+    auto* cuboid = new Cuboid(width, height, depth);
+    cuboid->set_texture_to_all(OFFICE_TEXTURE);
+    cuboid->set_texture(TOP_FACE, CONCRETE1_TEXTURE);
+    cuboid->set_texture(BOTTOM_FACE, CONCRETE1_TEXTURE);
+    cuboid->construct_cuboid();
+    cuboid->set_texture_repeat_all({1, height/width});
+    polyhedrons.push_back(cuboid);
 
 
     for(auto& polygon1 : polygons){

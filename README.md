@@ -61,3 +61,5 @@ Credit to opengl-tutorial.org for guidance on [colors picking](http://www.opengl
 In general, my linear algebra work on this project was done from background knowledge and from the wikipedia page on [rotation matrices](https://en.wikipedia.org/wiki/Rotation_matrix).
 
 More information gathered for getting inputs for the camera were retrieved from the [Glut page from the openGL website](https://www.opengl.org/resources/libraries/glut/)
+
+Credit to 3Blue1Brown for the video on how to [change vector basis](https://youtu.be/P2LTAUO1TdA?si=3wQlK2JkL9tRRthN) used for the pipe objects in this project

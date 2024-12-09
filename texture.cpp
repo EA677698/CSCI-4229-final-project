@@ -6,7 +6,11 @@ Texture *Texture::instance = nullptr;
 Texture::Texture() {
 
     textures[NULL_TEXTURE] = LoadTexBMP("textures/dev_texture.bmp");
-    textures[SKYSCRAPER_TEXTURE] = LoadTexBMP("textures/skyscraper.bmp");
+    textures[SKYSCRAPER_TEXTURE] = LoadTexBMP("textures/facades/skyscraper.bmp");
+    textures[OFFICE_TEXTURE] = LoadTexBMP("textures/facades/office.bmp");
+    textures[OLD_OFFICE_TEXTURE] = LoadTexBMP("textures/facades/old_office.bmp");
+    textures[APARTMENT_TEXTURE] = LoadTexBMP("textures/facades/apartment.bmp");
+    textures[BRICK_APARTMENT_TEXTURE] = LoadTexBMP("textures/facades/brick_apartment.bmp");
     textures[ROAD_TEXTURE] = LoadTexBMP("textures/road.bmp");
     textures[INTERSECTION_TEXTURE] = LoadTexBMP("textures/intersection.bmp");
     textures[GRASS_TEXTURE] = LoadTexBMP("textures/grass.bmp");
