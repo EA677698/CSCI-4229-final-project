@@ -10,10 +10,10 @@ Renderer::Renderer() {
     width = 600;
     height = 600;
 
-    ambient = 10;
+    ambient = 200;
     diffuse = 50;
     specular = 0;
-    shininess = 0;
+    shininess = 16;
     shiny = 1;
 
     // Generate frame buffer
@@ -271,7 +271,8 @@ void Renderer::render(Scene scene) {
 
     // sun
     if(scene.is_sun_enabled() && scene.is_lighting_enabled()){
-        float Position[] = {sun_xy.x, sun_xy.y, 0, 1.0f};
+        float Position[] = {(float)(Cos(sun_xy.x) * camera.dim), (float)(Sin(sun_xy.y) * camera.dim), 0, 1.0f};
+        scene.get_sun_object()->set_position(Position[0], Position[1], Position[2]);
         float Ambient[] = {0.01f * ambient ,0.01f * ambient ,0.01f * ambient ,1.0};
         float Diffuse[] = {0.01f * diffuse ,0.01f * diffuse ,0.01f * diffuse ,1.0};
         float Specular[] = {0.01f * specular,0.01f * specular,0.01f * specular,1.0};
@@ -319,6 +320,8 @@ void Renderer::render(Scene scene) {
     }
 
     if (debug) {
+        //disable lighting
+        glDisable(GL_LIGHTING);
         render_debug(scene);
         ErrCheck("Renderer debug display");
     }

@@ -7,6 +7,7 @@
 #include "../primitives/cylinder.h"
 #include "../primitives/pyramid.h"
 #include "../primitives/pipe.h"
+#include "../primitives/sphere.h"
 
 StreetLight::StreetLight()
 {
@@ -54,6 +55,13 @@ StreetLight::StreetLight()
     lamp_case->set_texture(GALVANIZED_METAL_TEXTURE);
     lamp_case->set_color(0x696969);
     polyhedrons.push_back(lamp_case);
+
+    auto* bulb = new Sphere();
+    bulb->set_position(lamp_case->get_position().x, lamp_case->get_position().y - lamp_case->get_height() / 6, lamp_case->get_position().z);
+    bulb->set_texture(NO_TEXTURE);
+    bulb->set_color(0xFFFFFF);
+    bulb->refresh();
+    polyhedrons.push_back(bulb);
 }
 
 

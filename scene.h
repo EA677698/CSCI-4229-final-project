@@ -20,6 +20,7 @@ private:
 
     Camera camera;
     Object *skybox;
+    Object* sun_object;
     std::vector<Object *> objects;
     std::map<int, BoundingBox> colors;
     std::vector<BoundingBox> bounding_boxes;
@@ -77,6 +78,10 @@ public:
     void disable_sun();
 
     void disable_lighting();
+
+    void set_sun_object(Object* sun_object);
+
+    Object* get_sun_object();
 
 
 

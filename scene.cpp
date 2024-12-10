@@ -142,3 +142,12 @@ void Scene::disable_sun() {
 void Scene::disable_lighting() {
     lighting = false;
 }
+
+void Scene::set_sun_object(Object *sun_object) {
+    this->sun_object = sun_object;
+    add_object(sun_object);
+}
+
+Object *Scene::get_sun_object() {
+    return sun_object;
+}

@@ -14,6 +14,7 @@
 #include "objects/generic/sidewalk.h"
 #include "objects/generic/street_light.h"
 #include "objects/generic/golden_gate.h"
+#include "objects/primitives/sphere.h"
 
 ExampleScene::ExampleScene() {
     scene = Scene();
@@ -23,6 +24,8 @@ ExampleScene::ExampleScene() {
     // scene.disable_sun();
     auto *skybox = new Skybox();
     scene.add_skybox(skybox);
+    auto *sun = new Sphere(10);
+    scene.set_sun_object(sun);
     auto *terrain = new Terrain();
     terrain->set_width(600);
     terrain->set_position(-100, -0.1, 0);

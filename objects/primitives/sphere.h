@@ -10,11 +10,19 @@
 
 class Sphere : public Object {
 
+    float radius;
+    int lat;
+    int lon;
+
+    int texture;
+    int color;
+    Vector2 texture_repeat;
+
 public:
 
     using Object::Object;
 
-    Sphere(float radius = 1, int slices = 10, int stacks = 10);
+    Sphere(float radius = 1, int lat = 10, int lon = 10);
 
     void refresh() override;
 
