@@ -21,18 +21,10 @@ StreetLight::StreetLight()
 
     auto* pole = new Cylinder(width, height, depth, 10);
     pole->set_position(0, 0, 0);
-    pole->set_texture(GALVANIZED_METAL_TEXTURE);
+    pole->set_texture(SCRATCHED_METAL_TEXTURE);
     pole->set_color(0x696969);
     pole->set_texture_repeat({1.5, 0.5});
     polyhedrons.push_back(pole);
-
-    //    auto* pole_arm = new Cylinder(width, height * 3 / 4, depth, 10);
-    //    pole_arm->set_rotation(90, 0, 0);
-    //    pole_arm->set_position(0, 0, -pole->get_height() * 14 / 16);
-    //    pole_arm->set_texture(GALVANIZED_METAL_TEXTURE);
-    //    pole_arm->set_color(0x696969);
-    //    pole_arm->set_texture_repeat({1.5, 0.5});
-    //    polyhedrons.push_back(pole_arm);
 
     auto* pole_arm = new Pipe();
     Vector3 initial_position = {0, height * 1.20f, 0};
@@ -46,7 +38,7 @@ StreetLight::StreetLight()
     }
     pole_arm->set_sides(10);
     pole_arm->generate_pipe(true);
-    pole_arm->set_texture(GALVANIZED_METAL_TEXTURE);
+    pole_arm->set_texture(SCRATCHED_METAL_TEXTURE);
     pole_arm->set_color(0x696969);
     pole_arm->set_texture_repeat({1.5, 0.5});
     polyhedrons.push_back(pole_arm);
@@ -55,7 +47,7 @@ StreetLight::StreetLight()
     auto* lamp_case = new Pyramid(width * 2, 2, depth * 2, 10);
     lamp_case->set_position(pole_arm->get_position().x, (height * 1.20f) - lamp_case->get_height(),
                             pole_arm->get_depth() - lamp_case->get_depth() / 2);
-    lamp_case->set_texture(GALVANIZED_METAL_TEXTURE);
+    lamp_case->set_texture(SCRATCHED_METAL_TEXTURE);
     lamp_case->set_color(0x696969);
     polyhedrons.push_back(lamp_case);
 

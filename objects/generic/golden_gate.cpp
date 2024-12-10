@@ -680,7 +680,7 @@ GoldenGateBridge::GoldenGateBridge()
 
     Pipe* main_cable2 = new Pipe();
     main_cable2->set_sides(cable_sides);
-    for (float i = 0; i < 475; i += 2)
+    for (float i = 0; i < 475; i += 10)
     {
         float y_value = (232.0f / 225625.0f) * pow(i - 237.5f, 2.0f) + 2;
         main_cable1->add_point({-tower1_l->get_width() / 2.0f, y_value, i + tower1_l->get_depth()});

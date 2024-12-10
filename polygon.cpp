@@ -5,6 +5,7 @@
 
 Polygon::Polygon(const int texture, const int color)
 {
+    raw_texture = texture;
     if (texture == NO_TEXTURE)
     {
         has_texture = false;
@@ -161,6 +162,7 @@ void Polygon::add_vertex(const float x, const float y, const float z)
 
 void Polygon::set_texture(const int texture)
 {
+    raw_texture = texture;
     if (texture == NO_TEXTURE)
     {
         has_texture = false;
@@ -208,6 +210,11 @@ Vector2 Polygon::get_texture_repeats() const
 void Polygon::set_texture_repeats(float repeat_x, float repeat_y)
 {
     this->texture_repeats = {repeat_x, repeat_y};
+}
+
+int Polygon::get_raw_texture() const
+{
+    return raw_texture;
 }
 
 void Polygon::flip_texture_vertically()

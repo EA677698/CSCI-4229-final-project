@@ -12,6 +12,7 @@ private:
     Vector2 texture_repeats;
     std::vector<Vector3> vertices;
     std::vector<Vector2> texture_vertices;
+    int raw_texture;
     unsigned int texture;
     int color;
     bool has_texture;
@@ -59,6 +60,8 @@ public:
     void set_texture_repeats(const Vector2& repeats);
 
     void set_texture_repeats(float repeat_x, float repeat_y);
+
+    int get_raw_texture() const;
 
     void print_texture_vertices()
     {

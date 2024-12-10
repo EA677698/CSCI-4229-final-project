@@ -43,3 +43,28 @@ unsigned int Texture::get_texture(const int index) const
 
     return textures[index];
 }
+
+int Texture::get_material_type(int index) const
+{
+    if(index >= SKYSCRAPER_TEXTURE && index <= OLD_OFFICE_TEXTURE)
+    {
+        return GLASS_MATERIAL;
+    }
+    if(index >= OLD_WOOD_TEXTURE && index <= GRASS_TEXTURE)
+    {
+        return NATURAL_MATERIAL;
+    }
+    if(index >= APARTMENT_TEXTURE && index <= CONCRETE1_TEXTURE)
+    {
+        return STONE_MATERIAL;
+    }
+    if(index >= SKYBOX_FRONT_TEXTURE && index <= SKYBOX_BOTTOM_TEXTURE)
+    {
+        return SKYBOX_MATERIAL;
+    }
+    if(index >= GALVANIZED_METAL_TEXTURE && index <= BRASS_TEXTURE)
+    {
+        return METAL_MATERIAL;
+    }
+    return NO_MATERIAL;
+}

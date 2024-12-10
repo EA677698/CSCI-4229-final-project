@@ -4,6 +4,7 @@
 
 #ifndef LIGHT_H
 #define LIGHT_H
+#include "vector3.h"
 #include "vector4.h"
 
 
@@ -18,6 +19,9 @@ public:
     Vector4 specular;
     float shininess;
     Vector4 emission;
+    Vector3 attenuation;
+
+    bool attenuation_enabled;
 
     Light(unsigned int light);
 

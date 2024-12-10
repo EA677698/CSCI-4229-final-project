@@ -39,12 +39,6 @@ private:
     int width;
     int height;
 
-    int ambient;
-    int diffuse;
-    int specular;
-    int shininess;
-    float shiny;
-
     void render_picking_pass(Scene scene);
 
     void render_bounding_boxes(Scene scene);
@@ -52,6 +46,8 @@ private:
     void render_debug(Scene scene);
 
     void render_axis();
+
+    void set_material(int type);
 
     void render_object(Object* object, bool object_selected = false);
 

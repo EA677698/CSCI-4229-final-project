@@ -25,9 +25,10 @@ ExampleScene::ExampleScene()
     // scene.disable_sun();
     auto* skybox = new Skybox();
     scene.add_skybox(skybox);
-    auto* sun = new Sphere(10);
-    scene.set_sun_object(sun);
-    sun->init_light(GL_LIGHT0);
+    // auto* sun = new Sphere(10);
+    // sun->set_position({0,300,0});
+    // scene.set_sun_object(sun);
+    // sun->init_light(GL_LIGHT0);
     auto* terrain = new Terrain();
     terrain->set_width(600);
     terrain->set_position(-100, -0.1, 0);
@@ -249,7 +250,23 @@ ExampleScene::ExampleScene()
 
     auto* intersection_light1 = new IntersectionLight();
     intersection_light1->set_position(16, 0, -10);
+    intersection_light1->init_light(GL_LIGHT1);
+    Light* i_light1 = intersection_light1->get_light();
+    Vector3 i_light1_pos = intersection_light1->get_light_position(RED_LIGHT);
+    i_light1->position = {0,0,0, 1.0f};
+    i_light1->emission = {1.0f, 0.0f, 0.0f, 1.0f};
+    i_light1->ambient = {1.0f, 0.0f, 0.0f, 1.0f};
+    i_light1->diffuse = {1.0f, 0.0f, 0.0f, 1.0f};
+    i_light1->specular = {1.0f, 0.0f, 0.0f, 1.0f};
+    i_light1->shininess = 0.0f;
+    i_light1->attenuation_enabled = true;
+    i_light1->attenuation = {0.1f, 0.1f, 0.01f};
     scene.add_object(intersection_light1);
+
+    auto* ball = new Sphere(3);
+    ball->set_position(i_light1->position.x, i_light1->position.y, i_light1->position.z);
+    ball->set_color(0xFF0000);
+    scene.add_object(ball);
 
     auto* intersection_light2 = new IntersectionLight();
     intersection_light2->set_rotation(-180, 0, -180);
@@ -328,27 +345,27 @@ ExampleScene::ExampleScene()
     scene.add_object(golden_gate);
 
 
-    auto* skyscraper1 = new Skyscraper();
-    skyscraper1->set_position(-20, 0, -44);
-    scene.add_object(skyscraper1);
-
-    auto* skyscraper2 = new Skyscraper();
-    skyscraper2->add_height(-30);
-    skyscraper2->set_position(72, 0, -44);
-    skyscraper2->refresh();
-    scene.add_object(skyscraper2);
-
-    auto* skyscraper3 = new Skyscraper();
-    skyscraper3->add_height(50);
-    skyscraper3->set_position(72, 0, 42);
-    skyscraper3->refresh();
-    scene.add_object(skyscraper3);
-
-    auto* skyscraper4 = new Skyscraper();
-    skyscraper4->add_height(-40);
-    skyscraper4->set_position(-20, 0, 42);
-    skyscraper4->refresh();
-    scene.add_object(skyscraper4);
+    // auto* skyscraper1 = new Skyscraper();
+    // skyscraper1->set_position(-20, 0, -44);
+    // scene.add_object(skyscraper1);
+    //
+    // auto* skyscraper2 = new Skyscraper();
+    // skyscraper2->add_height(-30);
+    // skyscraper2->set_position(72, 0, -44);
+    // skyscraper2->refresh();
+    // scene.add_object(skyscraper2);
+    //
+    // auto* skyscraper3 = new Skyscraper();
+    // skyscraper3->add_height(50);
+    // skyscraper3->set_position(72, 0, 42);
+    // skyscraper3->refresh();
+    // scene.add_object(skyscraper3);
+    //
+    // auto* skyscraper4 = new Skyscraper();
+    // skyscraper4->add_height(-40);
+    // skyscraper4->set_position(-20, 0, 42);
+    // skyscraper4->refresh();
+    // scene.add_object(skyscraper4);
 }
 
 ExampleScene::~ExampleScene() = default;

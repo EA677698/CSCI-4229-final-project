@@ -3,6 +3,10 @@
 
 #include "../object.h"
 
+#define RED_LIGHT 0xFF0000
+#define YELLOW_LIGHT 0xFFFF00
+#define GREEN_LIGHT 0x00FF00
+
 class IntersectionLight : public Object
 {
 public:
@@ -13,6 +17,8 @@ public:
     void refresh() override;
 
     ~IntersectionLight();
+
+    Vector3 get_light_position(int light_color) const;
 };
 
 

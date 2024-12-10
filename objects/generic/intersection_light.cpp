@@ -19,7 +19,7 @@ IntersectionLight::IntersectionLight()
 
     auto* pole = new Cylinder(width, height, depth, 10);
     pole->set_position(0, 0, 0);
-    pole->set_texture(GALVANIZED_METAL_TEXTURE);
+    pole->set_texture(SCRATCHED_METAL_TEXTURE);
     pole->set_color(0x696969);
     pole->set_texture_repeat({1.5, 0.5});
     polyhedrons.push_back(pole);
@@ -27,7 +27,7 @@ IntersectionLight::IntersectionLight()
     auto* pole_arm = new Cylinder(width, height * 3 / 4, depth, 10);
     pole_arm->set_rotation(90, 0, 0);
     pole_arm->set_position(0, 0, -pole->get_height() * 14 / 16);
-    pole_arm->set_texture(GALVANIZED_METAL_TEXTURE);
+    pole_arm->set_texture(SCRATCHED_METAL_TEXTURE);
     pole_arm->set_color(0x696969);
     pole_arm->set_texture_repeat({1.5, 0.5});
     polyhedrons.push_back(pole_arm);
@@ -36,7 +36,7 @@ IntersectionLight::IntersectionLight()
     light_box->set_position(0, pole_arm->get_height() * 0.95f, height * 0.45f);
     for (int i = 0; i < 6; i++)
     {
-        light_box->set_texture(i, GALVANIZED_METAL_TEXTURE);
+        light_box->set_texture(i, SCRATCHED_METAL_TEXTURE);
         light_box->set_color(i, 0x404040);
     }
     light_box->construct_cuboid();
@@ -74,6 +74,8 @@ IntersectionLight::IntersectionLight()
     {
         polygon1.generate_texture_vertices();
     }
+    depth = 10;
+    height = 20;
 }
 
 void IntersectionLight::refresh()
@@ -82,4 +84,17 @@ void IntersectionLight::refresh()
 
 IntersectionLight::~IntersectionLight()
 {
+}
+
+Vector3 IntersectionLight::get_light_position(const int light_color) const
+{
+    switch (light_color)
+    {
+    case YELLOW_LIGHT:
+        return polyhedrons[4]->get_position();
+    case GREEN_LIGHT:
+        return polyhedrons[5]->get_position();
+    default:
+        return polyhedrons[3]->get_position();
+    }
 }

@@ -350,6 +350,7 @@ void key(unsigned char ch, int x, int y)
         scene.dir_y = Sin(camera.pitch);
         scene.dir_z = Sin(camera.angle);
     }
+    light ? scene.enable_lighting() : scene.disable_lighting();
     //  Reproject
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
     //  Tell GLUT it is necessary to redisplay the scene

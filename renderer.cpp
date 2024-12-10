@@ -11,12 +11,6 @@ Renderer::Renderer()
     width = 600;
     height = 600;
 
-    ambient = 200;
-    diffuse = 50;
-    specular = 0;
-    shininess = 16;
-    shiny = 1;
-
     // Generate frame buffer
     glGenFramebuffers(1, &frame_buffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
@@ -41,6 +35,7 @@ Renderer::~Renderer()
 {
 }
 
+// reads the color underneath the mouse cursor
 int Renderer::read_color()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
@@ -135,6 +130,8 @@ void Renderer::render_debug(Scene scene)
         mode_str = "First Person";
     Print("Angle=%d,%d  Dim=%.1f FOV=%f Projection=%s", camera.th, camera.ph, camera.dim, camera.fov, mode_str.c_str());
     glWindowPos2i(5, 25);
+
+    // Prints values of the first selected object
     if (!scene.get_selected_objects().empty())
     {
         Object* selected = scene.get_selected_objects().front();
@@ -149,6 +146,65 @@ void Renderer::render_debug(Scene scene)
     ErrCheck("Renderer debug");
 }
 
+// Sets material values based on texture
+void Renderer::set_material(int type)
+{
+    Vector4 Ambient;
+    Vector4 Diffuse;
+    Vector4 Specular;
+    Vector4 Emission;
+    float Shininess;
+
+    if (type == GLASS_MATERIAL)
+    {
+        Ambient = {0.1f, 0.1f, 0.2f, 0.1f};
+        Diffuse = {0.2f, 0.2f, 0.3f, 0.1f};
+        Specular = {0.7f, 0.7f, 0.8f, 1.0f};
+        Emission = {0.0f, 0.0f, 0.0f, 1.0f};
+        Shininess = 80.0f;
+    }
+    else if (type == NATURAL_MATERIAL)
+    {
+        Ambient = {0.2f, 0.2f, 0.1f, 1.0f};
+        Diffuse = {0.4f, 0.3f, 0.1f, 1.0f};
+        Specular = {0.1f, 0.1f, 0.1f, 1.0f};
+        Emission = {0.0f, 0.0f, 0.0f, 1.0f};
+        Shininess = 10.0f;
+    }
+    else if (type == STONE_MATERIAL)
+    {
+        Ambient = {0.2f, 0.2f, 0.2f, 1.0f};
+        Diffuse = {0.5f, 0.5f, 0.5f, 1.0f};
+        Specular = {0.1f, 0.1f, 0.1f, 1.0f};
+        Emission = {0.0f, 0.0f, 0.0f, 1.0f};
+        Shininess = 5.0f;
+    }
+    else if (type == METAL_MATERIAL)
+    {
+        Ambient = {0.2f, 0.2f, 0.2f, 1.0f};
+        Diffuse = {0.5f, 0.5f, 0.5f, 1.0f};
+        Specular = {0.7f, 0.7f, 0.7f, 1.0f};
+        Emission = {0.0f, 0.0f, 0.0f, 1.0f};
+        Shininess = 50.0f;
+    }
+    else
+    {
+        Ambient = {0.2f, 0.2f, 0.2f, 1.0f};
+        Diffuse = {0.8f, 0.8f, 0.8f, 1.0f};
+        Specular = {0.5f, 0.5f, 0.5f, 1.0f};
+        Emission = {0.0f, 0.0f, 0.0f, 1.0f};
+        Shininess = 32.0f;
+    }
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, Ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Emission);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, Shininess);
+}
+
+
+// processes any lights that may be attached to an object
 void Renderer::render_light(Light* light)
 {
     glLightfv(light->get_light(), GL_POSITION, light->position);
@@ -156,8 +212,19 @@ void Renderer::render_light(Light* light)
     glLightfv(light->get_light(), GL_DIFFUSE, light->diffuse);
     glLightfv(light->get_light(), GL_SPECULAR, light->specular);
     glEnable(light->get_light());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &light->shininess);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, light->emission);
+    if (light->attenuation_enabled)
+    {
+        glLightf(light->get_light(), GL_CONSTANT_ATTENUATION, light->attenuation.x);
+        glLightf(light->get_light(), GL_LINEAR_ATTENUATION, light->attenuation.y);
+        glLightf(light->get_light(), GL_QUADRATIC_ATTENUATION, light->attenuation.z);
+    }
+    else
+    {
+        // Reset attenuation
+        glLightf(light->get_light(), GL_CONSTANT_ATTENUATION, 1.0f);
+        glLightf(light->get_light(), GL_LINEAR_ATTENUATION, 0.0f);
+        glLightf(light->get_light(), GL_QUADRATIC_ATTENUATION, 0.0f);
+    }
 }
 
 // recursively calls itself if an object is composed of other objects (polyhedrons)
@@ -168,12 +235,14 @@ void Renderer::render_object(Object* object, const bool object_selected)
         render_light(object->get_light());
     }
     const std::vector<Polygon> polygons = object->get_polygons();
+    Texture* instance = Texture::get_instance();
     for (auto polygon : polygons)
     {
         std::vector<Vector3> vertices = polygon.get_vertices();
         std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
         const int color = polygon.get_color();
 
+        const int raw_texture = polygon.get_raw_texture();
         const unsigned int texture = polygon.get_texture();
         const Vector2 repeats = polygon.get_texture_repeats();
         const Vector3 normal = polygon.calculate_normal();
@@ -182,6 +251,10 @@ void Renderer::render_object(Object* object, const bool object_selected)
             glEnable(GL_TEXTURE_2D);
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
             glBindTexture(GL_TEXTURE_2D, texture);
+            set_material(instance->get_material_type(raw_texture));
+        } else
+        {
+            set_material(NO_MATERIAL);
         }
         glBegin(GL_POLYGON);
         if (object_selected)
@@ -309,7 +382,7 @@ void Renderer::render(Scene scene)
     // sun
     if (scene.is_lighting_enabled())
     {
-        if (scene.is_sun_enabled())
+        if (scene.is_sun_enabled() && scene.get_sun_object() != nullptr)
         {
             float Position[] = {(float)(Cos(sun_xy.x) * camera.dim), (float)(Sin(sun_xy.y) * camera.dim), 0, 1.0f};
             scene.get_sun_object()->get_light()->position = {
@@ -317,8 +390,8 @@ void Renderer::render(Scene scene)
             };
             scene.get_sun_object()->set_position(Position[0], Position[1], Position[2]);
         }
+
         float GlobalAmbient[] = {0.3, 0.3, 0.3, 1.0};
-        glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, GlobalAmbient);
         glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);

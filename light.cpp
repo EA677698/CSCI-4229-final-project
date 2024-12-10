@@ -13,6 +13,7 @@ Light::Light(const unsigned int light)
     shininess = 16;
     emission = Vector4(0, 0, 0, 1);
     this->light = light;
+    attenuation_enabled = false;
 }
 
 Light::Light(const Vector4& position, const Vector4& ambient, const Vector4& diffuse, const Vector4& specular,
@@ -25,6 +26,7 @@ Light::Light(const Vector4& position, const Vector4& ambient, const Vector4& dif
     this->shininess = shininess;
     this->emission = emission;
     this->light = light;
+    attenuation_enabled = false;
 }
 
 unsigned int Light::get_light() const

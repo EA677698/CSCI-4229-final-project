@@ -12,6 +12,7 @@ Scene::Scene()
     bounding_boxes = {};
     selected_objects = {};
     sun = true;
+    sun_object = nullptr;
     lighting = true;
 }
 
