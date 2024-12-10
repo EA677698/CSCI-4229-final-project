@@ -7,14 +7,12 @@
 #include "../object.h"
 
 
-class Pyramid : public Object{
-
+class Pyramid : public Object
+{
 private:
-
     int sides;
 
 public:
-
     using Object::Object;
 
     Pyramid(float width = 1, float height = 1, float depth = 1, int sides = 3);
@@ -28,11 +26,7 @@ public:
     void set_color(int color);
 
     ~Pyramid();
-
-
-
 };
-
 
 
 #endif //PYRAMID_H

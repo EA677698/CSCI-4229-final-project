@@ -8,31 +8,27 @@
 #include "objects/object.h"
 #include <vector>
 
-class BoundingBox {
-
+class BoundingBox
+{
 private:
-
     float width, height, depth;
-    Object *object;
+    Object* object;
     int color;
 
     std::vector<Polygon> polygons;
 
 public:
-
     BoundingBox();
 
-    BoundingBox(Object *object, int color);
+    BoundingBox(Object* object, int color);
 
     ~BoundingBox();
 
     std::vector<Polygon> get_polygons() const;
 
-    Object *get_object() const;
+    Object* get_object() const;
 
     int get_color() const;
-
-
 };
 
 

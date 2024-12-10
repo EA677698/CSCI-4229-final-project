@@ -5,8 +5,8 @@
 #include "skybox.h"
 #include "../texture.h"
 
-Skybox::Skybox() {
-
+Skybox::Skybox()
+{
     width = 1;
     depth = 1;
     height = 1;
@@ -65,20 +65,22 @@ Skybox::Skybox() {
     polygon.add_vertex(0, height, depth);
     polygons.push_back(polygon);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
     polygons.at(2).flip_texture_horizontally();
     polygons.at(3).flip_texture_horizontally();
     polygons.at(4).flip_texture_horizontally();
     polygons.at(5).flip_texture_vertically();
-
 }
 
-Skybox::~Skybox() {}
+Skybox::~Skybox()
+{
+}
 
-void Skybox::refresh() {
-
+void Skybox::refresh()
+{
     polygons.clear();
 
 
@@ -132,12 +134,12 @@ void Skybox::refresh() {
     polygon.add_vertex(0, height, depth);
     polygons.push_back(polygon);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
     polygons.at(2).flip_texture_horizontally();
     polygons.at(3).flip_texture_horizontally();
     polygons.at(4).flip_texture_horizontally();
     polygons.at(5).flip_texture_vertically();
-
 }

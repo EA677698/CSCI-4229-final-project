@@ -7,8 +7,8 @@
 #include "../primitives/cuboid.h"
 #include "../../texture.h"
 
-IntersectionLight::IntersectionLight() {
-
+IntersectionLight::IntersectionLight()
+{
     width = 1;
     height = 15;
     depth = 1;
@@ -34,7 +34,8 @@ IntersectionLight::IntersectionLight() {
 
     auto* light_box = new Cuboid(width * 2, height / 3, depth * 2);
     light_box->set_position(0, pole_arm->get_height() * 0.95f, height * 0.45f);
-    for(int i = 0; i < 6; i++){
+    for (int i = 0; i < 6; i++)
+    {
         light_box->set_texture(i, GALVANIZED_METAL_TEXTURE);
         light_box->set_color(i, 0x404040);
     }
@@ -45,33 +46,40 @@ IntersectionLight::IntersectionLight() {
     auto* red_light = new Cylinder(width / 2, light_box->get_depth() / 4, depth / 2, 10);
     red_light->set_texture(NO_TEXTURE);
     red_light->set_rotation(0, 0, 90);
-    red_light->set_position(light_box->get_position().y + light_box->get_height() * 0.8f, -light_box->get_depth() - red_light->get_depth(), light_box->get_position().z + light_box->get_width() / 2);
+    red_light->set_position(light_box->get_position().y + light_box->get_height() * 0.8f,
+                            -light_box->get_depth() - red_light->get_depth(),
+                            light_box->get_position().z + light_box->get_width() / 2);
     red_light->set_color(0xFF0000);
     polyhedrons.push_back(red_light);
 
     auto* yellow_light = new Cylinder(width / 2, light_box->get_depth() / 4, depth / 2, 10);
     yellow_light->set_texture(NO_TEXTURE);
     yellow_light->set_rotation(0, 0, 90);
-    yellow_light->set_position(light_box->get_position().y + light_box->get_height() * 0.5f, -light_box->get_depth() - yellow_light->get_depth(), light_box->get_position().z + light_box->get_width() / 2);
+    yellow_light->set_position(light_box->get_position().y + light_box->get_height() * 0.5f,
+                               -light_box->get_depth() - yellow_light->get_depth(),
+                               light_box->get_position().z + light_box->get_width() / 2);
     yellow_light->set_color(0xFFFF00);
     polyhedrons.push_back(yellow_light);
 
     auto* green_light = new Cylinder(width / 2, light_box->get_depth() / 4, depth / 2, 10);
     green_light->set_texture(NO_TEXTURE);
     green_light->set_rotation(0, 0, 90);
-    green_light->set_position(light_box->get_position().y + light_box->get_height() * 0.2f, -light_box->get_depth() - green_light->get_depth(), light_box->get_position().z + light_box->get_width() / 2);
+    green_light->set_position(light_box->get_position().y + light_box->get_height() * 0.2f,
+                              -light_box->get_depth() - green_light->get_depth(),
+                              light_box->get_position().z + light_box->get_width() / 2);
     green_light->set_color(0x00FF00);
     polyhedrons.push_back(green_light);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
-
 }
 
-void IntersectionLight::refresh() {
-
+void IntersectionLight::refresh()
+{
 }
 
-IntersectionLight::~IntersectionLight() {}
+IntersectionLight::~IntersectionLight()
+{
+}

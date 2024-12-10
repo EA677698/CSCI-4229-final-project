@@ -1,7 +1,8 @@
 #include "street.h"
 #include "../../texture.h"
 
-Street::Street() {
+Street::Street()
+{
     width = 12;
     depth = 40;
     height = 0.2;
@@ -15,14 +16,18 @@ Street::Street() {
     polygon.add_vertex(width, height, 0);
     polygons.push_back(polygon);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }
 
-Street::~Street() {}
+Street::~Street()
+{
+}
 
-void Street::refresh() {
+void Street::refresh()
+{
     polygons.clear();
     auto polygon = Polygon(ROAD_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);
@@ -31,7 +36,8 @@ void Street::refresh() {
     polygon.add_vertex(width, height, 0);
     polygons.push_back(polygon);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }

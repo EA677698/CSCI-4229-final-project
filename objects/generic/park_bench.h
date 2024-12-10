@@ -8,17 +8,15 @@
 
 #include "../object.h"
 
-class ParkBench : public Object {
-
+class ParkBench : public Object
+{
 public:
-
     using Object::Object;
 
     ParkBench();
     ~ParkBench();
 
     void refresh() override;
-
 };
 
 

@@ -10,7 +10,8 @@
 #include "../../texture.h"
 #include "../primitives/pipe.h"
 
-ParkBench::ParkBench() {
+ParkBench::ParkBench()
+{
     width = 4;
     height = 2;
     depth = 2;
@@ -22,12 +23,11 @@ ParkBench::ParkBench() {
 
     name = "Park Bench";
 
-    position = {0,0,height / 2.0f};
+    position = {0, 0, height / 2.0f};
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, 8);
-
 
 
     auto* top_plank1 = new Cuboid(width, plank_height, plank_depth);
@@ -98,13 +98,16 @@ ParkBench::ParkBench() {
     structure_pipe->set_texture(SCRATCHED_METAL_TEXTURE);
     polyhedrons.push_back(structure_pipe);
 
-    for(auto& polygon1 : polygons){
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }
 
-ParkBench::~ParkBench() {}
+ParkBench::~ParkBench()
+{
+}
 
-void ParkBench::refresh() {
-
+void ParkBench::refresh()
+{
 }

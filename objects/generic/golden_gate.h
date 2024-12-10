@@ -7,11 +7,9 @@
 
 #include "../object.h"
 
-class GoldenGateBridge : public Object {
-
-
+class GoldenGateBridge : public Object
+{
 public:
-
     using Object::Object;
 
     GoldenGateBridge();
@@ -19,7 +17,6 @@ public:
     void refresh() override;
 
     ~GoldenGateBridge();
-
 };
 
 

@@ -1,6 +1,7 @@
 #include "camera.h"
 
-Camera::Camera() {
+Camera::Camera()
+{
     is_dragging = false;
     camera_locked = false;
     object_dragging = false;
@@ -31,28 +32,35 @@ Camera::Camera() {
     mode = PERSPECTIVE;
 }
 
-Camera::~Camera() {}
+Camera::~Camera()
+{
+}
 
-void Camera::change_viewing_mode(int mode) {
+void Camera::change_viewing_mode(int mode)
+{
     this->mode = mode % 3;
 }
 
-void Camera::view(double dir_x, double dir_y, double dir_z) {
+void Camera::view(double dir_x, double dir_y, double dir_z)
+{
     if (mode == FIRST_PERSON) // first person
         gluLookAt(x, y, z, x + dir_x, y + dir_y, z + dir_z, 0, 1, 0);
-    else if (mode == PERSPECTIVE) {
+    else if (mode == PERSPECTIVE)
+    {
         double Ex = -2 * dim * Sin(th) * Cos(ph);
         double Ey = (+2 * dim * Sin(ph)) + 500;
         double Ez = +2 * dim * Cos(th) * Cos(ph);
         gluLookAt(Ex, Ey, Ez, pan_x, 0, pan_y, 0, Cos(ph), 0);
     }
-        //  Orthogonal - set world orientation
-    else {
+    //  Orthogonal - set world orientation
+    else
+    {
         glRotatef(ph, 1, 0, 0);
         glRotatef(th, 0, 1, 0);
     }
 }
 
-int Camera::get_viewing_mode() const {
+int Camera::get_viewing_mode() const
+{
     return mode;
 }

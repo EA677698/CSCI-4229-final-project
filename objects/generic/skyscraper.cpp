@@ -2,7 +2,8 @@
 #include "../../texture.h"
 #include "../primitives/cuboid.h"
 
-Skyscraper::Skyscraper() {
+Skyscraper::Skyscraper()
+{
     width = 50;
     height = 200;
     depth = 50;
@@ -16,18 +17,22 @@ Skyscraper::Skyscraper() {
     cuboid->set_texture(TOP_FACE, CONCRETE1_TEXTURE);
     cuboid->set_texture(BOTTOM_FACE, CONCRETE1_TEXTURE);
     cuboid->construct_cuboid();
-    cuboid->set_texture_repeat_all({1, height/width});
+    cuboid->set_texture_repeat_all({1, height / width});
     polyhedrons.push_back(cuboid);
 
 
-    for(auto& polygon1 : polygons){
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }
 
-Skyscraper::~Skyscraper(){}
+Skyscraper::~Skyscraper()
+{
+}
 
-void Skyscraper::refresh() {
+void Skyscraper::refresh()
+{
     polygons.clear();
 
     auto* cuboid = new Cuboid(width, height, depth);
@@ -35,11 +40,12 @@ void Skyscraper::refresh() {
     cuboid->set_texture(TOP_FACE, CONCRETE1_TEXTURE);
     cuboid->set_texture(BOTTOM_FACE, CONCRETE1_TEXTURE);
     cuboid->construct_cuboid();
-    cuboid->set_texture_repeat_all({1, height/width});
+    cuboid->set_texture_repeat_all({1, height / width});
     polyhedrons.push_back(cuboid);
 
 
-    for(auto& polygon1 : polygons){
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }

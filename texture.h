@@ -1,7 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-enum TextureType {
+enum TextureType
+{
     NULL_TEXTURE,
     SKYSCRAPER_TEXTURE,
     OFFICE_TEXTURE,
@@ -31,32 +32,31 @@ enum TextureType {
 };
 
 // singleton class for loading textures
-class Texture {
-
+class Texture
+{
 private:
-
-    static Texture *instance;
+    static Texture* instance;
     unsigned int textures[TEXTURE_COUNT];
 
     Texture();
 
     ~Texture();
 
-    Texture(const Texture &) = delete;
+    Texture(const Texture&) = delete;
 
-    Texture &operator=(const Texture &) = delete;
+    Texture& operator=(const Texture&) = delete;
 
 public:
-
-    static Texture *get_instance() {
-        if (instance == nullptr) {
+    static Texture* get_instance()
+    {
+        if (instance == nullptr)
+        {
             instance = new Texture();
         }
         return instance;
     }
 
     unsigned int get_texture(int index) const;
-
 };
 
 #endif

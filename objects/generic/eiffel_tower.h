@@ -8,11 +8,9 @@
 #include "../object.h"
 
 
-class EiffelTower : public Object {
-
-
+class EiffelTower : public Object
+{
 public:
-
     using Object::Object;
 
     EiffelTower();
@@ -20,7 +18,6 @@ public:
     void refresh() override;
 
     ~EiffelTower();
-
 };
 
 

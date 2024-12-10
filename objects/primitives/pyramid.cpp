@@ -22,7 +22,8 @@ Pyramid::Pyramid(float width, float height, float depth, int sides)
 
     Vector3 top = Vector3(0, this->height, 0);
 
-    for (int i = 0; i < this->sides; i++) {
+    for (int i = 0; i < this->sides; i++)
+    {
         float angle = i * step;
         float next_angle = (i + 1) * step;
 
@@ -41,7 +42,8 @@ Pyramid::Pyramid(float width, float height, float depth, int sides)
 
     // Base (that can have sides added)
     polygon = Polygon(0xFFFFFF);
-    for (int i = 0; i < this->sides; i++) {
+    for (int i = 0; i < this->sides; i++)
+    {
         float angle = i * step;
         float x = this->width * Cos(angle);
         float z = this->depth * Sin(angle);
@@ -50,10 +52,10 @@ Pyramid::Pyramid(float width, float height, float depth, int sides)
 
     polygons.push_back(polygon);
 
-    for (auto& polygon1 : polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
 }
 
 void Pyramid::refresh()
@@ -66,7 +68,8 @@ void Pyramid::refresh()
 
     Vector3 top = Vector3(0, this->height, 0);
 
-    for (int i = 0; i < this->sides; i++) {
+    for (int i = 0; i < this->sides; i++)
+    {
         float angle = i * step;
         float next_angle = (i + 1) * step;
 
@@ -85,7 +88,8 @@ void Pyramid::refresh()
 
     // Base (that can have sides added)
     polygon = Polygon(0xFFFFFF);
-    for (int i = 0; i < this->sides; i++) {
+    for (int i = 0; i < this->sides; i++)
+    {
         float angle = i * step;
         float x = this->width * Cos(angle);
         float z = this->depth * Sin(angle);
@@ -94,36 +98,37 @@ void Pyramid::refresh()
 
     polygons.push_back(polygon);
 
-    for (auto& polygon1 : polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
 }
 
 
-
-void Pyramid::set_texture_repeat(const Vector2& repeat) {
-
-    for (auto& polygon : polygons) {
+void Pyramid::set_texture_repeat(const Vector2& repeat)
+{
+    for (auto& polygon : polygons)
+    {
         polygon.set_texture_repeats(repeat);
     }
-
 }
 
-void Pyramid::set_texture(int texture) {
-
-    for (auto& polygon : polygons) {
+void Pyramid::set_texture(int texture)
+{
+    for (auto& polygon : polygons)
+    {
         polygon.set_texture(texture);
     }
-
 }
 
-void Pyramid::set_color(int color) {
-
-    for (auto& polygon : polygons) {
+void Pyramid::set_color(int color)
+{
+    for (auto& polygon : polygons)
+    {
         polygon.set_color(color);
     }
-
 }
 
-Pyramid::~Pyramid(){}
+Pyramid::~Pyramid()
+{
+}

@@ -3,13 +3,12 @@
 
 #include "object.h"
 
-class Terrain : public Object {
-
+class Terrain : public Object
+{
 private:
 
 
 public:
-
     using Object::Object;
 
     Terrain();
@@ -17,7 +16,6 @@ public:
     void refresh() override;
 
     ~Terrain();
-
 };
 
 

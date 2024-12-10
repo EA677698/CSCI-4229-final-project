@@ -3,10 +3,9 @@
 
 #include "../object.h"
 
-class Street : public Object {
-
+class Street : public Object
+{
 public:
-
     using Object::Object;
 
     Street();
@@ -14,7 +13,6 @@ public:
     void refresh() override;
 
     ~Street();
-
 };
 
 #endif

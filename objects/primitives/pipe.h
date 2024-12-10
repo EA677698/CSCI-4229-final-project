@@ -7,10 +7,9 @@
 
 #include "../object.h"
 
-class Pipe : public Object {
-
+class Pipe : public Object
+{
 private:
-
     int sides;
 
     float radius;
@@ -33,9 +32,7 @@ private:
 
     void generate_basis(const Vector3& v1, const Vector3& v2);
 
-
 public:
-
     Pipe(float radius = 1, int sides = 3);
 
     void refresh() override;
@@ -59,15 +56,8 @@ public:
     void disable_z_rotation();
 
 
-
-
-
-
-
     ~Pipe();
-
 };
-
 
 
 #endif //PIPE_H

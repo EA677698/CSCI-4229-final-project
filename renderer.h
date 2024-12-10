@@ -29,10 +29,9 @@
 #define DEBUG_ON 1
 #define DEBUG_OFF 0
 
-class Renderer {
-
+class Renderer
+{
 private:
-
     Vector2 mouse_position;
     int axis;
     int debug;
@@ -56,19 +55,20 @@ private:
 
     void render_object(Object* object, bool object_selected = false);
 
+    void render_light(Light* light);
+
     GLuint frame_buffer;
     GLuint texture_color_buffer;
     GLuint render_buffer;
 
 public:
-
     Vector2 sun_xy;
 
     void resize();
 
-    void set_sun_position(const Vector2 &position);
+    void set_sun_position(const Vector2& position);
 
-    void add_sun_position(const Vector2 &position);
+    void add_sun_position(const Vector2& position);
 
     Vector2 get_sun_position() const;
 
@@ -96,8 +96,7 @@ public:
 
     int get_debug() const;
 
-    void set_mouse_position(const Vector2 &position);
-
+    void set_mouse_position(const Vector2& position);
 };
 
 

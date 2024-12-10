@@ -7,20 +7,16 @@
 
 #include "scene.h"
 
-class ExampleScene {
-
+class ExampleScene
+{
 private:
-
     Scene scene;
 
 public:
-
     ExampleScene();
     ~ExampleScene();
 
     Scene get_scene();
-
-
 };
 
 

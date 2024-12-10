@@ -3,10 +3,9 @@
 
 #include "../object.h"
 
-class Skyscraper : public Object {
-
+class Skyscraper : public Object
+{
 public:
-
     using Object::Object;
 
     Skyscraper();
@@ -14,7 +13,6 @@ public:
     void refresh() override;
 
     ~Skyscraper();
-
 };
 
 #endif

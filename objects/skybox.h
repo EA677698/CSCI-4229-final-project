@@ -7,11 +7,9 @@
 
 #include "object.h"
 
-class Skybox : public Object {
-
-
+class Skybox : public Object
+{
 public:
-
     using Object::Object;
 
     Skybox();
@@ -19,7 +17,6 @@ public:
     void refresh() override;
 
     ~Skybox();
-
 };
 
 

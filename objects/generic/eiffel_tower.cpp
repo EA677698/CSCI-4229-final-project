@@ -6,8 +6,8 @@
 #include "../primitives/cuboid.h"
 #include "../../texture.h"
 
-EiffelTower::EiffelTower() {
-
+EiffelTower::EiffelTower()
+{
     width = 125;
     height = 300;
     depth = 125;
@@ -76,8 +76,11 @@ EiffelTower::EiffelTower() {
     float leg2_proportion = 0.142857f;
     float second_layer_height = height * 0.19f * (2.0f / 3.0f);
 
-    auto platform2 = new Cuboid(platform1->get_width() * (2.3f / 4.0f), height * 0.19f * (1.0f / 3.0f), platform1->get_depth() * (2.3f / 4.0f));
-    platform2->set_position(leg2_proportion * width + platform2->get_width() / 2, (height * 0.19f) + second_layer_height , leg2_proportion * depth + platform2->get_depth() / 2);
+    auto platform2 = new Cuboid(platform1->get_width() * (2.3f / 4.0f), height * 0.19f * (1.0f / 3.0f),
+                                platform1->get_depth() * (2.3f / 4.0f));
+    platform2->set_position(leg2_proportion * width + platform2->get_width() / 2,
+                            (height * 0.19f) + second_layer_height,
+                            leg2_proportion * depth + platform2->get_depth() / 2);
     platform2->set_texture_to_all(BRASS_TEXTURE);
     platform2->construct_cuboid();
     polyhedrons.push_back(platform2);
@@ -95,7 +98,8 @@ EiffelTower::EiffelTower() {
 
     // Back right leg
     auto* br_leg2 = new Cuboid(leg2_proportion * width, second_layer_height, leg2_proportion * depth);
-    br_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f, leg1_proportion * depth);
+    br_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f,
+                          leg1_proportion * depth);
     br_leg2->add_vector(BACK_TOP_RIGHT, -leg2_proportion * width, 0, leg2_proportion * depth);
     br_leg2->add_vector(BACK_TOP_LEFT, -leg2_proportion * width, 0, leg2_proportion * depth);
     br_leg2->add_vector(FRONT_TOP_RIGHT, -leg2_proportion * width, 0, leg2_proportion * depth);
@@ -117,7 +121,8 @@ EiffelTower::EiffelTower() {
 
     // Front right leg
     auto* fr_leg2 = new Cuboid(leg2_proportion * width, second_layer_height, leg2_proportion * depth);
-    fr_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f, depth - fl_leg->get_depth() - fl_leg2->get_depth());
+    fr_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f,
+                          depth - fl_leg->get_depth() - fl_leg2->get_depth());
     fr_leg2->add_vector(BACK_TOP_RIGHT, -leg2_proportion * width, 0, -leg2_proportion * depth);
     fr_leg2->add_vector(BACK_TOP_LEFT, -leg2_proportion * width, 0, -leg2_proportion * depth);
     fr_leg2->add_vector(FRONT_TOP_RIGHT, -leg2_proportion * width, 0, -leg2_proportion * depth);
@@ -129,29 +134,33 @@ EiffelTower::EiffelTower() {
     // layer 3
 
     float leg3_proportion = 0.0714;
-    float third_layer_height = height * 0.54f * (7.0f/8.5f);
+    float third_layer_height = height * 0.54f * (7.0f / 8.5f);
 
-    auto* platform3 = new Cuboid(platform2->get_width() * (1.3f / 2.3f), height * 0.54f * (0.5f/8.5f), platform2->get_width() * (1.3f / 2.3f));
-    platform3->set_position(leg1_proportion * width + leg2_proportion * width + leg3_proportion * width, height * 0.38f + third_layer_height, leg2_proportion * depth + platform2->get_depth() / 2 + platform3->get_width() / 3);
+    auto* platform3 = new Cuboid(platform2->get_width() * (1.3f / 2.3f), height * 0.54f * (0.5f / 8.5f),
+                                 platform2->get_width() * (1.3f / 2.3f));
+    platform3->set_position(leg1_proportion * width + leg2_proportion * width + leg3_proportion * width,
+                            height * 0.38f + third_layer_height,
+                            leg2_proportion * depth + platform2->get_depth() / 2 + platform3->get_width() / 3);
     platform3->set_texture_to_all(BRASS_TEXTURE);
     platform3->construct_cuboid();
     polyhedrons.push_back(platform3);
 
     // alternative
 
-//    auto* top = new Cuboid(platform2->get_width(), third_layer_height, platform2->get_depth());
-//    top->set_position(leg1_proportion * width + leg2_proportion * width, height * 0.38f, leg2_proportion * depth + platform2->get_depth() / 2);
-//    top->add_vector(BACK_TOP_RIGHT, leg3_proportion * width, 0, leg3_proportion * depth);
-//    top->add_vector(BACK_TOP_LEFT, -leg3_proportion * width, 0, leg3_proportion * depth);
-//    top->add_vector(FRONT_TOP_RIGHT, -leg3_proportion * width, 0, -leg3_proportion * depth);
-//    top->add_vector(FRONT_TOP_LEFT, leg3_proportion * width, 0, -leg3_proportion * depth);
-//    top->set_texture_to_all(BRASS_TEXTURE);
-//    top->construct_cuboid();
-//    polyhedrons.push_back(top);
+    //    auto* top = new Cuboid(platform2->get_width(), third_layer_height, platform2->get_depth());
+    //    top->set_position(leg1_proportion * width + leg2_proportion * width, height * 0.38f, leg2_proportion * depth + platform2->get_depth() / 2);
+    //    top->add_vector(BACK_TOP_RIGHT, leg3_proportion * width, 0, leg3_proportion * depth);
+    //    top->add_vector(BACK_TOP_LEFT, -leg3_proportion * width, 0, leg3_proportion * depth);
+    //    top->add_vector(FRONT_TOP_RIGHT, -leg3_proportion * width, 0, -leg3_proportion * depth);
+    //    top->add_vector(FRONT_TOP_LEFT, leg3_proportion * width, 0, -leg3_proportion * depth);
+    //    top->set_texture_to_all(BRASS_TEXTURE);
+    //    top->construct_cuboid();
+    //    polyhedrons.push_back(top);
 
     // Back left leg
     auto* bl_leg3 = new Cuboid(leg3_proportion * width, third_layer_height, leg3_proportion * depth);
-    bl_leg3->set_position(leg1_proportion * width + leg2_proportion * width, height * 0.38f, leg2_proportion * depth + platform2->get_depth() / 2);
+    bl_leg3->set_position(leg1_proportion * width + leg2_proportion * width, height * 0.38f,
+                          leg2_proportion * depth + platform2->get_depth() / 2);
     bl_leg3->add_vector(BACK_TOP_RIGHT, leg3_proportion * width, 0, leg3_proportion * depth);
     bl_leg3->add_vector(BACK_TOP_LEFT, leg3_proportion * width, 0, leg3_proportion * depth);
     bl_leg3->add_vector(FRONT_TOP_RIGHT, leg3_proportion * width, 0, leg3_proportion * depth);
@@ -162,7 +171,8 @@ EiffelTower::EiffelTower() {
 
     // Back right leg
     auto* br_leg3 = new Cuboid(leg3_proportion * width, third_layer_height, leg3_proportion * depth);
-    br_leg3->set_position(width - (leg1_proportion * width) - (width * leg2_proportion) - (width * leg3_proportion), height * 0.38f, leg2_proportion * depth + platform2->get_depth() / 2);
+    br_leg3->set_position(width - (leg1_proportion * width) - (width * leg2_proportion) - (width * leg3_proportion),
+                          height * 0.38f, leg2_proportion * depth + platform2->get_depth() / 2);
     br_leg3->add_vector(BACK_TOP_RIGHT, -leg3_proportion * width, 0, leg3_proportion * depth);
     br_leg3->add_vector(BACK_TOP_LEFT, -leg3_proportion * width, 0, leg3_proportion * depth);
     br_leg3->add_vector(FRONT_TOP_RIGHT, -leg3_proportion * width, 0, leg3_proportion * depth);
@@ -173,7 +183,8 @@ EiffelTower::EiffelTower() {
 
     // Front left leg
     auto* fl_leg3 = new Cuboid(leg3_proportion * width, third_layer_height, leg3_proportion * depth);
-    fl_leg3->set_position(leg1_proportion * width + leg2_proportion * width, height * 0.38f, depth - fl_leg->get_depth() - fl_leg3->get_depth() * 3);
+    fl_leg3->set_position(leg1_proportion * width + leg2_proportion * width, height * 0.38f,
+                          depth - fl_leg->get_depth() - fl_leg3->get_depth() * 3);
     fl_leg3->add_vector(BACK_TOP_RIGHT, leg3_proportion * width, 0, -leg3_proportion * depth);
     fl_leg3->add_vector(BACK_TOP_LEFT, leg3_proportion * width, 0, -leg3_proportion * depth);
     fl_leg3->add_vector(FRONT_TOP_RIGHT, leg3_proportion * width, 0, -leg3_proportion * depth);
@@ -184,7 +195,8 @@ EiffelTower::EiffelTower() {
 
     // Front right leg
     auto* fr_leg3 = new Cuboid(leg3_proportion * width, third_layer_height, leg3_proportion * depth);
-    fr_leg3->set_position(width - (leg1_proportion * width) - (width * leg2_proportion) - (width * leg3_proportion), height * 0.38f, depth - fl_leg->get_depth() - fl_leg3->get_depth() * 3);
+    fr_leg3->set_position(width - (leg1_proportion * width) - (width * leg2_proportion) - (width * leg3_proportion),
+                          height * 0.38f, depth - fl_leg->get_depth() - fl_leg3->get_depth() * 3);
     fr_leg3->add_vector(BACK_TOP_RIGHT, -leg3_proportion * width, 0, -leg3_proportion * depth);
     fr_leg3->add_vector(BACK_TOP_LEFT, -leg3_proportion * width, 0, -leg3_proportion * depth);
     fr_leg3->add_vector(FRONT_TOP_RIGHT, -leg3_proportion * width, 0, -leg3_proportion * depth);
@@ -194,21 +206,25 @@ EiffelTower::EiffelTower() {
     polyhedrons.push_back(fr_leg3);
 
     auto* antenna = new Cuboid(5, height * 0.17f, 5);
-    antenna->set_position(width / 2 - antenna->get_width() / 2, height * 0.38f + third_layer_height, depth / 2 - antenna->get_depth() / 2);
+    antenna->set_position(width / 2 - antenna->get_width() / 2, height * 0.38f + third_layer_height,
+                          depth / 2 - antenna->get_depth() / 2);
     antenna->set_texture_to_all(BRASS_TEXTURE);
     antenna->construct_cuboid();
     polyhedrons.push_back(antenna);
 
 
-    for(auto& polygon1 : polygons){
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }
 
-EiffelTower::~EiffelTower() {}
+EiffelTower::~EiffelTower()
+{
+}
 
-void EiffelTower::refresh() {
-
+void EiffelTower::refresh()
+{
     polygons.clear();
     polyhedrons.clear();
 
@@ -265,8 +281,11 @@ void EiffelTower::refresh() {
     float leg2_proportion = 0.142857f;
     float second_layer_height = height * 0.19f * (2.0f / 3.0f);
 
-    auto platform2 = new Cuboid(platform1->get_width() * (2.3f / 4.0f), height * 0.19f * (1.0f / 3.0f), platform1->get_depth() * (2.3f / 4.0f));
-    platform2->set_position(leg2_proportion * width + platform2->get_width() / 2, (height * 0.19f) + second_layer_height , leg2_proportion * depth + platform2->get_depth() / 2);
+    auto platform2 = new Cuboid(platform1->get_width() * (2.3f / 4.0f), height * 0.19f * (1.0f / 3.0f),
+                                platform1->get_depth() * (2.3f / 4.0f));
+    platform2->set_position(leg2_proportion * width + platform2->get_width() / 2,
+                            (height * 0.19f) + second_layer_height,
+                            leg2_proportion * depth + platform2->get_depth() / 2);
     platform2->construct_cuboid();
     polyhedrons.push_back(platform2);
 
@@ -282,7 +301,8 @@ void EiffelTower::refresh() {
 
     auto* br_leg2 = new Cuboid(leg2_proportion * width, second_layer_height, leg2_proportion * depth);
     // Back right leg
-    br_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f, leg1_proportion * depth);
+    br_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f,
+                          leg1_proportion * depth);
     br_leg2->add_vector(BACK_TOP_RIGHT, -leg2_proportion * width, 0, leg2_proportion * depth);
     br_leg2->add_vector(BACK_TOP_LEFT, -leg2_proportion * width, 0, leg2_proportion * depth);
     br_leg2->add_vector(FRONT_TOP_RIGHT, -leg2_proportion * width, 0, leg2_proportion * depth);
@@ -302,7 +322,8 @@ void EiffelTower::refresh() {
 
     // Front right leg
     auto* fr_leg2 = new Cuboid(leg2_proportion * width, second_layer_height, leg2_proportion * depth);
-    fr_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f, depth - fl_leg->get_depth() - fl_leg2->get_depth());
+    fr_leg2->set_position(width - (leg1_proportion * width) - (width * leg2_proportion), height * 0.19f,
+                          depth - fl_leg->get_depth() - fl_leg2->get_depth());
     fr_leg2->add_vector(BACK_TOP_RIGHT, -leg2_proportion * width, 0, -leg2_proportion * depth);
     fr_leg2->add_vector(BACK_TOP_LEFT, -leg2_proportion * width, 0, -leg2_proportion * depth);
     fr_leg2->add_vector(FRONT_TOP_RIGHT, -leg2_proportion * width, 0, -leg2_proportion * depth);
@@ -313,8 +334,8 @@ void EiffelTower::refresh() {
     // layer 3
 
 
-    for(auto& polygon1 : polygons){
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
 }

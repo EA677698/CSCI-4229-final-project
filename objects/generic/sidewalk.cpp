@@ -6,15 +6,17 @@
 #include "../primitives/cuboid.h"
 #include "../../texture.h"
 
-Sidewalk::Sidewalk() {
+Sidewalk::Sidewalk()
+{
     name = "Sidewalk";
     bounding_box = true;
     width = 2;
     height = 1;
     depth = 40;
 
-    auto *cuboid = new Cuboid(width, height, depth);
-    for(int i = 0; i < 6; i++){
+    auto* cuboid = new Cuboid(width, height, depth);
+    for (int i = 0; i < 6; i++)
+    {
         cuboid->set_texture(i, SIDEWALK_TEXTURE);
     }
     cuboid->construct_cuboid();
@@ -26,21 +28,23 @@ Sidewalk::Sidewalk() {
     cuboid->set_texture_repeat(BACK_FACE, {0.1, 0.1});
     polyhedrons.push_back(cuboid);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
-
 }
 
-Sidewalk::~Sidewalk() {}
+Sidewalk::~Sidewalk()
+{
+}
 
-void Sidewalk::refresh() {
-
+void Sidewalk::refresh()
+{
     delete polyhedrons.front();
     polyhedrons.clear();
-    auto *cuboid = new Cuboid(width, height, depth);
-    for (int i = 0; i < 6; i++) {
+    auto* cuboid = new Cuboid(width, height, depth);
+    for (int i = 0; i < 6; i++)
+    {
         cuboid->set_texture(i, SIDEWALK_TEXTURE);
     }
     cuboid->construct_cuboid();
@@ -52,8 +56,8 @@ void Sidewalk::refresh() {
     cuboid->set_texture_repeat(BACK_FACE, {0.1, 0.1});
     polyhedrons.push_back(cuboid);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
 }

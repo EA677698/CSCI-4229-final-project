@@ -4,7 +4,8 @@
 
 #include "objects/primitives/cuboid.h"
 
-Renderer::Renderer() {
+Renderer::Renderer()
+{
     axis = 0;
     debug = DEBUG_OFF;
     width = 600;
@@ -34,13 +35,14 @@ Renderer::Renderer() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     ErrCheck("Renderer constructor");
-
 }
 
-Renderer::~Renderer() {}
+Renderer::~Renderer()
+{
+}
 
-int Renderer::read_color() {
-
+int Renderer::read_color()
+{
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
     glReadBuffer(GL_COLOR_ATTACHMENT0);
     unsigned char pixel[3];
@@ -54,16 +56,17 @@ int Renderer::read_color() {
 }
 
 // renders the bounding boxes of the objects to whatever frame buffer is currently active (if its the main frame buffer, it will render to the screen while containing an alpha value)
-void Renderer::render_bounding_boxes(Scene scene) {
-
-
-    if (debug) {
+void Renderer::render_bounding_boxes(Scene scene)
+{
+    if (debug)
+    {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_BLEND);
     }
 
     const std::vector<BoundingBox> bounding_boxes = scene.get_bounding_boxes();
-    for (const auto &bounding_box: bounding_boxes) {
+    for (const auto& bounding_box : bounding_boxes)
+    {
         Object* object = bounding_box.get_object();
         glPushMatrix();
         constexpr float scale = 1.02;
@@ -75,12 +78,14 @@ void Renderer::render_bounding_boxes(Scene scene) {
         glTranslatef(-(object->get_width() / 2), -difference, -(object->get_depth() / 2));
         glTranslatef(object->get_position().x, object->get_position().y, object->get_position().z);
         std::vector<Polygon> polygons = bounding_box.get_polygons();
-        for (auto polygon: polygons) {
+        for (auto polygon : polygons)
+        {
             std::vector<Vector3> vertices = polygon.get_vertices();
             const int color = bounding_box.get_color();
             glBegin(GL_POLYGON);
             glColor4ub((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, 0xA0);
-            for (const auto &vertex: vertices) {
+            for (const auto& vertex : vertices)
+            {
                 glVertex3f(vertex.x, vertex.y, vertex.z);
             }
             glEnd();
@@ -88,17 +93,17 @@ void Renderer::render_bounding_boxes(Scene scene) {
         glPopMatrix();
     }
 
-    if (debug) {
+    if (debug)
+    {
         glDisable(GL_BLEND);
     }
 
     ErrCheck("Renderer bounding boxes");
-
 }
 
 // switches to the frame buffer and renders the bounding boxes
-void Renderer::render_picking_pass(Scene scene) {
-
+void Renderer::render_picking_pass(Scene scene)
+{
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
     glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -109,13 +114,13 @@ void Renderer::render_picking_pass(Scene scene) {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     ErrCheck("Renderer picking pass");
-
 }
 
-void Renderer::render_debug(Scene scene) {
+void Renderer::render_debug(Scene scene)
+{
     render_bounding_boxes(scene);
 
-    Camera &camera = scene.getCamera();
+    Camera& camera = scene.getCamera();
 
     //  Five pixels from the lower left corner of the window
     glColor3ub(0xFF, 0xFF, 0xFF);
@@ -130,9 +135,11 @@ void Renderer::render_debug(Scene scene) {
         mode_str = "First Person";
     Print("Angle=%d,%d  Dim=%.1f FOV=%f Projection=%s", camera.th, camera.ph, camera.dim, camera.fov, mode_str.c_str());
     glWindowPos2i(5, 25);
-    if(!scene.get_selected_objects().empty()) {
-        Object *selected = scene.get_selected_objects().front();
-        if (selected) {
+    if (!scene.get_selected_objects().empty())
+    {
+        Object* selected = scene.get_selected_objects().front();
+        if (selected)
+        {
             Print("Object selected: %s Pos:(%f, %f, %f), Rot:(%f, %f, %f)", selected->get_name().c_str(),
                   selected->get_position().x, selected->get_position().y, selected->get_position().z,
                   selected->get_rotation().x, selected->get_rotation().y, selected->get_rotation().z);
@@ -142,10 +149,27 @@ void Renderer::render_debug(Scene scene) {
     ErrCheck("Renderer debug");
 }
 
+void Renderer::render_light(Light* light)
+{
+    glLightfv(light->get_light(), GL_POSITION, light->position);
+    glLightfv(light->get_light(), GL_AMBIENT, light->ambient);
+    glLightfv(light->get_light(), GL_DIFFUSE, light->diffuse);
+    glLightfv(light->get_light(), GL_SPECULAR, light->specular);
+    glEnable(light->get_light());
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &light->shininess);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, light->emission);
+}
+
 // recursively calls itself if an object is composed of other objects (polyhedrons)
-void Renderer::render_object(Object *object, const bool object_selected) {
+void Renderer::render_object(Object* object, const bool object_selected)
+{
+    if (object->get_light() != nullptr)
+    {
+        render_light(object->get_light());
+    }
     const std::vector<Polygon> polygons = object->get_polygons();
-    for (auto polygon: polygons) {
+    for (auto polygon : polygons)
+    {
         std::vector<Vector3> vertices = polygon.get_vertices();
         std::vector<Vector2> texture_vertices = polygon.get_texture_vertices();
         const int color = polygon.get_color();
@@ -153,29 +177,37 @@ void Renderer::render_object(Object *object, const bool object_selected) {
         const unsigned int texture = polygon.get_texture();
         const Vector2 repeats = polygon.get_texture_repeats();
         const Vector3 normal = polygon.calculate_normal();
-        if (polygon.contains_texture()) {
+        if (polygon.contains_texture())
+        {
             glEnable(GL_TEXTURE_2D);
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
             glBindTexture(GL_TEXTURE_2D, texture);
         }
         glBegin(GL_POLYGON);
-        if(object_selected){
+        if (object_selected)
+        {
             glColor3ub(0x0, 0xFF, 0x0);
-        } else {
+        }
+        else
+        {
             glColor3ub((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
         }
         glNormal3f(normal.x, normal.y, normal.z);
-        for (unsigned int k = 0; k < vertices.size(); k++) {
+        for (unsigned int k = 0; k < vertices.size(); k++)
+        {
             glTexCoord2f(texture_vertices[k].x * repeats.x, texture_vertices[k].y * repeats.y);
             glVertex3f(vertices[k].x, vertices[k].y, vertices[k].z);
         }
         glEnd();
-        if (polygon.contains_texture()) {
+        if (polygon.contains_texture())
+        {
             glDisable(GL_TEXTURE_2D);
         }
     }
-    if(!object->get_polyhedrons().empty()) {
-        for (auto *polyhedron: object->get_polyhedrons()) {
+    if (!object->get_polyhedrons().empty())
+    {
+        for (auto* polyhedron : object->get_polyhedrons())
+        {
             glPushMatrix();
             Vector3 rotation = polyhedron->get_rotation();
             glRotatef(rotation.x, 1, 0, 0);
@@ -189,7 +221,9 @@ void Renderer::render_object(Object *object, const bool object_selected) {
     ErrCheck("Renderer object");
 }
 
-void Renderer::resize() {
+
+void Renderer::resize()
+{
     glDeleteTextures(1, &texture_color_buffer);
     glDeleteRenderbuffers(1, &render_buffer);
 
@@ -233,8 +267,8 @@ void Renderer::set_display_height(int height)
 }
 
 
-void Renderer::render(Scene scene) {
-
+void Renderer::render(Scene scene)
+{
     render_picking_pass(scene);
 
     Camera camera = scene.getCamera();
@@ -244,7 +278,8 @@ void Renderer::render(Scene scene) {
 
     //  Enable Z-buffering in OpenGL
     glEnable(GL_DEPTH_TEST);
-    if(scene.is_lighting_enabled()){
+    if (scene.is_lighting_enabled())
+    {
         glEnable(GL_LIGHTING);
     }
     //  Undo previous transformations
@@ -252,9 +287,10 @@ void Renderer::render(Scene scene) {
     glEnable(GL_NORMALIZE);
     camera.view(scene.dir_x, scene.dir_y, scene.dir_z);
 
-    Object *skybox = scene.get_skybox();
+    Object* skybox = scene.get_skybox();
 
-    if (skybox) {
+    if (skybox)
+    {
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_LIGHTING);
         glPushMatrix();
@@ -263,40 +299,36 @@ void Renderer::render(Scene scene) {
         glTranslatef(-(skybox->get_width() / 2), -(skybox->get_height() / 2), -(skybox->get_depth() / 2));
         render_object(skybox);
         glPopMatrix();
-        if(scene.is_lighting_enabled()){
+        if (scene.is_lighting_enabled())
+        {
             glEnable(GL_LIGHTING);
         }
         glEnable(GL_DEPTH_TEST);
     }
 
     // sun
-    if(scene.is_sun_enabled() && scene.is_lighting_enabled()){
-        float Position[] = {(float)(Cos(sun_xy.x) * camera.dim), (float)(Sin(sun_xy.y) * camera.dim), 0, 1.0f};
-        scene.get_sun_object()->set_position(Position[0], Position[1], Position[2]);
-        float Ambient[] = {0.01f * ambient ,0.01f * ambient ,0.01f * ambient ,1.0};
-        float Diffuse[] = {0.01f * diffuse ,0.01f * diffuse ,0.01f * diffuse ,1.0};
-        float Specular[] = {0.01f * specular,0.01f * specular,0.01f * specular,1.0};
-        float Shininess = 16;
-        float Emission[] = {0.0f, 0.0f, 0.0f, 1.0f};
+    if (scene.is_lighting_enabled())
+    {
+        if (scene.is_sun_enabled())
+        {
+            float Position[] = {(float)(Cos(sun_xy.x) * camera.dim), (float)(Sin(sun_xy.y) * camera.dim), 0, 1.0f};
+            scene.get_sun_object()->get_light()->position = {
+                (float)(Cos(sun_xy.x) * camera.dim), (float)(Sin(sun_xy.y) * camera.dim), 0, 1.0f
+            };
+            scene.get_sun_object()->set_position(Position[0], Position[1], Position[2]);
+        }
         float GlobalAmbient[] = {0.3, 0.3, 0.3, 1.0};
         glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, GlobalAmbient);
         glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-        glLightfv(GL_LIGHT0, GL_POSITION, Position);
-        glLightfv(GL_LIGHT0, GL_AMBIENT, Ambient);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, Diffuse);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, Specular);
-        glEnable(GL_LIGHT0);
-
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &Shininess);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, Emission);
     }
 
 
-    const std::vector<Object *> objects = scene.get_objects();
+    const std::vector<Object*> objects = scene.get_objects();
 
-    for (auto &i: objects) {
+    for (auto& i : objects)
+    {
         Object* object = i;
         std::vector<Polygon> polygons = object->get_polygons();
         glPushMatrix();
@@ -314,12 +346,14 @@ void Renderer::render(Scene scene) {
     }
     ErrCheck("Renderer display");
 
-    if (axis) {
+    if (axis)
+    {
         render_axis();
         ErrCheck("Renderer axis display");
     }
 
-    if (debug) {
+    if (debug)
+    {
         //disable lighting
         glDisable(GL_LIGHTING);
         render_debug(scene);
@@ -330,10 +364,11 @@ void Renderer::render(Scene scene) {
     glutSwapBuffers();
 }
 
-void Renderer::render_axis() {
+void Renderer::render_axis()
+{
     glDisable(GL_DEPTH_TEST);
     glColor3f(1, 1, 1);
-    constexpr double len = 1.5;  //  Length of axes
+    constexpr double len = 1.5; //  Length of axes
     glBegin(GL_LINES);
     glVertex3d(0.0, 0.0, 0.0);
     glVertex3d(len, 0.0, 0.0);
@@ -352,34 +387,42 @@ void Renderer::render_axis() {
     glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::set_mouse_position(const Vector2 &position) {
+void Renderer::set_mouse_position(const Vector2& position)
+{
     mouse_position = position;
 }
 
-void Renderer::set_axis(const int mode) {
+void Renderer::set_axis(const int mode)
+{
     axis = mode;
 }
 
-int Renderer::get_axis() const {
+int Renderer::get_axis() const
+{
     return axis;
 }
 
-void Renderer::set_debug(const int mode) {
+void Renderer::set_debug(const int mode)
+{
     debug = mode;
 }
 
-int Renderer::get_debug() const {
+int Renderer::get_debug() const
+{
     return debug;
 }
 
-void Renderer::set_sun_position(const Vector2 &position) {
+void Renderer::set_sun_position(const Vector2& position)
+{
     sun_xy = position;
 }
 
-void Renderer::add_sun_position(const Vector2 &position) {
+void Renderer::add_sun_position(const Vector2& position)
+{
     sun_xy += position;
 }
 
-Vector2 Renderer::get_sun_position() const {
+Vector2 Renderer::get_sun_position() const
+{
     return sun_xy;
 }

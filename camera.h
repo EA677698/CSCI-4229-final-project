@@ -27,10 +27,9 @@
 #define PERSPECTIVE 1
 #define FIRST_PERSON 2
 
-class Camera {
-
+class Camera
+{
 private:
-
     int mode;
 
 public:
@@ -49,10 +48,10 @@ public:
     int pan_x;
     int pan_y;
 
-    int th;       // Azimuth of view angle
-    int ph;       // Elevation of view angle
-    float fov;     // Field of view (for perspective)
-    double asp;   // Aspect ratio
+    int th; // Azimuth of view angle
+    int ph; // Elevation of view angle
+    float fov; // Field of view (for perspective)
+    double asp; // Aspect ratio
     double dim; // Size of the world
 
     bool camera_locked;

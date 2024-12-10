@@ -13,7 +13,7 @@ Sphere::Sphere(float radius, int lat, int lon)
     this->lat = lat;
     this->lon = lon;
     texture = NULL_TEXTURE;
-    texture_repeat = {1.0f/lat,1.0f/lon};
+    texture_repeat = {1.0f / lat, 1.0f / lon};
     color = 0xFFFFFF;
 
     width = radius * 2;
@@ -24,11 +24,13 @@ Sphere::Sphere(float radius, int lat, int lon)
 
     Polygon polygon;
 
-    for (int i = 0; i < lat; ++i) {
+    for (int i = 0; i < lat; ++i)
+    {
         float theta1 = i * 180 / lat;
         float theta2 = (i + 1) * 180 / lat;
 
-        for (int j = 0; j < lon; ++j) {
+        for (int j = 0; j < lon; ++j)
+        {
             float phi1 = j * 360 / lon;
             float phi2 = (j + 1) * 360 / lon;
 
@@ -48,29 +50,32 @@ Sphere::Sphere(float radius, int lat, int lon)
             polygon.add_vertex(v3);
             polygon.add_vertex(v4);
             polygons.push_back(polygon);
-
         }
     }
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
 }
 
-void Sphere::set_texture_repeat(const Vector2 &repeat) {
+void Sphere::set_texture_repeat(const Vector2& repeat)
+{
     texture_repeat = repeat;
 }
 
-void Sphere::set_texture(int texture) {
+void Sphere::set_texture(int texture)
+{
     this->texture = texture;
 }
 
-void Sphere::set_color(int color) {
+void Sphere::set_color(int color)
+{
     this->color = color;
 }
 
-void Sphere::refresh() {
+void Sphere::refresh()
+{
     polygons.clear();
     width = radius * 2;
     height = radius * 2;
@@ -80,11 +85,13 @@ void Sphere::refresh() {
 
     Polygon polygon;
 
-    for (int i = 0; i < lat; ++i) {
+    for (int i = 0; i < lat; ++i)
+    {
         float theta1 = i * 180 / lat;
         float theta2 = (i + 1) * 180 / lat;
 
-        for (int j = 0; j < lon; ++j) {
+        for (int j = 0; j < lon; ++j)
+        {
             float phi1 = j * 360 / lon;
             float phi2 = (j + 1) * 360 / lon;
 
@@ -106,14 +113,15 @@ void Sphere::refresh() {
             polygon.add_vertex(v3);
             polygon.add_vertex(v4);
             polygons.push_back(polygon);
-
         }
     }
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }
 
-Sphere::~Sphere() {}
-
+Sphere::~Sphere()
+{
+}

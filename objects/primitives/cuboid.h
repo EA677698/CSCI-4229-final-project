@@ -7,7 +7,8 @@
 
 #include "../object.h"
 
-enum CuboidVertex {
+enum CuboidVertex
+{
     BACK_BOTTOM_LEFT,
     BACK_BOTTOM_RIGHT,
     BACK_TOP_LEFT,
@@ -18,7 +19,8 @@ enum CuboidVertex {
     FRONT_TOP_LEFT
 };
 
-enum CuboidFace {
+enum CuboidFace
+{
     BACK_FACE,
     RIGHT_FACE,
     FRONT_FACE,
@@ -27,18 +29,14 @@ enum CuboidFace {
     BOTTOM_FACE
 };
 
-class Cuboid : public Object {
-
+class Cuboid : public Object
+{
 private:
-
     Vector3 vertices[8];
     int colors[6];
     int textures[6];
 
-
-
 public:
-
     using Object::Object;
 
     Cuboid(float width = 1, float height = 1, float depth = 1);
@@ -68,7 +66,6 @@ public:
     void set_color_to_all(int color);
 
     void construct_cuboid();
-
 };
 
 

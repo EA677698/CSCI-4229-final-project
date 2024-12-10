@@ -8,7 +8,8 @@
 #define Sin(th) sin(3.14159265/180*(th))
 
 
-Pipe::Pipe(float radius, int sides) {
+Pipe::Pipe(float radius, int sides)
+{
     width = 1;
     height = 1;
     this->sides = sides;
@@ -18,53 +19,54 @@ Pipe::Pipe(float radius, int sides) {
 }
 
 
-void Pipe::refresh() {
+void Pipe::refresh()
+{
     polygons.clear();
 
     generate_pipe();
-
 }
 
-void Pipe::set_texture_repeat(const Vector2 &repeat) {
-
-    for(auto& polygon : polygons){
+void Pipe::set_texture_repeat(const Vector2& repeat)
+{
+    for (auto& polygon : polygons)
+    {
         polygon.set_texture_repeats(repeat);
     }
-
 }
 
-void Pipe::set_texture(int texture) {
-
-    for(auto& polygon : polygons){
+void Pipe::set_texture(int texture)
+{
+    for (auto& polygon : polygons)
+    {
         polygon.set_texture(texture);
     }
-
 }
 
-void Pipe::set_color(int color) {
-
-    for(auto& polygon : polygons){
+void Pipe::set_color(int color)
+{
+    for (auto& polygon : polygons)
+    {
         polygon.set_color(color);
     }
-
 }
 
-void Pipe::add_point(const Vector3 &point) {
-
+void Pipe::add_point(const Vector3& point)
+{
     path.push_back(point);
-
 }
 
-void Pipe::set_sides(int sides) {
+void Pipe::set_sides(int sides)
+{
     this->sides = sides > 2 ? sides : 3;
 }
 
-void Pipe::generate_pipe(bool render_endcaps) {
+void Pipe::generate_pipe(bool render_endcaps)
+{
     float step = 360.0f / this->sides;
     Polygon previous_polygon = Polygon();
 
-    for (unsigned int i = 0; i < path.size() - 1; i++) {
-
+    for (unsigned int i = 0; i < path.size() - 1; i++)
+    {
         Vector3 v1 = path[i];
         Vector3 v2 = path[i + 1];
 
@@ -76,8 +78,8 @@ void Pipe::generate_pipe(bool render_endcaps) {
         Polygon polygon1 = Polygon(0xFF0000);
         Polygon polygon2 = Polygon(0x0000FF);
 
-        for (int j = 0; j < sides; j++) {
-
+        for (int j = 0; j < sides; j++)
+        {
             float angle = j * step;
             Vector3 v = Vector3(radius * Cos(angle), radius * Sin(angle), z_rotation ? radius * Cos(angle) : 0);
             Vector3 p1 = normal_basis_transformation(b1 + v);
@@ -87,11 +89,11 @@ void Pipe::generate_pipe(bool render_endcaps) {
 
             check_bounds(p1);
             check_bounds(p2);
-
         }
 
         Polygon polygon;
-        for(int j = 0; j < sides; j++){
+        for (int j = 0; j < sides; j++)
+        {
             polygon = Polygon(0xFFFFFF);
             unsigned int next = (j + 1) % sides;
             polygon.add_vertex(polygon1.get_vertices()[j]);
@@ -101,14 +103,17 @@ void Pipe::generate_pipe(bool render_endcaps) {
             polygons.push_back(polygon);
         }
 
-        if (render_endcaps) {
+        if (render_endcaps)
+        {
             polygons.push_back(polygon1);
             polygons.push_back(polygon2);
         }
 
-        if(!previous_polygon.get_vertices().empty()){
+        if (!previous_polygon.get_vertices().empty())
+        {
             polygon = Polygon(0xFFFFFF);
-            for(int j = 0; j < sides; j++){
+            for (int j = 0; j < sides; j++)
+            {
                 unsigned int next = (j + 1) % sides;
                 polygon.add_vertex(previous_polygon.get_vertices()[j]);
                 polygon.add_vertex(previous_polygon.get_vertices()[next]);
@@ -119,75 +124,79 @@ void Pipe::generate_pipe(bool render_endcaps) {
         }
 
         previous_polygon = polygon2;
-
     }
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 
     recompute_size();
-
 }
 
-Pipe::~Pipe() {}
+Pipe::~Pipe()
+{
+}
 
-void Pipe::generate_basis(const Vector3 &v1, const Vector3 &v2) {
-
+void Pipe::generate_basis(const Vector3& v1, const Vector3& v2)
+{
     Vector3 direction_vector = (v2 - v1).normalize();
     basis[2] = direction_vector;
     basis[1] = Vector3(0, 1, 0);
-    if (basis[1].is_parallel(basis[2])) {
+    if (basis[1].is_parallel(basis[2]))
+    {
         basis[1] = Vector3(1, 0, 0);
     }
     basis[0] = Vector3::cross_product(basis[1], basis[2]).normalize();
     basis[1] = Vector3::cross_product(basis[2], basis[0]).normalize();
-
 }
 
-Vector3 Pipe::basis_transformation(const Vector3 &v) {
+Vector3 Pipe::basis_transformation(const Vector3& v)
+{
     return {
-            basis[0].x * v.x + basis[0].y * v.y + basis[0].z * v.z,
-            basis[1].x * v.x + basis[1].y * v.y + basis[1].z * v.z,
-            basis[2].x * v.x + basis[2].y * v.y + basis[2].z * v.z
+        basis[0].x * v.x + basis[0].y * v.y + basis[0].z * v.z,
+        basis[1].x * v.x + basis[1].y * v.y + basis[1].z * v.z,
+        basis[2].x * v.x + basis[2].y * v.y + basis[2].z * v.z
     };
 }
 
-Vector3 Pipe::normal_basis_transformation(const Vector3 &v) {
+Vector3 Pipe::normal_basis_transformation(const Vector3& v)
+{
     return {
-            basis[0].x * v.x + basis[1].x * v.y + basis[2].x * v.z,
-            basis[0].y * v.x + basis[1].y * v.y + basis[2].y * v.z,
-            basis[0].z * v.x + basis[1].z * v.y + basis[2].z * v.z
+        basis[0].x * v.x + basis[1].x * v.y + basis[2].x * v.z,
+        basis[0].y * v.x + basis[1].y * v.y + basis[2].y * v.z,
+        basis[0].z * v.x + basis[1].z * v.y + basis[2].z * v.z
     };
 }
 
-void Pipe::check_bounds(const Vector3 &v) {
-
+void Pipe::check_bounds(const Vector3& v)
+{
     bounds[0].x = fmin(bounds[0].x, v.x);
     bounds[0].y = fmin(bounds[0].y, v.y);
     bounds[0].z = fmin(bounds[0].z, v.z);
     bounds[1].x = fmax(bounds[1].x, v.x);
     bounds[1].y = fmax(bounds[1].y, v.y);
     bounds[1].z = fmax(bounds[1].z, v.z);
-
 }
 
-void Pipe::recompute_size() {
-
+void Pipe::recompute_size()
+{
     width = bounds[1].x - bounds[0].x;
     height = bounds[1].y - bounds[0].y;
     depth = bounds[1].z - bounds[0].z;
-
 }
 
-void Pipe::set_radius(float radius) {
+void Pipe::set_radius(float radius)
+{
     this->radius = radius;
 }
 
-void Pipe::enable_z_rotation() {
+void Pipe::enable_z_rotation()
+{
     z_rotation = true;
 }
 
-void Pipe::disable_z_rotation() {
+void Pipe::disable_z_rotation()
+{
     z_rotation = false;
 }

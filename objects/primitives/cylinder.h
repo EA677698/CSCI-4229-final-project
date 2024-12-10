@@ -7,14 +7,12 @@
 
 #include "../object.h"
 
-class Cylinder : public Object {
-
+class Cylinder : public Object
+{
 private:
-
     int sides;
 
 public:
-
     using Object::Object;
 
     Cylinder(float width = 1, float height = 1, float depth = 1, int sides = 3);
@@ -28,7 +26,6 @@ public:
     void set_color(int color);
 
     ~Cylinder();
-
 };
 
 

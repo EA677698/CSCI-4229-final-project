@@ -5,8 +5,8 @@
 #include "intersection.h"
 #include "../../texture.h"
 
-Intersection::Intersection() {
-
+Intersection::Intersection()
+{
     width = 12;
     depth = 12;
     height = 0.2;
@@ -20,15 +20,18 @@ Intersection::Intersection() {
     polygon.add_vertex(width, height, 0);
     polygons.push_back(polygon);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
-
 }
 
-Intersection::~Intersection() {}
+Intersection::~Intersection()
+{
+}
 
-void Intersection::refresh() {
+void Intersection::refresh()
+{
     polygons.clear();
     auto polygon = Polygon(INTERSECTION_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);
@@ -37,7 +40,8 @@ void Intersection::refresh() {
     polygon.add_vertex(width, height, 0);
     polygons.push_back(polygon);
 
-    for (auto &polygon1: polygons) {
+    for (auto& polygon1 : polygons)
+    {
         polygon1.generate_texture_vertices();
     }
 }

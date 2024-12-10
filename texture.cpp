@@ -1,10 +1,10 @@
 #include "texture.h"
 #include "csci_lib/CSCIx229.h"
 
-Texture *Texture::instance = nullptr;
+Texture* Texture::instance = nullptr;
 
-Texture::Texture() {
-
+Texture::Texture()
+{
     textures[NULL_TEXTURE] = LoadTexBMP("textures/dev_texture.bmp");
     textures[SKYSCRAPER_TEXTURE] = LoadTexBMP("textures/facades/skyscraper.bmp");
     textures[OFFICE_TEXTURE] = LoadTexBMP("textures/facades/office.bmp");
@@ -28,13 +28,16 @@ Texture::Texture() {
     textures[GOLDEN_GATE_TEXTURE] = LoadTexBMP("textures/golden_gate.bmp");
     textures[SCRATCHED_METAL_TEXTURE] = LoadTexBMP("textures/scratched_metal.bmp");
     textures[BRASS_TEXTURE] = LoadTexBMP("textures/brass.bmp");
-
 }
 
-Texture::~Texture() {}
+Texture::~Texture()
+{
+}
 
-unsigned int Texture::get_texture(const int index) const {
-    if (index < 0 || index >= TEXTURE_COUNT) {
+unsigned int Texture::get_texture(const int index) const
+{
+    if (index < 0 || index >= TEXTURE_COUNT)
+    {
         return textures[NULL_TEXTURE];
     }
 

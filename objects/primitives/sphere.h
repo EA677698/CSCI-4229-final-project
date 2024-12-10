@@ -8,8 +8,8 @@
 #include "../object.h"
 
 
-class Sphere : public Object {
-
+class Sphere : public Object
+{
     float radius;
     int lat;
     int lon;
@@ -19,7 +19,6 @@ class Sphere : public Object {
     Vector2 texture_repeat;
 
 public:
-
     using Object::Object;
 
     Sphere(float radius = 1, int lat = 10, int lon = 10);
@@ -33,9 +32,7 @@ public:
     void set_color(int color);
 
     ~Sphere();
-
 };
-
 
 
 #endif //SPHERE_H

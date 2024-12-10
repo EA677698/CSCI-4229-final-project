@@ -3,11 +3,9 @@
 
 #include "../object.h"
 
-class IntersectionLight : public Object {
-
-
+class IntersectionLight : public Object
+{
 public:
-
     using Object::Object;
 
     IntersectionLight();
@@ -15,7 +13,6 @@ public:
     void refresh() override;
 
     ~IntersectionLight();
-
 };
 
 

@@ -7,11 +7,9 @@
 
 #include "../object.h"
 
-class Intersection : public Object {
-
-
+class Intersection : public Object
+{
 public:
-
     using Object::Object;
 
     Intersection();

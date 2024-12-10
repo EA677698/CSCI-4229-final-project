@@ -7,10 +7,9 @@
 
 #include "../object.h"
 
-class Sidewalk : public Object {
-
+class Sidewalk : public Object
+{
 public:
-
     using Object::Object;
 
     Sidewalk();
@@ -18,7 +17,6 @@ public:
     void refresh() override;
 
     ~Sidewalk();
-
 };
 
 

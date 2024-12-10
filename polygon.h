@@ -6,10 +6,9 @@
 #include <vector>
 #include <cstdio>
 
-class Polygon {
-
+class Polygon
+{
 private:
-
     Vector2 texture_repeats;
     std::vector<Vector3> vertices;
     std::vector<Vector2> texture_vertices;
@@ -21,7 +20,6 @@ private:
     void normalize_texture_vectors();
 
 public:
-
     Polygon();
 
     Polygon(int color);
@@ -30,7 +28,7 @@ public:
 
     ~Polygon() = default;
 
-    void add_vertex(const Vector3 &);
+    void add_vertex(const Vector3&);
 
     void add_vertex(float, float, float);
 
@@ -62,15 +60,19 @@ public:
 
     void set_texture_repeats(float repeat_x, float repeat_y);
 
-    void print_texture_vertices() {
-        for (unsigned int i = 0; i < texture_vertices.size(); i++) {
+    void print_texture_vertices()
+    {
+        for (unsigned int i = 0; i < texture_vertices.size(); i++)
+        {
             const Vector2& vertex = texture_vertices[i];
             printf("Texture Vertex %d: (%f, %f)\n", i, vertex.x, vertex.y);
         }
     }
 
-    void print_vertices() {
-        for (unsigned int i = 0; i < vertices.size(); i++) {
+    void print_vertices()
+    {
+        for (unsigned int i = 0; i < vertices.size(); i++)
+        {
             const Vector3& vertex = vertices[i];
             printf("Vertex %d: (%f, %f, %f)\n", i, vertex.x, vertex.y, vertex.z);
         }
