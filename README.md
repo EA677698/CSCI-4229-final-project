@@ -30,6 +30,12 @@ Controls:
     Press 'left click' to select an object (will be highlighted green when selected)
     (note: you can select multiple objects at once and perform the same operations on multiple of them. To unselect all objects, click on empty space)
 
+    Press 'n' to toggle the movement of the sun
+
+    Press 'l' to toggle lighting
+
+    Press 'q' to change scenes (other scenes display objects individually)
+
 ---
 
     For the following, press up/down for z value change, left/right for x value change, and shift + up/down for y value change:
@@ -44,11 +50,30 @@ Controls:
 
 ---
 
-    Not fully supported yet:
+    I probably spent most of my time building tools and functions instead of models which I should have focused on. 
 
-    Press 'm' or 'M' to change display mode (Orthagonal, Perspective, First Person)
+    An example is the boundary boxes I made that enabled color picking for object selection and manipulation. You can view them by enabling debug mode.
 
-    W, A, S, D - move camera around in first person mode
+    However the few more impressive models I have done can be viewed by cycling through them using 'q'.
+
+    The first scene is a small collection of them. The intersections have working traffic lights with a simple sun that rotates around the scene. There are park benches surrounding the eiffel tower and a road that leads to the golden gate bridge.
+
+    The second scene is the golden gate bridge which is the highest quality and highest polygon count model I have made.
+
+    The third scene is a simple park bench I made that was created the frame for it using one complex 3D object.
+
+    The fourth scene is my first attempt at a complex object, the eiffel tower. It was made using special cuboids that allow me to quickly manipulate their corner vectors.
+
+    The fifth scene is a streetlight which has functioning light in the original scene.
+
+    The sixth scene is the traffic light itself which has a working light in the original scene.
+
+
+    The seventh scene is a display of the pipe object I made that enabled me to make complex objects. 
+
+    I am very proud of this creation and I had to revisit linear algebra to piece together how to make it.
+
+    It takes in a collection of vectors that represent a path defined by the user and it forms a pipe with n sides around the path.
 
 ---
 

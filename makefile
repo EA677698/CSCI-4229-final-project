@@ -43,6 +43,7 @@ objects/primitives/pipe.o: objects/primitives/pipe.cpp objects/primitives/pipe.h
 objects/object.o: objects/object.cpp objects/object.h
 objects/skybox.o: objects/skybox.cpp objects/skybox.h
 objects/terrain.o: objects/terrain.cpp objects/terrain.h
+objects/water.o: objects/water.cpp objects/water.h
 
 # Generic Objects
 objects/generic/skyscraper.o: objects/generic/skyscraper.cpp objects/generic/skyscraper.h
@@ -93,7 +94,7 @@ objects/generic/%.o: objects/generic/%.cpp objects/generic/%.h
 	g++ -c $(CFLG) -Icsci_lib $<
 
 # Link
-final: final.o camera.o scene.o example_scene.o light.o vector4.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/primitives/cuboid.o objects/primitives/sphere.o objects/primitives/cylinder.o objects/primitives/pipe.o objects/primitives/pyramid.o objects/skybox.o objects/terrain.o objects/generic/eiffel_tower.o objects/generic/golden_gate.o objects/generic/sidewalk.o objects/generic/skyscraper.o objects/generic/street_light.o objects/generic/intersection_light.o objects/generic/street.o objects/generic/intersection.o objects/generic/park_bench.o csci_lib/CSCIx229.a
+final: final.o camera.o scene.o example_scene.o light.o vector4.o vector3.o vector2.o texture.o polygon.o boundingbox.o renderer.o objects/object.o objects/primitives/cuboid.o objects/primitives/sphere.o objects/primitives/cylinder.o objects/primitives/pipe.o objects/primitives/pyramid.o objects/skybox.o objects/terrain.o objects/water.o objects/generic/eiffel_tower.o objects/generic/golden_gate.o objects/generic/sidewalk.o objects/generic/skyscraper.o objects/generic/street_light.o objects/generic/intersection_light.o objects/generic/street.o objects/generic/intersection.o objects/generic/park_bench.o csci_lib/CSCIx229.a
 	g++ $(CFLG) -o $@ $^ $(LIBS)
 
 # Clean

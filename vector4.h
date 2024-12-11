@@ -5,27 +5,22 @@
 #ifndef VECTOR4_H
 #define VECTOR4_H
 
-
-class Vector4
-{
+class Vector4 {
 public:
     float x;
     float y;
     float z;
     float w;
 
-    bool operator==(const Vector4& v) const
-    {
+    bool operator==(const Vector4 &v) const {
         return x == v.x && y == v.y && z == v.z && w == v.w;
     }
 
-    Vector4 operator+(const Vector4& v) const
-    {
+    Vector4 operator+(const Vector4 &v) const {
         return {x + v.x, y + v.y, z + v.z, w + v.w};
     }
 
-    Vector4& operator+=(const Vector4& v)
-    {
+    Vector4 &operator+=(const Vector4 &v) {
         x += v.x;
         y += v.y;
         z += v.z;
@@ -33,8 +28,7 @@ public:
         return *this;
     }
 
-    Vector4& operator*=(const Vector4& v)
-    {
+    Vector4 &operator*=(const Vector4 &v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
@@ -42,8 +36,7 @@ public:
         return *this;
     }
 
-    Vector4& operator*=(const float scalar)
-    {
+    Vector4 &operator*=(const float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
@@ -51,13 +44,11 @@ public:
         return *this;
     }
 
-    Vector4 operator*(const float scalar) const
-    {
+    Vector4 operator*(const float scalar) const {
         return {x * scalar, y * scalar, z * scalar, w * scalar};
     }
 
-    Vector4& operator-=(const Vector4& v)
-    {
+    Vector4 &operator-=(const Vector4 &v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
@@ -65,13 +56,11 @@ public:
         return *this;
     }
 
-    Vector4 operator-(const Vector4& v) const
-    {
+    Vector4 operator-(const Vector4 &v) const {
         return {x - v.x, y - v.y, z - v.z, w - v.w};
     }
 
-    operator const float*() const
-    {
+    operator const float *() const {
         return &x;
     }
 

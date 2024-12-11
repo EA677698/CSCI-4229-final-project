@@ -34,6 +34,7 @@ Skyscraper::~Skyscraper()
 void Skyscraper::refresh()
 {
     polygons.clear();
+    polyhedrons.clear();
 
     auto* cuboid = new Cuboid(width, height, depth);
     cuboid->set_texture_to_all(OFFICE_TEXTURE);

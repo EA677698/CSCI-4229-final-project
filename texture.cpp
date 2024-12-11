@@ -6,6 +6,10 @@ Texture* Texture::instance = nullptr;
 Texture::Texture()
 {
     textures[NULL_TEXTURE] = LoadTexBMP("textures/dev_texture.bmp");
+    textures[RED_TEXTURE] = LoadTexBMP("textures/red.bmp");
+    textures[GREEN_TEXTURE] = LoadTexBMP("textures/green.bmp");
+    textures[YELLOW_TEXTURE] = LoadTexBMP("textures/yellow.bmp");
+    textures[WATER_TEXTURE] = LoadTexBMP("textures/water.bmp");
     textures[SKYSCRAPER_TEXTURE] = LoadTexBMP("textures/facades/skyscraper.bmp");
     textures[OFFICE_TEXTURE] = LoadTexBMP("textures/facades/office.bmp");
     textures[OLD_OFFICE_TEXTURE] = LoadTexBMP("textures/facades/old_office.bmp");
@@ -50,9 +54,13 @@ int Texture::get_material_type(int index) const
     {
         return GLASS_MATERIAL;
     }
-    if(index >= OLD_WOOD_TEXTURE && index <= GRASS_TEXTURE)
+    if(index == GRASS_TEXTURE)
     {
-        return NATURAL_MATERIAL;
+        return GRASS_MATERIAL;
+    }
+    if(index == OLD_WOOD_TEXTURE)
+    {
+        return WOOD_MATERIAL;
     }
     if(index >= APARTMENT_TEXTURE && index <= CONCRETE1_TEXTURE)
     {

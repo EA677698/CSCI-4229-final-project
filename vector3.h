@@ -69,6 +69,10 @@ public:
         return Vector4(x, y, z, 1.0f); // Default w = 1.0f
     }
 
+    operator const float *() const {
+        return &x;
+    }
+
     Vector3();
 
     Vector3(float x, float y, float z);

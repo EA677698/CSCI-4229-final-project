@@ -42,6 +42,9 @@ public:
     int mouse_y;
     float pan_speed;
 
+    // stupid fix for rotating camera before panning camera
+    bool camera_flag;
+
 
     int prev_pan_x;
     int prev_pan_y;
@@ -66,8 +69,6 @@ public:
     Camera();
 
     ~Camera();
-
-    void update_View_angle(int deltaTh, int deltaPh);
 
     void change_viewing_mode(int mode);
 

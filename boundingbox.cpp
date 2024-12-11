@@ -83,5 +83,4 @@ std::vector<Polygon> BoundingBox::get_polygons() const
 }
 
 BoundingBox::~BoundingBox()
-{
-}
+= default;

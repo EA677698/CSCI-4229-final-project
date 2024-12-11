@@ -154,3 +154,11 @@ void Object::set_depth(float depth)
 {
     this->depth = depth;
 }
+
+bool Object::is_night_light() const {
+    return night_light;
+}
+
+void Object::set_night_light(bool night_light) {
+    this->night_light = night_light;
+}

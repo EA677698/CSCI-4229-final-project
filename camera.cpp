@@ -13,8 +13,12 @@ Camera::Camera()
 
     pan_speed = 0.01f;
 
-    prev_pan_x = 0;
-    prev_pan_y = 0;
+    camera_flag = false;
+    prev_pan_x = -1;
+    prev_pan_y = -1;
+
+    object_x = 0;
+    object_y = 0;
 
     pan_x = 0;
     pan_y = 0;
@@ -64,3 +68,4 @@ int Camera::get_viewing_mode() const
 {
     return mode;
 }
+

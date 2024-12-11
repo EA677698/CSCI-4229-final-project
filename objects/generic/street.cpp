@@ -28,6 +28,7 @@ Street::~Street()
 
 void Street::refresh()
 {
+    polyhedrons.clear();
     polygons.clear();
     auto polygon = Polygon(ROAD_TEXTURE, 0xFFFFFF);
     polygon.add_vertex(0, height, 0);

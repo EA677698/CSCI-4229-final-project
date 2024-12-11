@@ -16,6 +16,8 @@ IntersectionLight::IntersectionLight()
     name = "Intersection Light";
 
     bounding_box = true;
+    light = nullptr;
+    enabled_light = nullptr;
 
     auto* pole = new Cylinder(width, height, depth, 10);
     pole->set_position(0, 0, 0);
@@ -44,7 +46,7 @@ IntersectionLight::IntersectionLight()
     polyhedrons.push_back(light_box);
 
     auto* red_light = new Cylinder(width / 2, light_box->get_depth() / 4, depth / 2, 10);
-    red_light->set_texture(NO_TEXTURE);
+    red_light->set_texture(RED_TEXTURE);
     red_light->set_rotation(0, 0, 90);
     red_light->set_position(light_box->get_position().y + light_box->get_height() * 0.8f,
                             -light_box->get_depth() - red_light->get_depth(),
@@ -53,7 +55,7 @@ IntersectionLight::IntersectionLight()
     polyhedrons.push_back(red_light);
 
     auto* yellow_light = new Cylinder(width / 2, light_box->get_depth() / 4, depth / 2, 10);
-    yellow_light->set_texture(NO_TEXTURE);
+    yellow_light->set_texture(YELLOW_TEXTURE);
     yellow_light->set_rotation(0, 0, 90);
     yellow_light->set_position(light_box->get_position().y + light_box->get_height() * 0.5f,
                                -light_box->get_depth() - yellow_light->get_depth(),
@@ -62,7 +64,7 @@ IntersectionLight::IntersectionLight()
     polyhedrons.push_back(yellow_light);
 
     auto* green_light = new Cylinder(width / 2, light_box->get_depth() / 4, depth / 2, 10);
-    green_light->set_texture(NO_TEXTURE);
+    green_light->set_texture(GREEN_TEXTURE);
     green_light->set_rotation(0, 0, 90);
     green_light->set_position(light_box->get_position().y + light_box->get_height() * 0.2f,
                               -light_box->get_depth() - green_light->get_depth(),
@@ -86,15 +88,74 @@ IntersectionLight::~IntersectionLight()
 {
 }
 
-Vector3 IntersectionLight::get_light_position(const int light_color) const
-{
+void IntersectionLight::enable_light(int light_color, int light_id) {
+
+    if(enabled_light != nullptr){
+        delete enabled_light;
+    }
+
     switch (light_color)
     {
     case YELLOW_LIGHT:
-        return polyhedrons[4]->get_position();
+        polyhedrons[4]->init_light(light_id);
+        enabled_light = polyhedrons[4]->get_light();
+        enabled_light->position = {0,0,0, 1.0f};
+        enabled_light->emission = {1.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->ambient = {1.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->diffuse = {1.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->specular = {1.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->shininess = 0.0f;
+        enabled_light->attenuation_enabled = true;
+        enabled_light->attenuation = {0.1f, 0.1f, 0.01f};
+        break;
     case GREEN_LIGHT:
-        return polyhedrons[5]->get_position();
+        polyhedrons[5]->init_light(light_id);
+        enabled_light = polyhedrons[5]->get_light();
+        enabled_light->position = {0,0,0, 1.0f};
+        enabled_light->emission = {0.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->ambient = {0.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->diffuse = {0.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->specular = {0.0f, 1.0f, 0.0f, 1.0f};
+        enabled_light->shininess = 0.0f;
+        enabled_light->attenuation_enabled = true;
+        enabled_light->attenuation = {0.1f, 0.1f, 0.01f};
+        break;
     default:
-        return polyhedrons[3]->get_position();
+        polyhedrons[3]->init_light(light_id);
+        enabled_light = polyhedrons[3]->get_light();
+        enabled_light->position = {0,0,0, 1.0f};
+        enabled_light->emission = {1.0f, 0.0f, 0.0f, 1.0f};
+        enabled_light->ambient = {1.0f, 0.0f, 0.0f, 1.0f};
+        enabled_light->diffuse = {1.0f, 0.0f, 0.0f, 1.0f};
+        enabled_light->specular = {1.0f, 0.0f, 0.0f, 1.0f};
+        enabled_light->shininess = 0.0f;
+        enabled_light->attenuation_enabled = true;
+        enabled_light->attenuation = {0.1f, 0.1f, 0.01f};
+        break;
+    }
+
+}
+
+void IntersectionLight::add_existing_light(int light_color, Light *light) {
+
+    switch (light_color)
+    {
+        case YELLOW_LIGHT:
+            polyhedrons[4]->set_light(light);
+            enabled_light = polyhedrons[4]->get_light();
+            break;
+        case GREEN_LIGHT:
+            polyhedrons[5]->set_light(light);
+            enabled_light = polyhedrons[5]->get_light();
+            break;
+        default:
+            polyhedrons[3]->set_light(light);
+            enabled_light = polyhedrons[3]->get_light();
+            break;
     }
 }
+
+Light* IntersectionLight::get_enabled_light() {
+    return enabled_light;
+}
+

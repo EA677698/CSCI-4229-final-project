@@ -17,11 +17,12 @@ protected:
     std::vector<Object*> polyhedrons;
     bool bounding_box;
     Light* light;
+    bool night_light;
     std::string name; // identifier used for debugging
 
 public:
     Object() : scale(Vector3(1, 1, 1)), position(Vector3(0, 0, 0)), rotation(Vector3(0, 0, 0)), width(1), height(1),
-               depth(1), polygons(0), polyhedrons(0), bounding_box(true), light(nullptr), name("Generic Object")
+               depth(1), polygons(0), polyhedrons(0), bounding_box(true), light(nullptr), night_light(false), name("Generic Object")
     {
     };
 
@@ -97,6 +98,10 @@ public:
     void init_light(unsigned int light_num);
 
     Light* get_light() const;
+
+    bool is_night_light() const;
+
+    void set_night_light(bool night_light);
 };
 
 #endif

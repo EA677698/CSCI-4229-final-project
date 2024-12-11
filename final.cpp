@@ -11,12 +11,11 @@
 
 #include "objects/skybox.h"
 #include "objects/generic/street_light.h"
-#include "objects/primitives/pyramid.h"
-#include "objects/primitives/sphere.h"
 #include "objects/primitives/pipe.h"
 #include "objects/generic/eiffel_tower.h"
 #include "objects/generic/golden_gate.h"
 #include "objects/generic/park_bench.h"
+#include "objects/generic/intersection_light.h"
 
 #ifdef USEGLEW
 #include <GL/glew.h>
@@ -42,77 +41,128 @@ Scene scene;
 Renderer renderer;
 
 int move = 1; //  Move light
-const char* text[] = {""};
-
-// Light code is not used yet. Will implement soon.
-
+int scene_id = 0;
+const char *text[] = {""};
 int light = 0; // Lighting
-int one = 1; // Unit value
-int distance = 5; // Light distance
-int inc = 10; // Ball increment
-int smooth = 1; // Smooth/Flat shading
-int local = 0; // Local Viewer Model
-int emission = 0; // Emission intensity (%)
-int ambient = 10; // Ambient intensity (%)
-int diffuse = 50; // Diffuse intensity (%)
-int specular = 0; // Specular intensity (%)
-int shininess = 0; // Shininess (power of two)
-float shiny = 1; // Shininess (value)
-int zh = 90; // Light azimuth
-float ylight = 0; // Elevation of light
+float sun_speed = 0.1;
+
+
+void change_scene(int id){
+    light = 0;
+    if(id == 0){
+        light = 1;
+        ExampleScene exampleScene = ExampleScene();
+        scene = exampleScene.get_scene();
+    } else if(id == 1){
+        scene = Scene();
+        auto *skybox = new Skybox();
+        scene.add_skybox(skybox);
+        scene.disable_lighting();
+        auto* bridge = new GoldenGateBridge();
+        bridge->set_position(50,0,0);
+        scene.add_object(bridge);
+        scene.getCamera().fov = 10;
+    } else if (id == 2){
+        scene = Scene();
+        auto *skybox = new Skybox();
+        scene.add_skybox(skybox);
+        scene.disable_lighting();
+        auto* eiffel_tower = new EiffelTower();
+        scene.add_object(eiffel_tower);
+        scene.getCamera().fov = 10;
+    } else if (id == 3){
+        scene = Scene();
+        auto *skybox = new Skybox();
+        scene.add_skybox(skybox);
+        scene.disable_lighting();
+        auto* bench = new ParkBench();
+        scene.add_object(bench);
+        scene.getCamera().fov = 1;
+    } else if(id == 4) {
+        scene = Scene();
+        auto *skybox = new Skybox();
+        scene.add_skybox(skybox);
+        scene.disable_lighting();
+        auto *street_light = new StreetLight();
+        scene.add_object(street_light);
+        scene.getCamera().fov = 2;
+    } else if(id == 5){
+        scene = Scene();
+        auto *skybox = new Skybox();
+        scene.add_skybox(skybox);
+        scene.disable_lighting();
+        auto* traffic_light = new IntersectionLight();
+        scene.add_object(traffic_light);
+        scene.getCamera().fov = 2;
+    } else if(id == 6){
+        scene = Scene();
+        auto *skybox = new Skybox();
+        scene.add_skybox(skybox);
+        scene.disable_lighting();
+        auto* pipe = new Pipe();
+        pipe->enable_z_rotation();
+        pipe->set_sides(10);
+        // make a spiral
+        float radius = 2.0f;
+        for(int i = 0; i < 360; i++){
+            pipe->add_point({(float)(radius * Cos(i * 5)), (float)(radius * Sin(i * 5)), 0.2f * i});
+        }
+        pipe->generate_pipe(true);
+        scene.add_object(pipe);
+        scene.getCamera().fov = 2;
+    }
+
+}
+
 
 /*
  *  OpenGL (GLUT) calls this routine to display the scene
  */
-void display()
-{
+void display() {
     renderer.render(scene);
 }
 
-void mouse_click(int button, int state, int x, int y)
-{
+void mouse_click(int button, int state, int x, int y) {
     int glY = renderer.get_display_height() - y;
-    Camera& camera = scene.getCamera();
+    Camera &camera = scene.getCamera();
 
-    if (button == GLUT_MIDDLE_BUTTON)
-    {
+    if (button == GLUT_MIDDLE_BUTTON) {
         camera.is_dragging = state == GLUT_DOWN;
         camera.mouse_x = x;
         camera.mouse_y = y;
+
+        if(camera.prev_pan_y == -1 && camera.prev_pan_x == -1) {
+            camera.prev_pan_x = x;
+            camera.prev_pan_y = glY;
+            camera.pan_dragging = true;
+        }
     }
 
-    if (button == GLUT_LEFT_BUTTON)
-    {
+    if (button == GLUT_LEFT_BUTTON) {
         renderer.set_mouse_position(Vector2(x, glY));
-        if (!renderer.read_color() && state == GLUT_DOWN)
-        {
+        if (!renderer.read_color() && state == GLUT_DOWN) {
             scene.clear_selected_objects();
-        }
-        else
-        {
-            Object* object = scene.get_object_by_color(renderer.read_color());
-            if (object)
-            {
+        } else {
+            Object *object = scene.get_object_by_color(renderer.read_color());
+            if (object) {
                 scene.add_selected_object(object);
             }
         }
         camera.object_dragging = state == GLUT_DOWN;
+        camera.object_x = x;
+        camera.object_y = glY;
     }
 
-    if (button == GLUT_RIGHT_BUTTON)
-    {
+    if (button == GLUT_RIGHT_BUTTON) {
         camera.pan_dragging = state == GLUT_DOWN;
         camera.prev_pan_x = x;
-        camera.prev_pan_y = y;
+        camera.prev_pan_y = glY;
     }
 
-    if (button == 4)
-    {
+    if (button == 4) {
         // Scroll down
         camera.fov += camera.fov > 0 ? -0.1 : 0;
-    }
-    else if (button == 3)
-    {
+    } else if (button == 3) {
         // Scroll up
         camera.fov += camera.fov < 180 ? 0.1 : 0;
     }
@@ -120,23 +170,19 @@ void mouse_click(int button, int state, int x, int y)
     glutPostRedisplay();
 }
 
-void mouse_move(int x, int y)
-{
-    Camera& camera = scene.getCamera();
-    if (camera.is_dragging)
-    {
+void mouse_move(int x, int y) {
+    Camera &camera = scene.getCamera();
+    int glY = renderer.get_display_height() - y;
+    if (camera.is_dragging) {
         int dx = x - camera.mouse_x;
         int dy = y - camera.mouse_y;
-        if (camera.get_viewing_mode() == FIRST_PERSON)
-        {
+        if (camera.get_viewing_mode() == FIRST_PERSON) {
             camera.x -= dx * camera.pan_speed * scene.dir_z;
             camera.z += dx * camera.pan_speed * scene.dir_x;
 
             camera.x += dy * camera.pan_speed * scene.dir_x;
             camera.z += dy * camera.pan_speed * scene.dir_z;
-        }
-        else
-        {
+        } else {
             camera.th += dx * camera.pan_speed * 100.0f;
             camera.ph += dy * camera.pan_speed * 100.0f;
         }
@@ -145,25 +191,26 @@ void mouse_move(int x, int y)
         camera.mouse_y = y;
     }
 
-    if (camera.pan_dragging)
-    {
+    if (camera.pan_dragging) {
         int dx = x - camera.prev_pan_x;
-        int dy = y - camera.prev_pan_y;
+        int dy = glY - camera.prev_pan_y;
         camera.pan_x += dx;
         camera.pan_y += dy;
         camera.prev_pan_x = x;
-        camera.prev_pan_y = y;
+        camera.prev_pan_y = glY;
+        if(!camera.camera_flag){
+            camera.pan_dragging = false;
+            camera.camera_flag = true;
+        }
     }
 
-    if (camera.object_dragging)
-    {
+    if (camera.object_dragging) {
         float dir_x = (x - camera.object_x);
-        float dir_y = (y - camera.object_y);
+        float dir_y = (glY - camera.object_y);
         scene.update_selected_objects(Vector3(dir_x, 0, dir_y));
         camera.object_x = x;
-        camera.object_y = y;
+        camera.object_y = glY;
     }
-    // Redisplay the scene
     Project(camera.get_viewing_mode() ? camera.fov : 0, camera.asp, camera.dim);
     glutPostRedisplay();
 }
@@ -171,39 +218,31 @@ void mouse_move(int x, int y)
 /*
  *  GLUT calls this routine when an arrow key is pressed
  */
-void special(int key, int x, int y)
-{
-    Camera& camera = scene.getCamera();
+void special(int key, int x, int y) {
+    Camera &camera = scene.getCamera();
     //  Right arrow key - increase angle by 5 degrees
-    if (camera.get_viewing_mode() == FIRST_PERSON)
-    {
+    if (camera.get_viewing_mode() == FIRST_PERSON) {
         double speed = 0.5;
-        if (key == GLUT_KEY_LEFT)
-        {
+        if (key == GLUT_KEY_LEFT) {
             camera.x += scene.dir_z * speed;
             camera.z -= scene.dir_x * speed;
         }
-        //  Left arrow key - decrease angle by 5 degrees
-        else if (key == GLUT_KEY_RIGHT)
-        {
+            //  Left arrow key - decrease angle by 5 degrees
+        else if (key == GLUT_KEY_RIGHT) {
             camera.x -= scene.dir_z * speed;
             camera.z += scene.dir_x * speed;
         }
-        //  Up arrow key - increase elevation by 5 degrees
-        else if (key == GLUT_KEY_UP)
-        {
+            //  Up arrow key - increase elevation by 5 degrees
+        else if (key == GLUT_KEY_UP) {
             camera.x += scene.dir_x * speed;
             camera.z += scene.dir_z * speed;
         }
-        //  Down arrow key - decrease elevation by 5 degrees
-        else if (key == GLUT_KEY_DOWN)
-        {
+            //  Down arrow key - decrease elevation by 5 degrees
+        else if (key == GLUT_KEY_DOWN) {
             camera.x -= scene.dir_x * speed;
             camera.z -= scene.dir_z * speed;
         }
-    }
-    else if (!camera.camera_locked)
-    {
+    } else if (!camera.camera_locked) {
         if (key == GLUT_KEY_RIGHT)
             camera.th += 5;
             //  Left arrow key - decrease angle by 5 degrees
@@ -224,9 +263,7 @@ void special(int key, int x, int y)
         //  Keep angles to +/-360 degrees
         camera.th %= 360;
         camera.ph %= 360;
-    }
-    else
-    {
+    } else {
         int modifiers = glutGetModifiers();
         if (key == GLUT_KEY_RIGHT)
             scene.update_selected_objects(Vector3(1, 0, 0));
@@ -234,26 +271,18 @@ void special(int key, int x, int y)
         else if (key == GLUT_KEY_LEFT)
             scene.update_selected_objects(Vector3(-1, 0, 0));
             //  Up arrow key - increase elevation by 5 degrees
-        else if (key == GLUT_KEY_UP)
-        {
-            if (modifiers == GLUT_ACTIVE_SHIFT)
-            {
+        else if (key == GLUT_KEY_UP) {
+            if (modifiers == GLUT_ACTIVE_SHIFT) {
                 scene.update_selected_objects(Vector3(0, 1, 0));
-            }
-            else
-            {
+            } else {
                 scene.update_selected_objects(Vector3(0, 0, -1));
             }
         }
-        //  Down arrow key - decrease elevation by 5 degrees
-        else if (key == GLUT_KEY_DOWN)
-        {
-            if (modifiers == GLUT_ACTIVE_SHIFT)
-            {
+            //  Down arrow key - decrease elevation by 5 degrees
+        else if (key == GLUT_KEY_DOWN) {
+            if (modifiers == GLUT_ACTIVE_SHIFT) {
                 scene.update_selected_objects(Vector3(0, -1, 0));
-            }
-            else
-            {
+            } else {
                 scene.update_selected_objects(Vector3(0, 0, 1));
             }
         }
@@ -266,76 +295,61 @@ void special(int key, int x, int y)
 /*
  *  GLUT calls this routine when a key is pressed
  */
-void key(unsigned char ch, int x, int y)
-{
-    Camera& camera = scene.getCamera();
+void key(unsigned char ch, int x, int y) {
+    GLboolean lightingEnabled;
+    glGetBooleanv(GL_LIGHTING, &lightingEnabled);
+    light = lightingEnabled;
+    Camera &camera = scene.getCamera();
     //  Exit on ESC
-    if (ch == 27)
-    {
+    if (ch == 27) {
         scene.delete_scene();
         exit(0);
     }
     //  Reset view angle
     if (ch == '0')
         camera.th = camera.ph = camera.pitch = camera.angle = camera.pan_x = camera.pan_y = camera.prev_pan_x = camera.
-            prev_pan_y = 0;
-        //  Toggle debug
-    else if (ch == 'x' || ch == 'X')
-    {
+                prev_pan_y = 0;
+    //  Toggle debug
+    else if (ch == 'x' || ch == 'X') {
         renderer.set_axis(1 - renderer.get_axis());
         renderer.set_debug(1 - renderer.get_debug());
-    }
-    else if (ch == 'l' || ch == 'L')
+    } else if (ch == 'l' || ch == 'L')
         light = 1 - light;
-        //  Switch display camera.get_viewing_mode()
+    //  Switch display
     else if (ch == 'm' || ch == 'M')
         camera.change_viewing_mode(camera.get_viewing_mode() + 1);
+    else if (ch == '[')
+        sun_speed -= 0.1;
+    else if (ch == ']')
+        sun_speed += 0.1;
     else if (ch == 'n' || ch == 'N')
         move = 1 - move;
-        //  Toggle lighting
+    //  Toggle lighting
     else if (ch == 'l' || ch == 'L')
         light = 1 - light;
-    else if (ch == '[')
-        ylight -= 0.1;
-    else if (ch == ']')
-        ylight += 0.1;
-        //  Change field of view angle
+    //  Change field of view angle
     else if (ch == '-' && ch > 1)
         camera.fov += camera.fov > 0 ? -1 : 0;
     else if (ch == '+' && ch < 179)
         camera.fov += camera.fov < 180 ? 1 : 0;
-        //  Move light
-    else if (ch == '<')
-        zh += 1;
-    else if (ch == '>')
-        zh -= 1;
-        //  Ambient level
-    else if (ch == 'c' && ambient > 0)
-        ambient -= 5;
-    else if (ch == 'C' && ambient < 100)
-        ambient += 5;
-    else if (ch == 't')
-    {
+    else if (ch == 't') {
         camera.camera_locked = true;
         scene.set_object_op(TRANSLATE);
-    }
-    else if (ch == 'r')
-    {
+    } else if (ch == 'r') {
         camera.camera_locked = true;
         scene.set_object_op(ROTATE);
-    }
-    else if (ch == 'y')
-    {
+    } else if (ch == 'y') {
         camera.camera_locked = true;
         scene.set_object_op(SCALE);
-    }
-    else if (ch == 'u')
-    {
+    } else if (ch == 'u') {
         camera.camera_locked = false;
+    } else if (ch == 'q'){
+        scene_id++;
+        scene_id %= 7;
+        change_scene(scene_id);
     }
 
-    if (camera.get_viewing_mode() == FIRST_PERSON)
-    {
+    if (camera.get_viewing_mode() == FIRST_PERSON) {
         if (ch == 'a')
             camera.angle -= 5;
         else if (ch == 'd')
@@ -360,13 +374,12 @@ void key(unsigned char ch, int x, int y)
 /*
  *  GLUT calls this routine when the window is resized
  */
-void reshape(int width, int height)
-{
-    Camera& camera = scene.getCamera();
+void reshape(int width, int height) {
+    Camera &camera = scene.getCamera();
     renderer.set_display_width(width);
     renderer.set_display_height(height);
     //  Ratio of the width to the height of the window
-    camera.asp = (height > 0) ? (double)width / height : 1;
+    camera.asp = (height > 0) ? (double) width / height : 1;
     //  Set the viewport to the entire window
     glViewport(0, 0, RES * width, RES * height);
     renderer.resize();
@@ -377,18 +390,19 @@ void reshape(int width, int height)
 /*
  *  GLUT calls this routine when there is nothing else to do
  */
-void idle()
-{
-    renderer.sun_xy.x = fmod(renderer.sun_xy.x + 1, 360.0f);
-    renderer.sun_xy.y = fmod(renderer.sun_xy.y + 1, 360.0f);
+void idle() {
+    if (move) {
+        renderer.sun_xy.x = fmod(renderer.sun_xy.x + sun_speed, 360.0f);
+        renderer.sun_xy.y = fmod(renderer.sun_xy.y + sun_speed, 360.0f);
+        scene.set_night(renderer.sun_xy.y > 180);
+    }
     glutPostRedisplay();
 }
 
 /*
  *  Start up GLUT and tell it what to do
  */
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     //  Initialize GLUT and process user parameters
     glutInit(&argc, argv);
     //  Request double buffered, true colors window with Z buffering at 600x600
@@ -419,14 +433,6 @@ int main(int argc, char* argv[])
 
     ExampleScene exampleScene = ExampleScene();
     scene = exampleScene.get_scene();
-
-    // scene = Scene();
-    // auto *skybox = new Skybox();
-    // scene.add_skybox(skybox);
-    // scene.disable_lighting();
-    // auto* bridge = new StreetLight();
-    // scene.add_object(bridge);
-    // scene.getCamera().fov = 1;
 
     //  Pass control to GLUT so it can interact with the user
     glutMainLoop();

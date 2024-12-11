@@ -9,6 +9,9 @@
 
 class IntersectionLight : public Object
 {
+
+    Light* enabled_light;
+
 public:
     using Object::Object;
 
@@ -18,7 +21,11 @@ public:
 
     ~IntersectionLight();
 
-    Vector3 get_light_position(int light_color) const;
+    void enable_light(int light_color, int light_id);
+
+    Light* get_enabled_light();
+
+    void add_existing_light(int light_color, Light* light);
 };
 
 

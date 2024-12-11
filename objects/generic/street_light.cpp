@@ -18,6 +18,8 @@ StreetLight::StreetLight()
     name = "Street Light";
 
     bounding_box = true;
+    light = nullptr;
+    enabled_light = nullptr;
 
     auto* pole = new Cylinder(width, height, depth, 10);
     pole->set_position(0, 0, 0);
@@ -56,6 +58,7 @@ StreetLight::StreetLight()
                        lamp_case->get_position().z);
     bulb->set_texture(NO_TEXTURE);
     bulb->set_color(0xFFFFFF);
+    bulb->set_night_light(true);
     bulb->refresh();
     polyhedrons.push_back(bulb);
 }
@@ -67,4 +70,30 @@ void StreetLight::refresh()
 
 StreetLight::~StreetLight()
 {
+}
+
+void StreetLight::enable_light(int light_id) {
+    polyhedrons.back()->init_light(light_id);
+    enabled_light = polyhedrons.back()->get_light();
+    enabled_light->position = {0.0f, 0.0f, 0.0f, 1.0f};
+    enabled_light->ambient = {1.0f, 1.0f, 0.0f, 1.0f};
+    enabled_light->diffuse = {1.0f, 1.0f, 0.5f, 1.0f};
+    enabled_light->specular = {1.0f, 1.0f, 0.4f, 1.0f};
+    enabled_light->emission = {1.0f, 1.0f, 0.0f, 1.0f};
+    enabled_light->shininess = 32.0f;
+    enabled_light->attenuation_enabled = true;
+    enabled_light->attenuation = {0.1f, 0.1f, 0.01f};
+    enabled_light->direction = {0.0f, 1.0f, 0.0f};
+    enabled_light->cutoff = 30.0f;
+    enabled_light->exponent = 5.0f;
+
+}
+
+void StreetLight::add_existing_light(Light *light) {
+    polyhedrons.back()->set_light(light);
+    enabled_light = light;
+}
+
+Light *StreetLight::get_enabled_light() {
+    return enabled_light;
 }

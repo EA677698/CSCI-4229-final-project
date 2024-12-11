@@ -19,7 +19,9 @@ GoldenGateBridge::GoldenGateBridge()
 
     int cable_sides = 8;
 
-    Street* street1 = new Street();
+    name = "Golden Gate Bridge";
+
+    auto* street1 = new Street();
     street1->set_position(0, 0, 0);
     street1->refresh();
     polyhedrons.push_back(street1);
@@ -28,122 +30,122 @@ GoldenGateBridge::GoldenGateBridge()
 
     while (total_depth < 461)
     {
-        Street* street = new Street();
+        auto* street = new Street();
         street->set_position(0, 0, total_depth);
         street->refresh();
         polyhedrons.push_back(street);
         total_depth += street->get_depth();
     }
 
-    Street* street2 = new Street();
+    auto* street2 = new Street();
     street2->set_position(0, 0, -40);
     street2->refresh();
     polyhedrons.push_back(street2);
 
-    Street* street3 = new Street();
+    auto* street3 = new Street();
     street3->set_position(0, 0, -80);
     street3->refresh();
     polyhedrons.push_back(street3);
 
-    Street* street4 = new Street();
+    auto* street4 = new Street();
     street4->set_position(0, 0, -120);
     street4->refresh();
     polyhedrons.push_back(street4);
 
-    Street* street5 = new Street();
+    auto* street5 = new Street();
     street5->set_position(0, 0, total_depth);
     street5->refresh();
     polyhedrons.push_back(street5);
 
-    Street* street6 = new Street();
+    auto* street6 = new Street();
     street6->set_position(0, 0, total_depth + 40);
     street6->refresh();
     polyhedrons.push_back(street6);
 
-    Street* street7 = new Street();
+    auto* street7 = new Street();
     street7->set_position(0, 0, total_depth + 80);
     street7->refresh();
     polyhedrons.push_back(street7);
 
-    Sidewalk* sidewalk1 = new Sidewalk();
+    auto* sidewalk1 = new Sidewalk();
     sidewalk1->add_width(1);
     sidewalk1->set_position(street1->get_width(), 0, 0);
     sidewalk1->refresh();
     polyhedrons.push_back(sidewalk1);
 
-    Sidewalk* sidewalk2 = new Sidewalk();
+    auto* sidewalk2 = new Sidewalk();
     sidewalk2->add_width(1);
     sidewalk2->set_position(-3, 0, 0);
     sidewalk2->refresh();
     polyhedrons.push_back(sidewalk2);
 
-    Sidewalk* sidewalk3 = new Sidewalk();
+    auto* sidewalk3 = new Sidewalk();
     sidewalk3->add_width(1);
     sidewalk3->set_position(street1->get_width(), 0, -40);
     sidewalk3->refresh();
     polyhedrons.push_back(sidewalk3);
 
-    Sidewalk* sidewalk4 = new Sidewalk();
+    auto* sidewalk4 = new Sidewalk();
     sidewalk4->add_width(1);
     sidewalk4->set_position(-3, 0, -40);
     sidewalk4->refresh();
     polyhedrons.push_back(sidewalk4);
 
-    Sidewalk* sidewalk5 = new Sidewalk();
+    auto* sidewalk5 = new Sidewalk();
     sidewalk5->add_width(1);
     sidewalk5->set_position(street1->get_width(), 0, -80);
     sidewalk5->refresh();
     polyhedrons.push_back(sidewalk5);
 
-    Sidewalk* sidewalk6 = new Sidewalk();
+    auto* sidewalk6 = new Sidewalk();
     sidewalk6->add_width(1);
     sidewalk6->set_position(-3, 0, -80);
     sidewalk6->refresh();
     polyhedrons.push_back(sidewalk6);
 
-    Sidewalk* sidewalk7 = new Sidewalk();
+    auto* sidewalk7 = new Sidewalk();
     sidewalk7->add_width(1);
     sidewalk7->set_position(street1->get_width(), 0, -120);
     sidewalk7->refresh();
     polyhedrons.push_back(sidewalk7);
 
-    Sidewalk* sidewalk8 = new Sidewalk();
+    auto* sidewalk8 = new Sidewalk();
     sidewalk8->add_width(1);
     sidewalk8->set_position(-3, 0, -120);
     sidewalk8->refresh();
     polyhedrons.push_back(sidewalk8);
 
-    Sidewalk* sidewalk9 = new Sidewalk();
+    auto* sidewalk9 = new Sidewalk();
     sidewalk9->add_width(1);
     sidewalk9->set_position(street1->get_width(), 0, total_depth);
     sidewalk9->refresh();
     polyhedrons.push_back(sidewalk9);
 
-    Sidewalk* sidewalk10 = new Sidewalk();
+    auto* sidewalk10 = new Sidewalk();
     sidewalk10->add_width(1);
     sidewalk10->set_position(-3, 0, total_depth);
     sidewalk10->refresh();
     polyhedrons.push_back(sidewalk10);
 
-    Sidewalk* sidewalk11 = new Sidewalk();
+    auto* sidewalk11 = new Sidewalk();
     sidewalk11->add_width(1);
     sidewalk11->set_position(street1->get_width(), 0, total_depth + 40);
     sidewalk11->refresh();
     polyhedrons.push_back(sidewalk11);
 
-    Sidewalk* sidewalk12 = new Sidewalk();
+    auto* sidewalk12 = new Sidewalk();
     sidewalk12->add_width(1);
     sidewalk12->set_position(-3, 0, total_depth + 40);
     sidewalk12->refresh();
     polyhedrons.push_back(sidewalk12);
 
-    Sidewalk* sidewalk13 = new Sidewalk();
+    auto* sidewalk13 = new Sidewalk();
     sidewalk13->add_width(1);
     sidewalk13->set_position(street1->get_width(), 0, total_depth + 80);
     sidewalk13->refresh();
     polyhedrons.push_back(sidewalk13);
 
-    Sidewalk* sidewalk14 = new Sidewalk();
+    auto* sidewalk14 = new Sidewalk();
     sidewalk14->add_width(1);
     sidewalk14->set_position(-3, 0, total_depth + 80);
     sidewalk14->refresh();
@@ -153,13 +155,13 @@ GoldenGateBridge::GoldenGateBridge()
     total_depth = sidewalk1->get_depth();
     while (total_depth < 461)
     {
-        Sidewalk* sidewalka = new Sidewalk();
+        auto* sidewalka = new Sidewalk();
         sidewalka->add_width(1);
         sidewalka->set_position(street1->get_width(), 0, total_depth);
         sidewalka->refresh();
         polyhedrons.push_back(sidewalka);
 
-        Sidewalk* sidewalkb = new Sidewalk();
+        auto* sidewalkb = new Sidewalk();
         sidewalkb->add_width(1);
         sidewalkb->set_position(-3, 0, total_depth);
         sidewalkb->refresh();
@@ -171,7 +173,7 @@ GoldenGateBridge::GoldenGateBridge()
     // 58 top height
 
 
-    Cuboid* tower1_l = new Cuboid();
+    auto* tower1_l = new Cuboid();
     tower1_l->add_width(4);
     tower1_l->add_depth(4);
     tower1_l->add_height(84);
@@ -181,7 +183,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower1_l->set_position(-tower1_l->get_width(), -25, 0);
     polyhedrons.push_back(tower1_l);
 
-    Cuboid* tower1_r = new Cuboid();
+    auto* tower1_r = new Cuboid();
     tower1_r->add_width(4);
     tower1_r->add_depth(4);
     tower1_r->add_height(84);
@@ -191,28 +193,28 @@ GoldenGateBridge::GoldenGateBridge()
     tower1_r->set_position(street1->get_width(), -25, 0);
     polyhedrons.push_back(tower1_r);
 
-    Sidewalk* tower1_l_sidewalk = new Sidewalk();
+    auto* tower1_l_sidewalk = new Sidewalk();
     tower1_l_sidewalk->set_depth(15);
     tower1_l_sidewalk->add_width(2);
     tower1_l_sidewalk->set_position(-tower1_l->get_width() - 2, 0, -5);
     tower1_l_sidewalk->refresh();
     polyhedrons.push_back(tower1_l_sidewalk);
 
-    Sidewalk* tower1_r_sidewalk = new Sidewalk();
+    auto* tower1_r_sidewalk = new Sidewalk();
     tower1_r_sidewalk->set_depth(15);
     tower1_r_sidewalk->add_width(2);
     tower1_r_sidewalk->set_position(tower1_r->get_position().x + 0.5 + tower1_r->get_width() / 2, 0, -5);
     tower1_r_sidewalk->refresh();
     polyhedrons.push_back(tower1_r_sidewalk);
 
-    Sidewalk* tower2_l_sidewalk = new Sidewalk();
+    auto* tower2_l_sidewalk = new Sidewalk();
     tower2_l_sidewalk->set_depth(15);
     tower2_l_sidewalk->add_width(2);
     tower2_l_sidewalk->set_position(-tower1_l->get_width() - 2, 0, total_depth - 10);
     tower2_l_sidewalk->refresh();
     polyhedrons.push_back(tower2_l_sidewalk);
 
-    Sidewalk* tower2_r_sidewalk = new Sidewalk();
+    auto* tower2_r_sidewalk = new Sidewalk();
     tower2_r_sidewalk->set_depth(15);
     tower2_r_sidewalk->add_width(2);
     tower2_r_sidewalk->set_position(tower1_r->get_position().x + 0.5 + tower1_r->get_width() / 2, 0, total_depth - 10);
@@ -220,14 +222,14 @@ GoldenGateBridge::GoldenGateBridge()
     polyhedrons.push_back(tower2_r_sidewalk);
 
     // Side beams
-    Cuboid* back_top_beam_l = new Cuboid(1, 1, 115);
+    auto* back_top_beam_l = new Cuboid(1, 1, 115);
     back_top_beam_l->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     back_top_beam_l->construct_cuboid();
     back_top_beam_l->set_texture_repeat_all({30, 0.4});
     back_top_beam_l->set_position(-tower1_l->get_width() / 2 - 1, sidewalk1->get_height(), -120);
     polyhedrons.push_back(back_top_beam_l);
 
-    Cuboid* back_bottom_beam_l = new Cuboid(1, 1, 115);
+    auto* back_bottom_beam_l = new Cuboid(1, 1, 115);
     back_bottom_beam_l->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     back_bottom_beam_l->construct_cuboid();
     back_bottom_beam_l->set_texture_repeat_all({30, 0.4});
@@ -255,7 +257,7 @@ GoldenGateBridge::GoldenGateBridge()
     back_cross_beam_l->set_texture(GOLDEN_GATE_TEXTURE);
     polyhedrons.push_back(back_cross_beam_l);
 
-    Cuboid* back_top_beam_r = new Cuboid(1, 1, 115);
+    auto* back_top_beam_r = new Cuboid(1, 1, 115);
     back_top_beam_r->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     back_top_beam_r->construct_cuboid();
     back_top_beam_r->set_texture_repeat_all({30, 0.4});
@@ -263,7 +265,7 @@ GoldenGateBridge::GoldenGateBridge()
                                   -120);
     polyhedrons.push_back(back_top_beam_r);
 
-    Cuboid* back_bottom_beam_r = new Cuboid(1, 1, 115);
+    auto* back_bottom_beam_r = new Cuboid(1, 1, 115);
     back_bottom_beam_r->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     back_bottom_beam_r->construct_cuboid();
     back_bottom_beam_r->set_texture_repeat_all({30, 0.4});
@@ -290,14 +292,14 @@ GoldenGateBridge::GoldenGateBridge()
     back_cross_beam_r->set_texture(GOLDEN_GATE_TEXTURE);
     polyhedrons.push_back(back_cross_beam_r);
 
-    Cuboid* top_beam_l = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
+    auto* top_beam_l = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
     top_beam_l->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     top_beam_l->construct_cuboid();
     top_beam_l->set_texture_repeat_all({30, 0.4});
     top_beam_l->set_position(-tower1_r->get_width() / 2 - 1, sidewalk1->get_height(), sidewalk1->get_depth() / 4);
     polyhedrons.push_back(top_beam_l);
 
-    Cuboid* bottom_beam_l = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
+    auto* bottom_beam_l = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
     bottom_beam_l->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     bottom_beam_l->construct_cuboid();
     bottom_beam_l->set_texture_repeat_all({30, 0.4});
@@ -327,7 +329,7 @@ GoldenGateBridge::GoldenGateBridge()
     cross_beam_l->set_texture(GOLDEN_GATE_TEXTURE);
     polyhedrons.push_back(cross_beam_l);
 
-    Cuboid* top_beam_r = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
+    auto* top_beam_r = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
     top_beam_r->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     top_beam_r->construct_cuboid();
     top_beam_r->set_texture_repeat_all({30, 0.4});
@@ -335,7 +337,7 @@ GoldenGateBridge::GoldenGateBridge()
                              sidewalk1->get_depth() / 4);
     polyhedrons.push_back(top_beam_r);
 
-    Cuboid* bottom_beam_r = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
+    auto* bottom_beam_r = new Cuboid(1, 1, total_depth - (sidewalk1->get_depth() / 2));
     bottom_beam_r->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     bottom_beam_r->construct_cuboid();
     bottom_beam_r->set_texture_repeat_all({30, 0.4});
@@ -362,7 +364,7 @@ GoldenGateBridge::GoldenGateBridge()
     cross_beam_r->set_texture(GOLDEN_GATE_TEXTURE);
     polyhedrons.push_back(cross_beam_r);
 
-    Cylinder* base1 = new Cylinder(15, 4, 15, 7);
+    auto* base1 = new Cylinder(15, 4, 15, 7);
     base1->set_texture(CONCRETE1_TEXTURE);
     base1->set_position(street1->get_width() / 2, -25, tower1_l->get_depth() / 2);
     polyhedrons.push_back(base1);
@@ -370,7 +372,7 @@ GoldenGateBridge::GoldenGateBridge()
 
     float section_heights = tower1_r->get_height() * (0.5f / 13.0f);
 
-    Cuboid* tower1_first_section = new Cuboid();
+    auto* tower1_first_section = new Cuboid();
     tower1_first_section->add_width(street1->get_width() - 1);
     tower1_first_section->add_depth(2);
     tower1_first_section->add_height(section_heights);
@@ -380,7 +382,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower1_first_section->set_position(0, tower1_first_section->get_height() * 2.5, 1);
     polyhedrons.push_back(tower1_first_section);
 
-    Cuboid* tower1_second_section = new Cuboid();
+    auto* tower1_second_section = new Cuboid();
     tower1_second_section->add_width(street1->get_width() - 1);
     tower1_second_section->add_depth(2);
     tower1_second_section->add_height(section_heights);
@@ -390,7 +392,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower1_second_section->set_position(0, tower1_first_section->get_height() * 6.5, 1);
     polyhedrons.push_back(tower1_second_section);
 
-    Cuboid* tower1_third_section = new Cuboid();
+    auto* tower1_third_section = new Cuboid();
     tower1_third_section->add_width(street1->get_width() - 1);
     tower1_third_section->add_depth(2);
     tower1_third_section->add_height(section_heights);
@@ -400,7 +402,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower1_third_section->set_position(0, tower1_first_section->get_height() * 9.5, 1);
     polyhedrons.push_back(tower1_third_section);
 
-    Cuboid* tower1_fourth_section = new Cuboid();
+    auto* tower1_fourth_section = new Cuboid();
     tower1_fourth_section->add_width(street1->get_width() - 1);
     tower1_fourth_section->add_depth(2);
     tower1_fourth_section->add_height(section_heights);
@@ -410,7 +412,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower1_fourth_section->set_position(0, tower1_first_section->get_height() * 12.5, 1);
     polyhedrons.push_back(tower1_fourth_section);
 
-    Cuboid* bottom_first_x_1 = new Cuboid(street1->get_width(), 1, 3);
+    auto* bottom_first_x_1 = new Cuboid(street1->get_width(), 1, 3);
     bottom_first_x_1->set_position(0, -bottom_first_x_1->get_height() * 10, 1);
     bottom_first_x_1->add_vector(FRONT_TOP_LEFT, 0, bottom_first_x_1->get_height() * 9, 0);
     bottom_first_x_1->add_vector(BACK_TOP_RIGHT, 0, bottom_first_x_1->get_height() * 9, 0);
@@ -421,7 +423,7 @@ GoldenGateBridge::GoldenGateBridge()
     bottom_first_x_1->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(bottom_first_x_1);
 
-    Cuboid* bottom_first_x_2 = new Cuboid(street1->get_width(), 1, 3);
+    auto* bottom_first_x_2 = new Cuboid(street1->get_width(), 1, 3);
     bottom_first_x_2->set_position(0, -bottom_first_x_1->get_height() * 10, 1);
     bottom_first_x_2->add_vector(FRONT_TOP_RIGHT, 0, bottom_first_x_2->get_height() * 9, 0);
     bottom_first_x_2->add_vector(BACK_TOP_LEFT, 0, bottom_first_x_2->get_height() * 9, 0);
@@ -432,7 +434,7 @@ GoldenGateBridge::GoldenGateBridge()
     bottom_first_x_2->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(bottom_first_x_2);
 
-    Cuboid* bottom_first_x_bar = new Cuboid(street1->get_width(), 1, 3);
+    auto* bottom_first_x_bar = new Cuboid(street1->get_width(), 1, 3);
     bottom_first_x_bar->set_position(0, -bottom_first_x_bar->get_height() * 10 - (bottom_first_x_bar->get_height() / 2),
                                      1);
     bottom_first_x_bar->set_texture_to_all(GOLDEN_GATE_TEXTURE);
@@ -440,7 +442,7 @@ GoldenGateBridge::GoldenGateBridge()
     bottom_first_x_bar->set_texture_repeat_all({3, 1});
     polyhedrons.push_back(bottom_first_x_bar);
 
-    Cuboid* bottom_second_x_1 = new Cuboid(street1->get_width(), 1, 3);
+    auto* bottom_second_x_1 = new Cuboid(street1->get_width(), 1, 3);
     bottom_second_x_1->set_position(0, -bottom_second_x_1->get_height() * 20, 1);
     bottom_second_x_1->add_vector(FRONT_TOP_LEFT, 0, bottom_second_x_1->get_height() * 9, 0);
     bottom_second_x_1->add_vector(BACK_TOP_RIGHT, 0, bottom_second_x_1->get_height() * 9, 0);
@@ -451,7 +453,7 @@ GoldenGateBridge::GoldenGateBridge()
     bottom_second_x_1->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(bottom_second_x_1);
 
-    Cuboid* bottom_second_x_2 = new Cuboid(street1->get_width(), 1, 3);
+    auto* bottom_second_x_2 = new Cuboid(street1->get_width(), 1, 3);
     bottom_second_x_2->set_position(0, -bottom_second_x_2->get_height() * 20, 1);
     bottom_second_x_2->add_vector(FRONT_TOP_RIGHT, 0, bottom_second_x_2->get_height() * 9, 0);
     bottom_second_x_2->add_vector(BACK_TOP_LEFT, 0, bottom_second_x_2->get_height() * 9, 0);
@@ -462,7 +464,7 @@ GoldenGateBridge::GoldenGateBridge()
     bottom_second_x_2->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(bottom_second_x_2);
 
-    Cuboid* bottom_second_x_bar = new Cuboid(street1->get_width(), 1, 3);
+    auto* bottom_second_x_bar = new Cuboid(street1->get_width(), 1, 3);
     bottom_second_x_bar->set_position(
         0, -bottom_second_x_bar->get_height() * 20 - (bottom_second_x_bar->get_height() / 2), 1);
     bottom_second_x_bar->set_texture_to_all(GOLDEN_GATE_TEXTURE);
@@ -474,7 +476,7 @@ GoldenGateBridge::GoldenGateBridge()
     // 58 top height
 
 
-    Cuboid* tower2_l = new Cuboid();
+    auto* tower2_l = new Cuboid();
     tower2_l->add_width(4);
     tower2_l->add_depth(4);
     tower2_l->add_height(84);
@@ -485,7 +487,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower2_l->set_position(-tower2_l->get_width(), -25, total_depth);
     polyhedrons.push_back(tower2_l);
 
-    Cuboid* tower2_r = new Cuboid();
+    auto* tower2_r = new Cuboid();
     tower2_r->add_width(4);
     tower2_r->add_depth(4);
     tower2_r->add_height(84);
@@ -495,12 +497,12 @@ GoldenGateBridge::GoldenGateBridge()
     tower2_r->set_position(street1->get_width(), -25, total_depth);
     polyhedrons.push_back(tower2_r);
 
-    Cylinder* base2 = new Cylinder(15, 4, 15, 7);
+    auto* base2 = new Cylinder(15, 4, 15, 7);
     base2->set_texture(CONCRETE1_TEXTURE);
     base2->set_position(street1->get_width() / 2, -25, total_depth + tower1_l->get_depth() / 2);
     polyhedrons.push_back(base2);
 
-    Cuboid* tower2_first_section = new Cuboid();
+    auto* tower2_first_section = new Cuboid();
     tower2_first_section->add_width(street1->get_width() - 1);
     tower2_first_section->add_depth(2);
     tower2_first_section->add_height(section_heights);
@@ -510,7 +512,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower2_first_section->set_position(0, tower2_first_section->get_height() * 2.5, total_depth + 1);
     polyhedrons.push_back(tower2_first_section);
 
-    Cuboid* tower2_second_section = new Cuboid();
+    auto* tower2_second_section = new Cuboid();
     tower2_second_section->add_width(street1->get_width() - 1);
     tower2_second_section->add_depth(2);
     tower2_second_section->add_height(section_heights);
@@ -520,7 +522,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower2_second_section->set_position(0, tower2_first_section->get_height() * 6.5, total_depth + 1);
     polyhedrons.push_back(tower2_second_section);
 
-    Cuboid* tower2_third_section = new Cuboid();
+    auto* tower2_third_section = new Cuboid();
     tower2_third_section->add_width(street1->get_width() - 1);
     tower2_third_section->add_depth(2);
     tower2_third_section->add_height(section_heights);
@@ -530,7 +532,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower2_third_section->set_position(0, tower2_first_section->get_height() * 9.5, total_depth + 1);
     polyhedrons.push_back(tower2_third_section);
 
-    Cuboid* tower2_fourth_section = new Cuboid();
+    auto* tower2_fourth_section = new Cuboid();
     tower2_fourth_section->add_width(street1->get_width() - 1);
     tower2_fourth_section->add_depth(2);
     tower2_fourth_section->add_height(section_heights);
@@ -540,7 +542,7 @@ GoldenGateBridge::GoldenGateBridge()
     tower2_fourth_section->set_position(0, tower2_first_section->get_height() * 12.5, total_depth + 1);
     polyhedrons.push_back(tower2_fourth_section);
 
-    Cuboid* t2_bottom_first_x_1 = new Cuboid(street1->get_width(), 1, 3);
+    auto* t2_bottom_first_x_1 = new Cuboid(street1->get_width(), 1, 3);
     t2_bottom_first_x_1->set_position(0, -t2_bottom_first_x_1->get_height() * 10, total_depth + 1);
     t2_bottom_first_x_1->add_vector(FRONT_TOP_LEFT, 0, t2_bottom_first_x_1->get_height() * 9, 0);
     t2_bottom_first_x_1->add_vector(BACK_TOP_RIGHT, 0, t2_bottom_first_x_1->get_height() * 9, 0);
@@ -551,7 +553,7 @@ GoldenGateBridge::GoldenGateBridge()
     t2_bottom_first_x_1->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(t2_bottom_first_x_1);
 
-    Cuboid* t2_bottom_first_x_2 = new Cuboid(street1->get_width(), 1, 3);
+    auto* t2_bottom_first_x_2 = new Cuboid(street1->get_width(), 1, 3);
     t2_bottom_first_x_2->set_position(0, -t2_bottom_first_x_1->get_height() * 10, total_depth + 1);
     t2_bottom_first_x_2->add_vector(FRONT_TOP_RIGHT, 0, t2_bottom_first_x_2->get_height() * 9, 0);
     t2_bottom_first_x_2->add_vector(BACK_TOP_LEFT, 0, t2_bottom_first_x_2->get_height() * 9, 0);
@@ -562,7 +564,7 @@ GoldenGateBridge::GoldenGateBridge()
     t2_bottom_first_x_2->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(t2_bottom_first_x_2);
 
-    Cuboid* t2_bottom_first_x_bar = new Cuboid(street1->get_width(), 1, 3);
+    auto* t2_bottom_first_x_bar = new Cuboid(street1->get_width(), 1, 3);
     t2_bottom_first_x_bar->set_position(
         0, -t2_bottom_first_x_bar->get_height() * 10 - (t2_bottom_first_x_bar->get_height() / 2), total_depth + 1);
     t2_bottom_first_x_bar->set_texture_to_all(GOLDEN_GATE_TEXTURE);
@@ -570,7 +572,7 @@ GoldenGateBridge::GoldenGateBridge()
     t2_bottom_first_x_bar->set_texture_repeat_all({3, 1});
     polyhedrons.push_back(t2_bottom_first_x_bar);
 
-    Cuboid* t2_bottom_second_x_1 = new Cuboid(street1->get_width(), 1, 3);
+    auto* t2_bottom_second_x_1 = new Cuboid(street1->get_width(), 1, 3);
     t2_bottom_second_x_1->set_position(0, -t2_bottom_second_x_1->get_height() * 20, total_depth + 1);
     t2_bottom_second_x_1->add_vector(FRONT_TOP_LEFT, 0, t2_bottom_second_x_1->get_height() * 9, 0);
     t2_bottom_second_x_1->add_vector(BACK_TOP_RIGHT, 0, t2_bottom_second_x_1->get_height() * 9, 0);
@@ -581,7 +583,7 @@ GoldenGateBridge::GoldenGateBridge()
     t2_bottom_second_x_1->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(t2_bottom_second_x_1);
 
-    Cuboid* t2_bottom_second_x_2 = new Cuboid(street1->get_width(), 1, 3);
+    auto* t2_bottom_second_x_2 = new Cuboid(street1->get_width(), 1, 3);
     t2_bottom_second_x_2->set_position(0, -t2_bottom_second_x_2->get_height() * 20, total_depth + 1);
     t2_bottom_second_x_2->add_vector(FRONT_TOP_RIGHT, 0, t2_bottom_second_x_2->get_height() * 9, 0);
     t2_bottom_second_x_2->add_vector(BACK_TOP_LEFT, 0, t2_bottom_second_x_2->get_height() * 9, 0);
@@ -592,7 +594,7 @@ GoldenGateBridge::GoldenGateBridge()
     t2_bottom_second_x_2->set_texture_repeat_all({3, 3});
     polyhedrons.push_back(t2_bottom_second_x_2);
 
-    Cuboid* t2_bottom_second_x_bar = new Cuboid(street1->get_width(), 1, 3);
+    auto* t2_bottom_second_x_bar = new Cuboid(street1->get_width(), 1, 3);
     t2_bottom_second_x_bar->set_position(
         0, -t2_bottom_second_x_bar->get_height() * 20 - (t2_bottom_second_x_bar->get_height() / 2), total_depth + 1);
     t2_bottom_second_x_bar->set_texture_to_all(GOLDEN_GATE_TEXTURE);
@@ -600,7 +602,7 @@ GoldenGateBridge::GoldenGateBridge()
     t2_bottom_second_x_bar->set_texture_repeat_all({3, 1});
     polyhedrons.push_back(t2_bottom_second_x_bar);
 
-    Cuboid* front_top_beam_l = new Cuboid(1, 1, 115);
+    auto* front_top_beam_l = new Cuboid(1, 1, 115);
     front_top_beam_l->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     front_top_beam_l->construct_cuboid();
     front_top_beam_l->set_texture_repeat_all({30, 0.4});
@@ -608,7 +610,7 @@ GoldenGateBridge::GoldenGateBridge()
                                    tower2_l_sidewalk->get_position().z + tower2_l_sidewalk->get_depth());
     polyhedrons.push_back(front_top_beam_l);
 
-    Cuboid* front_bottom_beam_l = new Cuboid(1, 1, 115);
+    auto* front_bottom_beam_l = new Cuboid(1, 1, 115);
     front_bottom_beam_l->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     front_bottom_beam_l->construct_cuboid();
     front_bottom_beam_l->set_texture_repeat_all({30, 0.4});
@@ -637,7 +639,7 @@ GoldenGateBridge::GoldenGateBridge()
     front_cross_beam_l->set_texture(GOLDEN_GATE_TEXTURE);
     polyhedrons.push_back(front_cross_beam_l);
 
-    Cuboid* front_top_beam_r = new Cuboid(1, 1, 115);
+    auto* front_top_beam_r = new Cuboid(1, 1, 115);
     front_top_beam_r->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     front_top_beam_r->construct_cuboid();
     front_top_beam_r->set_texture_repeat_all({30, 0.4});
@@ -645,7 +647,7 @@ GoldenGateBridge::GoldenGateBridge()
                                    tower2_r_sidewalk->get_position().z + tower2_r_sidewalk->get_depth());
     polyhedrons.push_back(front_top_beam_r);
 
-    Cuboid* front_bottom_beam_r = new Cuboid(1, 1, 115);
+    auto* front_bottom_beam_r = new Cuboid(1, 1, 115);
     front_bottom_beam_r->set_texture_to_all(GOLDEN_GATE_TEXTURE);
     front_bottom_beam_r->construct_cuboid();
     front_bottom_beam_r->set_texture_repeat_all({30, 0.4});

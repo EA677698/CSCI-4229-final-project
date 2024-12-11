@@ -29,6 +29,7 @@ private:
     int object_op;
     bool sun;
     bool lighting;
+    bool night;
 
 public:
     double dir_x = 0;
@@ -82,6 +83,10 @@ public:
     Object* get_sun_object();
 
     void delete_scene();
+
+    void set_night(bool night);
+
+    bool is_night() const;
 };
 
 

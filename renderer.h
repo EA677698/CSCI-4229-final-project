@@ -49,7 +49,7 @@ private:
 
     void set_material(int type);
 
-    void render_object(Object* object, bool object_selected = false);
+    void render_object(Object* object, bool object_selected = false, bool is_night = false);
 
     void render_light(Light* light);
 

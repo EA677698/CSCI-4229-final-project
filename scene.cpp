@@ -14,6 +14,9 @@ Scene::Scene()
     sun = true;
     sun_object = nullptr;
     lighting = true;
+    dir_x = 0;
+    dir_y = 0;
+    dir_z = 0;
 }
 
 Scene::~Scene()
@@ -131,9 +134,12 @@ void Scene::update_selected_objects(const Vector3& operation)
     case SCALE:
         for (auto& object : selected_objects)
         {
-            object->add_width(operation.x);
-            object->add_height(operation.y);
-            object->add_depth(operation.z);
+            Vector3 scale = object->get_scale() + Vector3(operation.x, operation.y, operation.z);
+            scale.x = scale.x < 1 ? 1 : scale.x;
+            scale.y = scale.y < 1 ? 1 : scale.y;
+            scale.z = scale.z < 1 ? 1 : scale.z;
+            object->set_scale(scale);
+
         }
         break;
     }
@@ -183,4 +189,12 @@ void Scene::set_sun_object(Object* sun_object)
 Object* Scene::get_sun_object()
 {
     return sun_object;
+}
+
+void Scene::set_night(bool night) {
+    this->night = night;
+}
+
+bool Scene::is_night() const {
+    return night;
 }
